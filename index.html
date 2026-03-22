@@ -44,23 +44,51 @@
         }
         
         .logo { font-weight: 800; font-size: 22px; display: flex; align-items: center; gap: 8px; }
-        .cart-icon { position: relative; cursor: pointer; padding: 8px; }
-        .cart-badge { 
-            position: absolute; top: 0; right: 0; 
+        .header-icons { display: flex; gap: 16px; align-items: center; }
+        .header-icon { position: relative; cursor: pointer; font-size: 22px; }
+        .badge { 
+            position: absolute; top: -8px; right: -8px; 
             background: var(--danger); color: #fff; 
-            font-size: 11px; font-weight: 700; 
-            min-width: 18px; height: 18px; 
-            border-radius: 9px; 
+            font-size: 10px; font-weight: 700; 
+            min-width: 16px; height: 16px; 
+            border-radius: 8px; 
             display: flex; align-items: center; justify-content: center;
         }
         
+        /* HERO BANNER */
+        .hero-banner {
+            margin: 16px;
+            border-radius: 16px;
+            overflow: hidden;
+            position: relative;
+            height: 180px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            align-items: center;
+            padding: 24px;
+        }
+        .hero-content { z-index: 2; max-width: 60%; }
+        .hero-title { font-size: 24px; font-weight: 800; margin-bottom: 8px; color: #fff; }
+        .hero-subtitle { font-size: 14px; opacity: 0.9; color: #fff; margin-bottom: 16px; }
+        .hero-btn {
+            background: #fff; color: #667eea;
+            border: none; padding: 10px 20px;
+            border-radius: 10px; font-weight: 700;
+            cursor: pointer; font-size: 14px;
+        }
+        .hero-shapes {
+            position: absolute; right: 20px; top: 50%;
+            transform: translateY(-50%); font-size: 80px;
+            opacity: 0.3;
+        }
+        
         /* SEARCH */
-        .search-bar { padding: 12px 20px; }
+        .search-bar { padding: 0 16px 16px; }
         .search-input {
-            width: 100%; padding: 12px 16px;
+            width: 100%; padding: 14px 18px;
             background: var(--bg-secondary);
             border: 1px solid var(--border);
-            border-radius: 12px;
+            border-radius: 14px;
             color: var(--text-primary);
             font-size: 15px;
         }
@@ -68,12 +96,12 @@
         
         /* CATEGORIES */
         .categories { 
-            display: flex; gap: 10px; padding: 0 20px 16px; 
+            display: flex; gap: 10px; padding: 0 16px 16px; 
             overflow-x: auto; scrollbar-width: none;
         }
         .categories::-webkit-scrollbar { display: none; }
         .category-btn {
-            padding: 8px 16px;
+            padding: 10px 18px;
             background: var(--bg-secondary);
             border: 1px solid var(--border);
             border-radius: 20px;
@@ -104,9 +132,21 @@
             display: flex; 
             flex-direction: column; 
             transition: transform 0.2s;
+            position: relative;
         }
         
         .product-card:active { transform: scale(0.98); }
+        
+        .favorite-btn {
+            position: absolute; top: 10px; right: 10px;
+            background: rgba(0,0,0,0.3); border: none;
+            font-size: 20px; cursor: pointer;
+            width: 32px; height: 32px;
+            border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            transition: all 0.2s;
+        }
+        .favorite-btn.active { color: var(--danger); background: rgba(255,59,48,0.2); }
         
         .product-image { 
             width: 100%; height: 100px; 
@@ -122,6 +162,13 @@
             margin-bottom: 6px; text-align: center; 
             line-height: 1.3; min-height: 36px;
         }
+        
+        .product-rating {
+            display: flex; align-items: center; justify-content: center;
+            gap: 4px; margin-bottom: 6px; font-size: 12px;
+        }
+        .stars { color: var(--warning); }
+        .rating-count { color: var(--text-secondary); }
         
         .product-price { 
             font-size: 16px; font-weight: 700; 
@@ -243,6 +290,10 @@
             background: var(--bg-secondary); color: var(--primary); 
             margin-top: 12px;
         }
+        .btn-support {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: #fff; margin-top: 12px;
+        }
         
         /* SUCCESS MESSAGE */
         .success-view { text-align: center; padding: 40px 20px; display: none; }
@@ -291,7 +342,46 @@
         .status-processing { background: rgba(255,149,0,0.2); color: var(--warning); }
         .status-delivered { background: rgba(52,199,89,0.2); color: var(--success); }
         
-        /* NOTIFICATIONS */
+        /* REVIEWS MODAL */
+        .reviews-list { max-height: 300px; overflow-y: auto; }
+        .review-card {
+            background: var(--bg-secondary); border-radius: 12px;
+            padding: 14px; margin-bottom: 12px;
+        }
+        .review-header { display: flex; justify-content: space-between; margin-bottom: 8px; }
+        .review-author { font-weight: 600; font-size: 14px; }
+        .review-date { font-size: 12px; color: var(--text-secondary); }
+        .review-text { font-size: 14px; line-height: 1.4; }
+        
+        /* REFERRAL */
+        .referral-card {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border-radius: 16px; padding: 20px; margin-bottom: 20px;
+            text-align: center;
+        }
+        .referral-title { font-size: 18px; font-weight: 700; margin-bottom: 8px; color: #fff; }
+        .referral-text { font-size: 14px; opacity: 0.9; color: #fff; margin-bottom: 16px; }
+        .referral-link {
+            background: rgba(255,255,255,0.2); padding: 12px;
+            border-radius: 10px; font-size: 13px; word-break: break-all;
+            margin-bottom: 12px;
+        }
+        .referral-btn {
+            background: #fff; color: #667eea; border: none;
+            padding: 12px 24px; border-radius: 10px; font-weight: 700;
+            cursor: pointer; font-size: 14px;
+        }
+        
+        /* BALANCE */
+        .balance-card {
+            background: var(--bg-secondary); border-radius: 14px;
+            padding: 16px; margin-bottom: 20px;
+            display: flex; justify-content: space-between; align-items: center;
+        }
+        .balance-label { font-size: 14px; color: var(--text-secondary); }
+        .balance-amount { font-size: 24px; font-weight: 700; color: var(--success); }
+        
+        /* TOAST */
         .toast { 
             position: fixed; top: 20px; left: 50%; transform: translateX(-50%) translateY(-100px); 
             background: var(--bg-secondary); color: var(--text-primary); 
@@ -300,6 +390,21 @@
             z-index: 3000; transition: transform 0.3s;
         }
         .toast.show { transform: translateX(-50%) translateY(0); }
+        
+        /* BOTTOM NAV */
+        .bottom-nav {
+            position: fixed; bottom: 0; left: 0; right: 0;
+            background: var(--bg-primary); border-top: 1px solid var(--border);
+            display: flex; justify-content: space-around; padding: 12px 0;
+            z-index: 100;
+        }
+        .nav-item {
+            display: flex; flex-direction: column; align-items: center;
+            color: var(--text-secondary); font-size: 11px; gap: 4px;
+            cursor: pointer; transition: color 0.2s;
+        }
+        .nav-item.active { color: var(--primary); }
+        .nav-icon { font-size: 22px; }
     </style>
 </head>
 <body>
@@ -307,11 +412,27 @@
 <!-- HEADER -->
 <header>
     <div class="logo">🛍 RZ SHOP</div>
-    <div class="cart-icon" onclick="openCart()">
-        🛒
-        <div class="cart-badge" id="header-cart-badge" style="display:none">0</div>
+    <div class="header-icons">
+        <div class="header-icon" onclick="openFavorites()">
+            ❤️
+            <div class="badge" id="favorites-badge" style="display:none">0</div>
+        </div>
+        <div class="header-icon" onclick="openCart()">
+            🛒
+            <div class="badge" id="cart-badge" style="display:none">0</div>
+        </div>
     </div>
 </header>
+
+<!-- HERO BANNER -->
+<div class="hero-banner">
+    <div class="hero-content">
+        <div class="hero-title">🔥 Скидки до 30%</div>
+        <div class="hero-subtitle">На электронику до конца недели!</div>
+        <button class="hero-btn" onclick="filterCategory('all')">Смотреть каталог</button>
+    </div>
+    <div class="hero-shapes">📱💻🎧</div>
+</div>
 
 <!-- SEARCH -->
 <div class="search-bar">
@@ -345,6 +466,15 @@
         <div class="modal-header">
             <h2 class="modal-title">Корзина</h2>
             <button class="close-btn" onclick="closeCart()">&times;</button>
+        </div>
+        
+        <!-- Balance -->
+        <div class="balance-card">
+            <div>
+                <div class="balance-label">Ваш баланс</div>
+                <div class="balance-amount" id="user-balance">0 ₽</div>
+            </div>
+            <button class="btn btn-support" style="width:auto;padding:10px 20px" onclick="showReferral()">💰 Пополнить</button>
         </div>
         
         <!-- Tabs -->
@@ -398,6 +528,7 @@
                 <textarea class="form-input" id="customer-comment" placeholder="Пожелания к заказу" rows="2"></textarea>
             </div>
             <button class="btn btn-primary" id="submit-btn" onclick="submitOrder()">✅ Оформить заказ</button>
+            <button class="btn btn-support" onclick="openSupport()">💬 Написать в поддержку</button>
             <p style="text-align: center; margin-top: 16px; color: var(--text-secondary); font-size: 13px;">
                 После оформления менеджер свяжется с вами
             </p>
@@ -413,8 +544,72 @@
     </div>
 </div>
 
+<!-- FAVORITES MODAL -->
+<div class="modal" id="favorites-modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h2 class="modal-title">Избранное ❤️</h2>
+            <button class="close-btn" onclick="closeFavorites()">&times;</button>
+        </div>
+        <div id="favorites-items"></div>
+    </div>
+</div>
+
+<!-- REVIEWS MODAL -->
+<div class="modal" id="reviews-modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h2 class="modal-title">Отзывы</h2>
+            <button class="close-btn" onclick="closeReviews()">&times;</button>
+        </div>
+        <div class="reviews-list" id="reviews-list"></div>
+    </div>
+</div>
+
+<!-- REFERRAL MODAL -->
+<div class="modal" id="referral-modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h2 class="modal-title">Пригласи друга</h2>
+            <button class="close-btn" onclick="closeReferral()">&times;</button>
+        </div>
+        <div class="referral-card">
+            <div class="referral-title">🎁 +100 ₽ за друга</div>
+            <div class="referral-text">Пригласи друга и получите оба по 100 бонусов!</div>
+            <div class="referral-link" id="referral-link" onclick="copyReferral()">https://t.me/RZ_SHOP_ONLINE_BOT?start=ref_12345</div>
+            <button class="referral-btn" onclick="shareReferral()">📤 Поделиться</button>
+        </div>
+        <div class="balance-card">
+            <div>
+                <div class="balance-label">Заработано</div>
+                <div class="balance-amount" id="referral-earnings">0 ₽</div>
+            </div>
+        </div>
+    </div>
+</div>
+
 <!-- TOAST NOTIFICATION -->
 <div class="toast" id="toast"></div>
+
+<!-- BOTTOM NAV -->
+<div class="bottom-nav">
+    <div class="nav-item active" onclick="showHome()">
+        <span class="nav-icon">🏠</span>
+        <span>Главная</span>
+    </div>
+    <div class="nav-item" onclick="openFavorites()">
+        <span class="nav-icon">❤️</span>
+        <span>Избранное</span>
+    </div>
+    <div class="nav-item" onclick="openCart()">
+        <span class="nav-icon">🛒</span>
+        <span>Корзина</span>
+    </div>
+    <div class="nav-item" onclick="showReferral()">
+        <span class="nav-icon">🎁</span>
+        <span>Бонусы</span>
+    </div>
+</div>
 
 <script>
     const tg = window.Telegram.WebApp;
@@ -423,29 +618,46 @@
 
     // ⚠️ ВСТАВЬ СЮДА СВОЙ BOTHOST URL (когда дадут домен)
     const API_URL = 'https://твой-домен.bothost.ru/create_order';
+    const BOT_USERNAME = 'RZ_SHOP_ONLINE_BOT'; // Замени на свой юзернейм
 
-    // Продукты с категориями
+    // Продукты с категориями и рейтингами
     const products = [
-        { id: 1, title: "iPhone 15 Pro", price: 120000, img: "📱", category: "phones" },
-        { id: 2, title: "Samsung S24", price: 115000, img: "📱", category: "phones" },
-        { id: 3, title: "MacBook Air", price: 130000, img: "💻", category: "laptops" },
-        { id: 4, title: "AirPods Pro", price: 25000, img: "🎧", category: "audio" },
-        { id: 5, title: "iPad Air", price: 65000, img: "📟", category: "laptops" },
-        { id: 6, title: "Apple Watch", price: 45000, img: "⌚", category: "accessories" },
-        { id: 7, title: "Sony PS5", price: 55000, img: "🎮", category: "accessories" },
-        { id: 8, title: "Зарядка 20W", price: 2500, img: "🔌", category: "accessories" },
-        { id: 9, title: "iPhone 14", price: 90000, img: "📱", category: "phones" },
-        { id: 10, title: "MacBook Pro", price: 200000, img: "💻", category: "laptops" }
+        { id: 1, title: "iPhone 15 Pro", price: 120000, img: "📱", category: "phones", rating: 4.8, reviews: 124 },
+        { id: 2, title: "Samsung S24", price: 115000, img: "📱", category: "phones", rating: 4.7, reviews: 98 },
+        { id: 3, title: "MacBook Air", price: 130000, img: "💻", category: "laptops", rating: 4.9, reviews: 256 },
+        { id: 4, title: "AirPods Pro", price: 25000, img: "🎧", category: "audio", rating: 4.6, reviews: 342 },
+        { id: 5, title: "iPad Air", price: 65000, img: "📟", category: "laptops", rating: 4.7, reviews: 189 },
+        { id: 6, title: "Apple Watch", price: 45000, img: "⌚", category: "accessories", rating: 4.5, reviews: 167 },
+        { id: 7, title: "Sony PS5", price: 55000, img: "🎮", category: "accessories", rating: 4.9, reviews: 523 },
+        { id: 8, title: "Зарядка 20W", price: 2500, img: "🔌", category: "accessories", rating: 4.3, reviews: 89 },
+        { id: 9, title: "iPhone 14", price: 90000, img: "📱", category: "phones", rating: 4.6, reviews: 445 },
+        { id: 10, title: "MacBook Pro", price: 200000, img: "💻", category: "laptops", rating: 4.9, reviews: 178 }
     ];
 
+    // Отзывы (демо)
+    const reviewsDB = {
+        1: [
+            { author: "Алексей", date: "12.01.2025", text: "Отличный телефон! Камера супер, батарея держит весь день.", rating: 5 },
+            { author: "Мария", date: "10.01.2025", text: "Доставили быстро, всё работает идеально.", rating: 5 },
+            { author: "Дмитрий", date: "08.01.2025", text: "Цена кусается, но качество того стоит.", rating: 4 }
+        ],
+        3: [
+            { author: "Сергей", date: "11.01.2025", text: "Лучший ноутбук для работы. Лёгкий, мощный, красивый.", rating: 5 }
+        ]
+    };
+
     let cart = {};
-    let orders = []; // История заказов (локально)
+    let favorites = JSON.parse(localStorage.getItem('rz_favorites')) || [];
+    let orders = JSON.parse(localStorage.getItem('rz_orders')) || [];
     let currentCategory = 'all';
+    let userBalance = parseInt(localStorage.getItem('rz_balance')) || 0;
+    let referralEarnings = parseInt(localStorage.getItem('rz_referral')) || 0;
 
     // === ИНИЦИАЛИЗАЦИЯ ===
     function init() {
         renderProducts(products);
-        loadOrders();
+        updateBalance();
+        updateFavoritesBadge();
         console.log('🟢 Mini App запущен');
     }
 
@@ -461,11 +673,21 @@
         
         items.forEach(p => {
             const inCart = cart[p.id] || 0;
+            const isFavorite = favorites.includes(p.id);
+            const stars = '★'.repeat(Math.floor(p.rating)) + '☆'.repeat(5 - Math.floor(p.rating));
+            
             const card = document.createElement('div');
             card.className = 'product-card';
             card.innerHTML = `
+                <button class="favorite-btn ${isFavorite ? 'active' : ''}" onclick="toggleFavorite(${p.id}, event)">
+                    ${isFavorite ? '❤️' : '🤍'}
+                </button>
                 <div class="product-image">${p.img}</div>
                 <div class="product-title">${p.title}</div>
+                <div class="product-rating">
+                    <span class="stars">${stars}</span>
+                    <span class="rating-count">(${p.reviews})</span>
+                </div>
                 <div class="product-price">${p.price.toLocaleString()} ₽</div>
                 <button class="add-btn" onclick="addToCart(${p.id})">
                     ${inCart > 0 ? `В корзине (${inCart})` : 'В корзину'}
@@ -473,6 +695,88 @@
             `;
             container.appendChild(card);
         });
+    }
+
+    // === ИЗБРАННОЕ ===
+    function toggleFavorite(id, event) {
+        event.stopPropagation();
+        const index = favorites.indexOf(id);
+        if (index > -1) {
+            favorites.splice(index, 1);
+            showToast('Удалено из избранного');
+        } else {
+            favorites.push(id);
+            showToast('Добавлено в избранное ❤️');
+        }
+        localStorage.setItem('rz_favorites', JSON.stringify(favorites));
+        updateFavoritesBadge();
+        renderProducts(currentCategory === 'all' ? products : products.filter(p => p.category === currentCategory));
+    }
+
+    function openFavorites() {
+        const container = document.getElementById('favorites-items');
+        const favProducts = products.filter(p => favorites.includes(p.id));
+        
+        if (favProducts.length === 0) {
+            container.innerHTML = '<div class="empty-state"><div class="empty-icon">🤍</div><p>Избранное пусто</p></div>';
+        } else {
+            container.innerHTML = favProducts.map(p => `
+                <div class="order-card">
+                    <div style="display:flex;justify-content:space-between;align-items:center">
+                        <div>
+                            <div style="font-weight:600">${p.title}</div>
+                            <div style="color:var(--primary);font-weight:700">${p.price.toLocaleString()} ₽</div>
+                        </div>
+                        <button class="add-btn" style="width:auto;padding:10px 20px" onclick="addToCart(${p.id})">В корзину</button>
+                    </div>
+                </div>
+            `).join('');
+        }
+        
+        document.getElementById('favorites-modal').classList.add('open');
+    }
+
+    function closeFavorites() {
+        document.getElementById('favorites-modal').classList.remove('open');
+    }
+
+    function updateFavoritesBadge() {
+        const badge = document.getElementById('favorites-badge');
+        if (favorites.length > 0) {
+            badge.innerText = favorites.length;
+            badge.style.display = 'flex';
+        } else {
+            badge.style.display = 'none';
+        }
+    }
+
+    // === ОТЗЫВЫ ===
+    function openReviews(productId) {
+        const container = document.getElementById('reviews-list');
+        const reviews = reviewsDB[productId] || [];
+        
+        if (reviews.length === 0) {
+            container.innerHTML = '<div class="empty-state"><p>Пока нет отзывов</p></div>';
+        } else {
+            container.innerHTML = reviews.map(r => `
+                <div class="review-card">
+                    <div class="review-header">
+                        <span class="review-author">${r.author}</span>
+                        <span class="review-date">${r.date}</span>
+                    </div>
+                    <div class="product-rating" style="justify-content:flex-start;margin-bottom:8px">
+                        <span class="stars">${'★'.repeat(r.rating)}</span>
+                    </div>
+                    <div class="review-text">${r.text}</div>
+                </div>
+            `).join('');
+        }
+        
+        document.getElementById('reviews-modal').classList.add('open');
+    }
+
+    function closeReviews() {
+        document.getElementById('reviews-modal').classList.remove('open');
     }
 
     // === ФИЛЬТРЫ ===
@@ -487,6 +791,7 @@
             const filtered = products.filter(p => p.category === category);
             renderProducts(filtered);
         }
+        window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
     function filterProducts() {
@@ -529,7 +834,7 @@
         document.getElementById('modal-total').innerText = total.toLocaleString() + ' ₽';
         document.getElementById('order-total').innerText = total.toLocaleString() + ' ₽';
         
-        const badge = document.getElementById('header-cart-badge');
+        const badge = document.getElementById('cart-badge');
         if (count > 0) {
             badge.innerText = count;
             badge.style.display = 'flex';
@@ -541,11 +846,10 @@
         if (count > 0) bar.classList.add('visible');
         else bar.classList.remove('visible');
         
-        // Обновляем кнопки в товарах
         renderProducts(currentCategory === 'all' ? products : products.filter(p => p.category === currentCategory));
     }
 
-    // === МОДАЛЬНОЕ ОКНО ===
+    // === МОДАЛЬНЫЕ ОКНА ===
     function openCart() {
         renderCartItems();
         document.getElementById('cart-modal').classList.add('open');
@@ -604,7 +908,7 @@
         }
     }
 
-    // === ОФОРМЛЕНИЕ ===
+    // === ОФОРМЛЕНИЕ ЗАКАЗА ===
     function showCheckoutForm() {
         if (Object.keys(cart).length === 0) { 
             showToast('Корзина пуста!'); 
@@ -683,7 +987,6 @@
             console.log('📩 Ответ сервера:', result);
 
             if (result.success) {
-                // Сохраняем заказ локально
                 saveOrder({
                     id: result.order_id,
                     items: itemsList,
@@ -696,7 +999,6 @@
                 document.getElementById('success-message').style.display = 'block';
                 tg.HapticFeedback.notificationOccurred('success');
                 
-                // Очищаем корзину
                 cart = {};
                 updateCartUI();
             } else {
@@ -706,10 +1008,8 @@
             }
         } catch (e) {
             console.error('❌ Ошибка:', e);
-            // Для тестирования без API
-            showToast('⚠️ API недоступен (ожидание домена Bothost)');
+            showToast('⚠️ Ожидание домена Bothost...');
             
-            // Имитация успешного заказа для демонстрации
             setTimeout(() => {
                 saveOrder({
                     id: Math.floor(Math.random() * 1000),
@@ -728,14 +1028,9 @@
     }
 
     // === ИСТОРИЯ ЗАКАЗОВ ===
-    function loadOrders() {
-        const saved = localStorage.getItem('rz_shop_orders');
-        orders = saved ? JSON.parse(saved) : [];
-    }
-
     function saveOrder(order) {
         orders.unshift(order);
-        localStorage.setItem('rz_shop_orders', JSON.stringify(orders));
+        localStorage.setItem('rz_orders', JSON.stringify(orders));
     }
 
     function renderOrderHistory() {
@@ -761,6 +1056,44 @@
                 </div>
             </div>
         `).join('');
+    }
+
+    // === БАЛАНС И РЕФЕРАЛКА ===
+    function updateBalance() {
+        document.getElementById('user-balance').innerText = userBalance.toLocaleString() + ' ₽';
+        document.getElementById('referral-earnings').innerText = referralEarnings.toLocaleString() + ' ₽';
+    }
+
+    function showReferral() {
+        const userId = tg.initDataUnsafe?.user?.id || 12345;
+        document.getElementById('referral-link').innerText = `https://t.me/${BOT_USERNAME}?start=ref_${userId}`;
+        document.getElementById('referral-modal').classList.add('open');
+    }
+
+    function closeReferral() {
+        document.getElementById('referral-modal').classList.remove('open');
+    }
+
+    function copyReferral() {
+        const link = document.getElementById('referral-link').innerText;
+        navigator.clipboard.writeText(link);
+        showToast('Ссылка скопирована!');
+    }
+
+    function shareReferral() {
+        const link = document.getElementById('referral-link').innerText;
+        tg.openTelegramLink(`https://t.me/share/url?url=${encodeURIComponent(link)}&text=Заходи в RZ SHOP и получи 100₽ бонусом!`);
+    }
+
+    // === ПОДДЕРЖКА ===
+    function openSupport() {
+        tg.openTelegramLink('https://t.me/support_manager');
+    }
+
+    // === НАВИГАЦИЯ ===
+    function showHome() {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+        showToast('Главная страница');
     }
 
     // === УВЕДОМЛЕНИЯ ===
