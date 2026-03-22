@@ -25,11 +25,11 @@
             font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif; 
             background-color: var(--bg-primary); 
             color: var(--text-primary); 
-            padding-bottom: 100px; 
+            padding-bottom: 80px; /* Место для навбара */
             min-height: 100vh;
         }
-        
-        /* HEADER */
+
+        /* === HEADER === */
         header { 
             padding: 16px 20px; 
             display: flex;
@@ -54,8 +54,8 @@
             border-radius: 8px; 
             display: flex; align-items: center; justify-content: center;
         }
-        
-        /* HERO BANNER */
+
+        /* === HERO BANNER === */
         .hero-banner {
             margin: 16px;
             border-radius: 16px;
@@ -76,16 +76,14 @@
             border-radius: 10px; font-weight: 700;
             cursor: pointer; font-size: 14px;
         }
-        .hero-shapes {
-            position: absolute; right: 20px; top: 50%;
-            transform: translateY(-50%); font-size: 80px;
-            opacity: 0.3;
+        .hero-shapes { position: absolute; right: 20px; top: 50%; transform: translateY(-50%); font-size: 80px; opacity: 0.3; }
+
+        /* === SEARCH & FILTER === */
+        .search-container {
+            display: flex; gap: 10px; padding: 0 16px 16px; align-items: center;
         }
-        
-        /* SEARCH */
-        .search-bar { padding: 0 16px 16px; }
         .search-input {
-            width: 100%; padding: 14px 18px;
+            flex: 1; padding: 14px 18px;
             background: var(--bg-secondary);
             border: 1px solid var(--border);
             border-radius: 14px;
@@ -93,8 +91,14 @@
             font-size: 15px;
         }
         .search-input::placeholder { color: var(--text-secondary); }
-        
-        /* CATEGORIES */
+        .filter-btn-icon {
+            background: var(--bg-secondary); border: 1px solid var(--border);
+            border-radius: 14px; padding: 14px 18px;
+            color: var(--text-primary); cursor: pointer; font-size: 18px;
+            display: flex; align-items: center; justify-content: center;
+        }
+
+        /* === CATEGORIES === */
         .categories { 
             display: flex; gap: 10px; padding: 0 16px 16px; 
             overflow-x: auto; scrollbar-width: none;
@@ -112,299 +116,240 @@
             cursor: pointer;
             transition: all 0.2s;
         }
-        .category-btn.active {
-            background: var(--primary);
-            border-color: var(--primary);
+        .category-btn.active { background: var(--primary); border-color: var(--primary); }
+
+        /* === FILTER PANEL === */
+        .filter-panel {
+            display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+            background: var(--bg-primary); z-index: 3000; padding: 20px; overflow-y: auto;
         }
-        
-        /* PRODUCTS GRID */
+        .filter-panel.open { display: block; }
+        .filter-panel-header {
+            display: flex; justify-content: space-between; align-items: center;
+            margin-bottom: 24px; padding-bottom: 16px; border-bottom: 1px solid var(--border);
+        }
+        .filter-section { margin-bottom: 24px; }
+        .filter-section-title { font-size: 16px; font-weight: 700; margin-bottom: 12px; }
+        .price-range { display: flex; gap: 12px; align-items: center; }
+        .price-input {
+            flex: 1; padding: 12px; background: var(--bg-secondary);
+            border: 1px solid var(--border); border-radius: 10px;
+            color: var(--text-primary); font-size: 15px;
+        }
+        .filter-checkbox { display: flex; align-items: center; gap: 10px; padding: 10px 0; }
+        .filter-checkbox input { width: 20px; height: 20px; }
+
+        /* === PRODUCTS GRID === */
         .products-grid { 
-            display: grid; 
-            grid-template-columns: repeat(2, 1fr); 
-            gap: 12px; 
-            padding: 0 16px 16px; 
+            display: grid; grid-template-columns: repeat(2, 1fr); 
+            gap: 12px; padding: 0 16px 16px; 
         }
         
         .product-card { 
-            background: var(--bg-secondary); 
-            border-radius: 16px; 
-            padding: 14px; 
-            display: flex; 
-            flex-direction: column; 
-            transition: transform 0.2s;
-            position: relative;
+            background: var(--bg-secondary); border-radius: 16px; padding: 14px; 
+            display: flex; flex-direction: column; transition: transform 0.2s; position: relative;
         }
-        
         .product-card:active { transform: scale(0.98); }
         
         .favorite-btn {
             position: absolute; top: 10px; right: 10px;
-            background: rgba(0,0,0,0.3); border: none;
-            font-size: 20px; cursor: pointer;
-            width: 32px; height: 32px;
-            border-radius: 50%;
+            background: rgba(0,0,0,0.3); border: none; font-size: 20px; cursor: pointer;
+            width: 32px; height: 32px; border-radius: 50%;
             display: flex; align-items: center; justify-content: center;
-            transition: all 0.2s;
         }
         .favorite-btn.active { color: var(--danger); background: rgba(255,59,48,0.2); }
+        
+        .compare-checkbox {
+            position: absolute; top: 10px; left: 10px;
+            background: rgba(0,0,0,0.5); border: none; cursor: pointer;
+            width: 24px; height: 24px; border-radius: 6px; z-index: 10;
+        }
         
         .product-image { 
             width: 100%; height: 100px; 
             background: linear-gradient(135deg, rgba(100,100,100,0.2), rgba(50,50,50,0.1)); 
-            border-radius: 12px; 
-            margin-bottom: 12px; 
-            display: flex; align-items: center; justify-content: center; 
-            font-size: 50px; 
+            border-radius: 12px; margin-bottom: 12px; 
+            display: flex; align-items: center; justify-content: center; font-size: 50px; 
         }
-        
-        .product-title { 
-            font-size: 14px; font-weight: 600; 
-            margin-bottom: 6px; text-align: center; 
-            line-height: 1.3; min-height: 36px;
-        }
-        
-        .product-rating {
-            display: flex; align-items: center; justify-content: center;
-            gap: 4px; margin-bottom: 6px; font-size: 12px;
-        }
+        .product-title { font-size: 14px; font-weight: 600; margin-bottom: 6px; text-align: center; line-height: 1.3; min-height: 36px; }
+        .product-rating { display: flex; align-items: center; justify-content: center; gap: 4px; margin-bottom: 6px; font-size: 12px; }
         .stars { color: var(--warning); }
         .rating-count { color: var(--text-secondary); }
-        
-        .product-price { 
-            font-size: 16px; font-weight: 700; 
-            color: var(--primary); margin-bottom: 10px; 
-            text-align: center;
+        .product-price { font-size: 16px; font-weight: 700; color: var(--primary); margin-bottom: 10px; text-align: center; }
+
+        /* === VARIANTS === */
+        .variant-selector { display: flex; gap: 6px; margin-bottom: 10px; flex-wrap: wrap; justify-content: center; }
+        .variant-btn {
+            padding: 6px 12px; background: var(--bg-primary); border: 1px solid var(--border);
+            border-radius: 8px; font-size: 12px; cursor: pointer; transition: all 0.2s;
         }
+        .variant-btn.active { background: var(--primary); border-color: var(--primary); }
+        .variant-btn.color-variant { width: 24px; height: 24px; border-radius: 50%; padding: 0; border: 2px solid var(--border); }
+        .variant-btn.color-variant.active { border: 2px solid #fff; box-shadow: 0 0 0 2px var(--primary); }
         
         .add-btn { 
             background: linear-gradient(135deg, var(--primary), var(--primary-dark)); 
-            color: #ffffff; border: none; border-radius: 10px; 
-            padding: 10px; width: 100%; font-size: 14px; 
-            font-weight: 600; cursor: pointer; 
-            transition: opacity 0.2s;
+            color: #ffffff; border: none; border-radius: 10px; padding: 10px; width: 100%; 
+            font-size: 14px; font-weight: 600; cursor: pointer; 
         }
         .add-btn:active { opacity: 0.8; }
-        
-        /* CART BAR */
+
+        /* === CART BAR === */
         .cart-bar { 
-            position: fixed; bottom: 16px; left: 16px; right: 16px; 
+            position: fixed; bottom: 80px; left: 16px; right: 16px; 
             background: linear-gradient(135deg, var(--primary), var(--primary-dark)); 
             color: #fff; padding: 16px 20px; border-radius: 14px; 
             display: flex; justify-content: space-between; align-items: center; 
-            box-shadow: 0 8px 32px rgba(0,122,255,0.3); 
-            cursor: pointer; z-index: 1000; 
+            box-shadow: 0 8px 32px rgba(0,122,255,0.3); cursor: pointer; z-index: 1000; 
             transform: translateY(150%); transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); 
         }
         .cart-bar.visible { transform: translateY(0); }
         .cart-info { display: flex; flex-direction: column; }
         .cart-count { font-size: 13px; opacity: 0.9; }
         .cart-total { font-size: 18px; font-weight: 700; }
-        
-        /* MODAL */
+
+        /* === MODAL === */
         .modal { 
             display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; 
-            background: rgba(0,0,0,0.8); z-index: 2000; 
-            align-items: flex-end; 
+            background: rgba(0,0,0,0.8); z-index: 2000; align-items: flex-end; 
         }
         .modal.open { display: flex; }
-        
         .modal-content { 
             background: var(--bg-primary); width: 100%; 
-            border-radius: 24px 24px 0 0; padding: 24px; 
-            max-height: 85vh; overflow-y: auto; 
+            border-radius: 24px 24px 0 0; padding: 24px; max-height: 85vh; overflow-y: auto; 
         }
-        
         .modal-header { 
             display: flex; justify-content: space-between; align-items: center; 
-            margin-bottom: 20px; padding-bottom: 16px; 
-            border-bottom: 1px solid var(--border);
+            margin-bottom: 20px; padding-bottom: 16px; border-bottom: 1px solid var(--border);
         }
         .modal-title { font-size: 22px; font-weight: 700; }
-        .close-btn { 
-            background: none; border: none; font-size: 28px; 
-            color: var(--text-secondary); cursor: pointer; padding: 0;
+        .close-btn { background: none; border: none; font-size: 28px; color: var(--text-secondary); cursor: pointer; padding: 0; }
+
+        /* === PROFILE PAGE === */
+        .profile-header {
+            text-align: center; padding: 20px 0; border-bottom: 1px solid var(--border); margin-bottom: 20px;
         }
+        .profile-avatar {
+            width: 80px; height: 80px; border-radius: 50%; background: var(--primary);
+            display: flex; align-items: center; justify-content: center;
+            font-size: 36px; margin: 0 auto 12px; color: #fff;
+        }
+        .profile-name { font-size: 20px; font-weight: 700; margin-bottom: 4px; }
+        .profile-id { font-size: 14px; color: var(--text-secondary); }
         
-        /* CART ITEMS */
-        .cart-item { 
-            display: flex; justify-content: space-between; align-items: center; 
-            padding: 16px 0; border-bottom: 1px solid var(--border); 
+        .profile-stats {
+            display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 24px;
         }
-        .cart-item-info { flex: 1; }
-        .cart-item-title { font-weight: 600; margin-bottom: 4px; }
-        .cart-item-price { color: var(--text-secondary); font-size: 14px; }
+        .stat-card {
+            background: var(--bg-secondary); padding: 16px; border-radius: 14px; text-align: center;
+        }
+        .stat-value { font-size: 24px; font-weight: 700; color: var(--primary); margin-bottom: 4px; }
+        .stat-label { font-size: 13px; color: var(--text-secondary); }
         
-        .quantity-controls { 
-            display: flex; align-items: center; gap: 12px; 
+        .referral-card {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border-radius: 16px; padding: 20px; margin-bottom: 24px; text-align: center;
         }
-        .qty-btn { 
-            width: 32px; height: 32px; border-radius: 50%; 
-            border: none; background: var(--bg-secondary); 
-            color: var(--text-primary); font-size: 20px; 
-            cursor: pointer; display: flex; align-items: center; justify-content: center;
+        .referral-title { font-size: 18px; font-weight: 700; margin-bottom: 8px; color: #fff; }
+        .referral-text { font-size: 14px; opacity: 0.9; color: #fff; margin-bottom: 16px; }
+        .referral-link-box {
+            background: rgba(255,255,255,0.2); padding: 12px; border-radius: 10px;
+            font-size: 13px; word-break: break-all; margin-bottom: 12px; cursor: pointer;
         }
-        .qty-value { font-weight: 700; font-size: 16px; min-width: 24px; text-align: center; }
+        .referral-btn {
+            background: #fff; color: #667eea; border: none; padding: 12px 24px;
+            border-radius: 10px; font-weight: 700; cursor: pointer; font-size: 14px; width: 100%;
+        }
+
+        .menu-list { display: flex; flex-direction: column; gap: 12px; }
+        .menu-item {
+            background: var(--bg-secondary); padding: 16px; border-radius: 14px;
+            display: flex; justify-content: space-between; align-items: center;
+            cursor: pointer; transition: background 0.2s;
+        }
+        .menu-item:active { background: var(--border); }
+        .menu-item-left { display: flex; align-items: center; gap: 12px; }
+        .menu-icon { font-size: 22px; }
+        .menu-text { font-weight: 600; font-size: 15px; }
+        .menu-arrow { color: var(--text-secondary); }
+
+        /* === COMPARE & OTHER MODALS === */
+        .compare-table { width: 100%; border-collapse: collapse; margin-top: 16px; }
+        .compare-table th, .compare-table td { padding: 12px; text-align: left; border-bottom: 1px solid var(--border); }
+        .compare-table th { background: var(--bg-secondary); font-weight: 600; }
+        .compare-table td:first-child { font-weight: 600; color: var(--text-secondary); }
         
-        /* CHECKOUT FORM */
+        .recommendations { margin-top: 24px; padding-top: 24px; border-top: 1px solid var(--border); }
+        .recommendations-title { font-size: 18px; font-weight: 700; margin-bottom: 16px; }
+        .recommendations-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
+
+        /* === BOTTOM NAV === */
+        .bottom-nav {
+            position: fixed; bottom: 0; left: 0; right: 0;
+            background: var(--bg-primary); border-top: 1px solid var(--border);
+            display: flex; justify-content: space-around; padding: 10px 0;
+            z-index: 100; padding-bottom: env(safe-area-inset-bottom);
+        }
+        .nav-item {
+            display: flex; flex-direction: column; align-items: center;
+            color: var(--text-secondary); font-size: 10px; gap: 4px;
+            cursor: pointer; transition: color 0.2s; width: 25%;
+        }
+        .nav-item.active { color: var(--primary); }
+        .nav-icon { font-size: 22px; }
+
+        /* === UTILS === */
+        .empty-state { text-align: center; padding: 60px 20px; color: var(--text-secondary); }
+        .empty-icon { font-size: 60px; margin-bottom: 16px; }
+        .toast { 
+            position: fixed; top: 20px; left: 50%; transform: translateX(-50%) translateY(-100px); 
+            background: var(--bg-secondary); color: var(--text-primary); 
+            padding: 14px 24px; border-radius: 12px; box-shadow: 0 8px 32px rgba(0,0,0,0.3); 
+            z-index: 3000; transition: transform 0.3s;
+        }
+        .toast.show { transform: translateX(-50%) translateY(0); }
+        .loading { 
+            display: inline-block; width: 20px; height: 20px; 
+            border: 3px solid rgba(255,255,255,0.3); border-radius: 50%; border-top-color: #fff; 
+            animation: spin 1s ease-in-out infinite; margin-right: 10px;
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
+        .btn { border: none; border-radius: 14px; padding: 16px; width: 100%; font-size: 16px; font-weight: 700; cursor: pointer; }
+        .btn-primary { background: linear-gradient(135deg, var(--success), #248a3d); color: #fff; }
+        .btn-primary:active { transform: scale(0.98); }
+        .btn-secondary { background: var(--bg-secondary); color: var(--primary); margin-top: 12px; }
         .checkout-form { margin-top: 24px; display: none; }
         .checkout-form.active { display: block; }
-        
-        .order-summary { 
-            background: var(--bg-secondary); padding: 20px; 
-            border-radius: 16px; margin-bottom: 24px; 
-        }
-        .summary-row { 
-            display: flex; justify-content: space-between; 
-            padding: 8px 0; border-bottom: 1px solid var(--border); 
-        }
+        .order-summary { background: var(--bg-secondary); padding: 20px; border-radius: 16px; margin-bottom: 24px; }
+        .summary-row { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid var(--border); }
         .summary-row:last-child { border-bottom: none; margin-top: 12px; padding-top: 12px; }
         .summary-total { font-size: 18px; font-weight: 700; color: var(--primary); }
-        
         .form-group { margin-bottom: 16px; }
-        .form-label { 
-            display: block; margin-bottom: 8px; font-weight: 600; 
-            font-size: 14px; color: var(--text-secondary);
-        }
-        .form-input { 
-            width: 100%; padding: 14px 16px; 
-            background: var(--bg-secondary); 
-            border: 1px solid var(--border); 
-            border-radius: 12px; font-size: 15px; 
-            color: var(--text-primary);
-        }
+        .form-label { display: block; margin-bottom: 8px; font-weight: 600; font-size: 14px; color: var(--text-secondary); }
+        .form-input { width: 100%; padding: 14px 16px; background: var(--bg-secondary); border: 1px solid var(--border); border-radius: 12px; font-size: 15px; color: var(--text-primary); }
         .form-input:focus { outline: none; border-color: var(--primary); }
-        
-        /* BUTTONS */
-        .btn { 
-            border: none; border-radius: 14px; padding: 16px; 
-            width: 100%; font-size: 16px; font-weight: 700; 
-            cursor: pointer; transition: all 0.2s;
-        }
-        .btn-primary { 
-            background: linear-gradient(135deg, var(--success), #248a3d); 
-            color: #fff; 
-        }
-        .btn-primary:active { transform: scale(0.98); }
-        .btn-primary:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
-        .btn-secondary { 
-            background: var(--bg-secondary); color: var(--primary); 
-            margin-top: 12px;
-        }
-        .btn-support {
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            color: #fff; margin-top: 12px;
-        }
-        
-        /* SUCCESS MESSAGE */
         .success-view { text-align: center; padding: 40px 20px; display: none; }
         .success-icon { font-size: 80px; margin-bottom: 20px; }
         .success-title { font-size: 24px; font-weight: 700; margin-bottom: 12px; }
         .success-text { color: var(--text-secondary); margin-bottom: 30px; }
-        
-        /* EMPTY STATE */
-        .empty-state { text-align: center; padding: 60px 20px; color: var(--text-secondary); }
-        .empty-icon { font-size: 60px; margin-bottom: 16px; }
-        
-        /* LOADING */
-        .loading { 
-            display: inline-block; width: 20px; height: 20px; 
-            border: 3px solid rgba(255,255,255,0.3); 
-            border-radius: 50%; border-top-color: #fff; 
-            animation: spin 1s ease-in-out infinite; margin-right: 10px;
-        }
-        @keyframes spin { to { transform: rotate(360deg); } }
-        
-        /* TABS */
-        .tabs { display: flex; gap: 8px; margin-bottom: 20px; }
-        .tab { 
-            flex: 1; padding: 12px; text-align: center; 
-            background: var(--bg-secondary); border-radius: 12px; 
-            font-weight: 600; cursor: pointer; transition: all 0.2s;
-        }
-        .tab.active { background: var(--primary); }
-        
-        /* ORDER HISTORY */
-        .order-card { 
-            background: var(--bg-secondary); border-radius: 14px; 
-            padding: 16px; margin-bottom: 12px;
-        }
-        .order-header { 
-            display: flex; justify-content: space-between; 
-            margin-bottom: 12px; padding-bottom: 12px; 
-            border-bottom: 1px solid var(--border);
-        }
+        .cart-item { display: flex; justify-content: space-between; align-items: center; padding: 16px 0; border-bottom: 1px solid var(--border); }
+        .cart-item-info { flex: 1; }
+        .cart-item-title { font-weight: 600; margin-bottom: 4px; }
+        .cart-item-price { color: var(--text-secondary); font-size: 14px; }
+        .cart-item-variant { font-size: 12px; color: var(--text-secondary); }
+        .quantity-controls { display: flex; align-items: center; gap: 12px; }
+        .qty-btn { width: 32px; height: 32px; border-radius: 50%; border: none; background: var(--bg-secondary); color: var(--text-primary); font-size: 20px; cursor: pointer; display: flex; align-items: center; justify-content: center; }
+        .qty-value { font-weight: 700; font-size: 16px; min-width: 24px; text-align: center; }
+        .order-card { background: var(--bg-secondary); border-radius: 14px; padding: 16px; margin-bottom: 12px; }
+        .order-header { display: flex; justify-content: space-between; margin-bottom: 12px; padding-bottom: 12px; border-bottom: 1px solid var(--border); }
         .order-id { font-weight: 700; }
-        .order-status { 
-            padding: 4px 10px; border-radius: 8px; 
-            font-size: 12px; font-weight: 600;
-        }
+        .order-status { padding: 4px 10px; border-radius: 8px; font-size: 12px; font-weight: 600; }
         .status-new { background: rgba(0,122,255,0.2); color: var(--primary); }
         .status-processing { background: rgba(255,149,0,0.2); color: var(--warning); }
         .status-delivered { background: rgba(52,199,89,0.2); color: var(--success); }
-        
-        /* REVIEWS MODAL */
-        .reviews-list { max-height: 300px; overflow-y: auto; }
-        .review-card {
-            background: var(--bg-secondary); border-radius: 12px;
-            padding: 14px; margin-bottom: 12px;
-        }
-        .review-header { display: flex; justify-content: space-between; margin-bottom: 8px; }
-        .review-author { font-weight: 600; font-size: 14px; }
-        .review-date { font-size: 12px; color: var(--text-secondary); }
-        .review-text { font-size: 14px; line-height: 1.4; }
-        
-        /* REFERRAL */
-        .referral-card {
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            border-radius: 16px; padding: 20px; margin-bottom: 20px;
-            text-align: center;
-        }
-        .referral-title { font-size: 18px; font-weight: 700; margin-bottom: 8px; color: #fff; }
-        .referral-text { font-size: 14px; opacity: 0.9; color: #fff; margin-bottom: 16px; }
-        .referral-link {
-            background: rgba(255,255,255,0.2); padding: 12px;
-            border-radius: 10px; font-size: 13px; word-break: break-all;
-            margin-bottom: 12px;
-        }
-        .referral-btn {
-            background: #fff; color: #667eea; border: none;
-            padding: 12px 24px; border-radius: 10px; font-weight: 700;
-            cursor: pointer; font-size: 14px;
-        }
-        
-        /* BALANCE */
-        .balance-card {
-            background: var(--bg-secondary); border-radius: 14px;
-            padding: 16px; margin-bottom: 20px;
-            display: flex; justify-content: space-between; align-items: center;
-        }
-        .balance-label { font-size: 14px; color: var(--text-secondary); }
-        .balance-amount { font-size: 24px; font-weight: 700; color: var(--success); }
-        
-        /* TOAST */
-        .toast { 
-            position: fixed; top: 20px; left: 50%; transform: translateX(-50%) translateY(-100px); 
-            background: var(--bg-secondary); color: var(--text-primary); 
-            padding: 14px 24px; border-radius: 12px; 
-            box-shadow: 0 8px 32px rgba(0,0,0,0.3); 
-            z-index: 3000; transition: transform 0.3s;
-        }
-        .toast.show { transform: translateX(-50%) translateY(0); }
-        
-        /* BOTTOM NAV */
-        .bottom-nav {
-            position: fixed; bottom: 0; left: 0; right: 0;
-            background: var(--bg-primary); border-top: 1px solid var(--border);
-            display: flex; justify-content: space-around; padding: 12px 0;
-            z-index: 100;
-        }
-        .nav-item {
-            display: flex; flex-direction: column; align-items: center;
-            color: var(--text-secondary); font-size: 11px; gap: 4px;
-            cursor: pointer; transition: color 0.2s;
-        }
-        .nav-item.active { color: var(--primary); }
-        .nav-icon { font-size: 22px; }
+        .tabs { display: flex; gap: 8px; margin-bottom: 20px; }
+        .tab { flex: 1; padding: 12px; text-align: center; background: var(--bg-secondary); border-radius: 12px; font-weight: 600; cursor: pointer; }
+        .tab.active { background: var(--primary); }
     </style>
 </head>
 <body>
@@ -413,13 +358,9 @@
 <header>
     <div class="logo">🛍 RZ SHOP</div>
     <div class="header-icons">
-        <div class="header-icon" onclick="openFavorites()">
-            ❤️
-            <div class="badge" id="favorites-badge" style="display:none">0</div>
-        </div>
-        <div class="header-icon" onclick="openCart()">
-            🛒
-            <div class="badge" id="cart-badge" style="display:none">0</div>
+        <div class="header-icon" onclick="openCompare()">
+            ⚖️
+            <div class="badge" id="compare-badge" style="display:none">0</div>
         </div>
     </div>
 </header>
@@ -429,14 +370,15 @@
     <div class="hero-content">
         <div class="hero-title">🔥 Скидки до 30%</div>
         <div class="hero-subtitle">На электронику до конца недели!</div>
-        <button class="hero-btn" onclick="filterCategory('all')">Смотреть каталог</button>
+        <button class="hero-btn" onclick="scrollToProducts()">Смотреть каталог</button>
     </div>
     <div class="hero-shapes">📱💻🎧</div>
 </div>
 
-<!-- SEARCH -->
-<div class="search-bar">
+<!-- SEARCH & FILTER BUTTON -->
+<div class="search-container">
     <input type="text" class="search-input" id="search-input" placeholder="🔍 Поиск товаров..." oninput="filterProducts()">
+    <button class="filter-btn-icon" onclick="openFilterPanel()">⚙️</button>
 </div>
 
 <!-- CATEGORIES -->
@@ -446,6 +388,35 @@
     <button class="category-btn" onclick="filterCategory('laptops')">💻 Ноутбуки</button>
     <button class="category-btn" onclick="filterCategory('audio')">🎧 Аудио</button>
     <button class="category-btn" onclick="filterCategory('accessories')">⌚ Аксессуары</button>
+</div>
+
+<!-- FILTER PANEL -->
+<div class="filter-panel" id="filter-panel">
+    <div class="filter-panel-header">
+        <h2>Фильтры</h2>
+        <button class="close-btn" onclick="closeFilterPanel()">&times;</button>
+    </div>
+    <div class="filter-section">
+        <div class="filter-section-title">Цена, ₽</div>
+        <div class="price-range">
+            <input type="number" class="price-input" id="price-min" placeholder="От" value="0">
+            <span>—</span>
+            <input type="number" class="price-input" id="price-max" placeholder="До" value="500000">
+        </div>
+    </div>
+    <div class="filter-section">
+        <div class="filter-section-title">Бренд</div>
+        <label class="filter-checkbox"><input type="checkbox" value="Apple" onchange="applyFilters()"> Apple</label>
+        <label class="filter-checkbox"><input type="checkbox" value="Samsung" onchange="applyFilters()"> Samsung</label>
+        <label class="filter-checkbox"><input type="checkbox" value="Sony" onchange="applyFilters()"> Sony</label>
+    </div>
+    <div class="filter-section">
+        <div class="filter-section-title">Рейтинг</div>
+        <label class="filter-checkbox"><input type="radio" name="rating" value="4" onchange="applyFilters()"> 4★ и выше</label>
+        <label class="filter-checkbox"><input type="radio" name="rating" value="3" onchange="applyFilters()"> 3★ и выше</label>
+    </div>
+    <button class="btn btn-primary" onclick="applyFilters()">Применить</button>
+    <button class="btn btn-secondary" onclick="resetFilters()">Сбросить</button>
 </div>
 
 <!-- PRODUCTS -->
@@ -460,651 +431,463 @@
     <button style="background: rgba(255,255,255,0.2); color: #fff; border: none; padding: 10px 20px; border-radius: 10px; font-weight: 600;">Корзина</button>
 </div>
 
-<!-- CART MODAL -->
-<div class="modal" id="cart-modal">
-    <div class="modal-content">
-        <div class="modal-header">
-            <h2 class="modal-title">Корзина</h2>
-            <button class="close-btn" onclick="closeCart()">&times;</button>
-        </div>
-        
-        <!-- Balance -->
-        <div class="balance-card">
-            <div>
-                <div class="balance-label">Ваш баланс</div>
-                <div class="balance-amount" id="user-balance">0 ₽</div>
-            </div>
-            <button class="btn btn-support" style="width:auto;padding:10px 20px" onclick="showReferral()">💰 Пополнить</button>
-        </div>
-        
-        <!-- Tabs -->
-        <div class="tabs" id="cart-tabs">
-            <div class="tab active" onclick="showCartTab('items')">Товары</div>
-            <div class="tab" onclick="showCartTab('history')">История</div>
-        </div>
-        
-        <!-- Cart Items -->
-        <div id="cart-items-view">
-            <div id="cart-items"></div>
-            <div style="margin-top: 24px; text-align: right;">
-                <div class="summary-row">
-                    <span>Итого:</span>
-                    <span class="summary-total" id="modal-total">0 ₽</span>
-                </div>
-                <button class="btn btn-primary" onclick="showCheckoutForm()">Оформить заказ</button>
-            </div>
-        </div>
-        
-        <!-- Order History -->
-        <div id="cart-history-view" style="display:none">
-            <div id="order-history"></div>
-        </div>
-
-        <!-- Checkout Form -->
-        <div class="checkout-form" id="checkout-form">
-            <button class="btn btn-secondary" onclick="hideCheckoutForm()">← Назад к корзине</button>
-            <div class="order-summary" style="margin-top: 20px;">
-                <h4 style="margin-bottom: 16px;">Ваш заказ:</h4>
-                <div id="order-summary-items"></div>
-                <div class="summary-row">
-                    <span>Итого:</span>
-                    <span class="summary-total" id="order-total">0 ₽</span>
-                </div>
-            </div>
-            <div class="form-group">
-                <label class="form-label">Ваше имя *</label>
-                <input type="text" class="form-input" id="customer-name" placeholder="Иван Иванов">
-            </div>
-            <div class="form-group">
-                <label class="form-label">Телефон *</label>
-                <input type="tel" class="form-input" id="customer-phone" placeholder="+7 999 123-45-67">
-            </div>
-            <div class="form-group">
-                <label class="form-label">Адрес доставки *</label>
-                <textarea class="form-input" id="customer-address" placeholder="Город, улица, дом, квартира" rows="3"></textarea>
-            </div>
-            <div class="form-group">
-                <label class="form-label">Комментарий</label>
-                <textarea class="form-input" id="customer-comment" placeholder="Пожелания к заказу" rows="2"></textarea>
-            </div>
-            <button class="btn btn-primary" id="submit-btn" onclick="submitOrder()">✅ Оформить заказ</button>
-            <button class="btn btn-support" onclick="openSupport()">💬 Написать в поддержку</button>
-            <p style="text-align: center; margin-top: 16px; color: var(--text-secondary); font-size: 13px;">
-                После оформления менеджер свяжется с вами
-            </p>
-        </div>
-
-        <!-- Success Message -->
-        <div class="success-view" id="success-message">
-            <div class="success-icon">✅</div>
-            <h3 class="success-title">Заказ оформлен!</h3>
-            <p class="success-text">Менеджер свяжется с вами в ближайшее время</p>
-            <button class="btn btn-primary" onclick="tg.close()">Закрыть</button>
-        </div>
-    </div>
-</div>
-
-<!-- FAVORITES MODAL -->
-<div class="modal" id="favorites-modal">
-    <div class="modal-content">
-        <div class="modal-header">
-            <h2 class="modal-title">Избранное ❤️</h2>
-            <button class="close-btn" onclick="closeFavorites()">&times;</button>
-        </div>
-        <div id="favorites-items"></div>
-    </div>
-</div>
-
-<!-- REVIEWS MODAL -->
-<div class="modal" id="reviews-modal">
-    <div class="modal-content">
-        <div class="modal-header">
-            <h2 class="modal-title">Отзывы</h2>
-            <button class="close-btn" onclick="closeReviews()">&times;</button>
-        </div>
-        <div class="reviews-list" id="reviews-list"></div>
-    </div>
-</div>
-
-<!-- REFERRAL MODAL -->
-<div class="modal" id="referral-modal">
-    <div class="modal-content">
-        <div class="modal-header">
-            <h2 class="modal-title">Пригласи друга</h2>
-            <button class="close-btn" onclick="closeReferral()">&times;</button>
-        </div>
-        <div class="referral-card">
-            <div class="referral-title">🎁 +100 ₽ за друга</div>
-            <div class="referral-text">Пригласи друга и получите оба по 100 бонусов!</div>
-            <div class="referral-link" id="referral-link" onclick="copyReferral()">https://t.me/RZ_SHOP_ONLINE_BOT?start=ref_12345</div>
-            <button class="referral-btn" onclick="shareReferral()">📤 Поделиться</button>
-        </div>
-        <div class="balance-card">
-            <div>
-                <div class="balance-label">Заработано</div>
-                <div class="balance-amount" id="referral-earnings">0 ₽</div>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- TOAST NOTIFICATION -->
-<div class="toast" id="toast"></div>
-
-<!-- BOTTOM NAV -->
+<!-- BOTTOM NAVIGATION -->
 <div class="bottom-nav">
-    <div class="nav-item active" onclick="showHome()">
+    <div class="nav-item active" onclick="switchTab('home')">
         <span class="nav-icon">🏠</span>
         <span>Главная</span>
     </div>
-    <div class="nav-item" onclick="openFavorites()">
+    <div class="nav-item" onclick="switchTab('favorites')">
         <span class="nav-icon">❤️</span>
         <span>Избранное</span>
     </div>
-    <div class="nav-item" onclick="openCart()">
+    <div class="nav-item" onclick="switchTab('cart')">
         <span class="nav-icon">🛒</span>
         <span>Корзина</span>
     </div>
-    <div class="nav-item" onclick="showReferral()">
-        <span class="nav-icon">🎁</span>
-        <span>Бонусы</span>
+    <div class="nav-item" onclick="switchTab('profile')">
+        <span class="nav-icon">👤</span>
+        <span>Профиль</span>
     </div>
 </div>
+
+<!-- MAIN CONTENT WRAPPER (Динамическая подмена контента) -->
+<div id="main-content">
+    <!-- Контент главной страницы уже отрисован выше (Products) -->
+</div>
+
+<!-- FAVORITES VIEW (Скрыт по умолчанию) -->
+<div id="favorites-view" style="display:none; padding: 20px;">
+    <h2 style="margin-bottom: 20px;">Избранное ❤️</h2>
+    <div id="favorites-list"></div>
+</div>
+
+<!-- CART VIEW (Modal-like but full screen for nav consistency) -->
+<div id="cart-view" style="display:none;">
+    <div class="modal-content" style="border-radius: 0; max-height: 100vh;">
+        <div class="modal-header">
+            <h2 class="modal-title">Корзина</h2>
+            <button class="close-btn" onclick="switchTab('home')">&times;</button>
+        </div>
+        <div id="cart-items-full"></div>
+        <div style="margin-top: 24px; text-align: right;">
+            <div class="summary-row"><span>Итого:</span><span class="summary-total" id="cart-view-total">0 ₽</span></div>
+            <button class="btn btn-primary" onclick="showCheckoutFormFull()">Оформить заказ</button>
+        </div>
+        <div class="checkout-form" id="checkout-form-full">
+            <button class="btn btn-secondary" onclick="hideCheckoutFormFull()">← Назад</button>
+            <div class="order-summary" style="margin-top: 20px;">
+                <h4>Ваш заказ:</h4>
+                <div id="order-summary-full"></div>
+                <div class="summary-row"><span>Итого:</span><span class="summary-total" id="order-total-full">0 ₽</span></div>
+            </div>
+            <div class="form-group"><label class="form-label">Имя *</label><input type="text" class="form-input" id="cf-name"></div>
+            <div class="form-group"><label class="form-label">Телефон *</label><input type="tel" class="form-input" id="cf-phone"></div>
+            <div class="form-group"><label class="form-label">Адрес *</label><textarea class="form-input" id="cf-address" rows="3"></textarea></div>
+            <button class="btn btn-primary" onclick="submitOrderFull()">✅ Оформить</button>
+        </div>
+        <div class="success-view" id="success-view-full">
+            <div class="success-icon">✅</div>
+            <h3>Заказ оформлен!</h3>
+            <p style="color:var(--text-secondary); margin: 20px 0;">Менеджер свяжется с вами.</p>
+            <button class="btn btn-primary" onclick="switchTab('home')">Вернуться в магазин</button>
+        </div>
+    </div>
+</div>
+
+<!-- PROFILE VIEW -->
+<div id="profile-view" style="display:none; padding: 20px;">
+    <div class="profile-header">
+        <div class="profile-avatar" id="profile-avatar">👤</div>
+        <div class="profile-name" id="profile-name">Гость</div>
+        <div class="profile-id" id="profile-id">ID: ---</div>
+    </div>
+
+    <div class="profile-stats">
+        <div class="stat-card">
+            <div class="stat-value" id="stat-balance">0 ₽</div>
+            <div class="stat-label">Бонусы</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-value" id="stat-orders">0</div>
+            <div class="stat-label">Заказы</div>
+        </div>
+    </div>
+
+    <div class="referral-card">
+        <div class="referral-title">🎁 Пригласи друга</div>
+        <div class="referral-text">Получи 100₽ за каждого друга!</div>
+        <div class="referral-link-box" id="referral-link" onclick="copyReferral()">Нажми чтобы скопировать ссылку</div>
+        <button class="referral-btn" onclick="shareReferral()">📤 Поделиться</button>
+    </div>
+
+    <div class="menu-list">
+        <div class="menu-item" onclick="renderOrderHistoryInProfile()">
+            <div class="menu-item-left"><span class="menu-icon">📦</span><span class="menu-text">Мои заказы</span></div>
+            <span class="menu-arrow">›</span>
+        </div>
+        <div class="menu-item" onclick="openSupport()">
+            <div class="menu-item-left"><span class="menu-icon">💬</span><span class="menu-text">Поддержка</span></div>
+            <span class="menu-arrow">›</span>
+        </div>
+        <div class="menu-item" onclick="toggleTheme()">
+            <div class="menu-item-left"><span class="menu-icon">🎨</span><span class="menu-text">Тема оформления</span></div>
+            <span class="menu-arrow">›</span>
+        </div>
+    </div>
+    
+    <div id="profile-orders-list" style="margin-top: 20px; display:none;"></div>
+</div>
+
+<!-- MODALS (Compare, Filter, etc.) -->
+<div class="modal" id="compare-modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h2 class="modal-title">Сравнение</h2>
+            <button class="close-btn" onclick="document.getElementById('compare-modal').classList.remove('open')">&times;</button>
+        </div>
+        <div id="compare-content"></div>
+    </div>
+</div>
+
+<div class="modal" id="favorites-modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h2 class="modal-title">Избранное</h2>
+            <button class="close-btn" onclick="document.getElementById('favorites-modal').classList.remove('open')">&times;</button>
+        </div>
+        <div id="fav-modal-items"></div>
+    </div>
+</div>
+
+<div class="toast" id="toast"></div>
 
 <script>
     const tg = window.Telegram.WebApp;
     tg.ready();
     tg.expand();
 
-    // ⚠️ ВСТАВЬ СЮДА СВОЙ BOTHOST URL (когда дадут домен)
-    const API_URL = 'https://твой-домен.bothost.ru/create_order';
-    const BOT_USERNAME = 'RZ_SHOP_ONLINE_BOT'; // Замени на свой юзернейм
+    const API_URL = 'https://твой-домен.bothost.ru/create_order'; // Вставь свой домен завтра
+    const BOT_USERNAME = 'RZ_SHOP_ONLINE_BOT';
 
-    // Продукты с категориями и рейтингами
+    // === ДАННЫЕ ===
     const products = [
-        { id: 1, title: "iPhone 15 Pro", price: 120000, img: "📱", category: "phones", rating: 4.8, reviews: 124 },
-        { id: 2, title: "Samsung S24", price: 115000, img: "📱", category: "phones", rating: 4.7, reviews: 98 },
-        { id: 3, title: "MacBook Air", price: 130000, img: "💻", category: "laptops", rating: 4.9, reviews: 256 },
-        { id: 4, title: "AirPods Pro", price: 25000, img: "🎧", category: "audio", rating: 4.6, reviews: 342 },
-        { id: 5, title: "iPad Air", price: 65000, img: "📟", category: "laptops", rating: 4.7, reviews: 189 },
-        { id: 6, title: "Apple Watch", price: 45000, img: "⌚", category: "accessories", rating: 4.5, reviews: 167 },
-        { id: 7, title: "Sony PS5", price: 55000, img: "🎮", category: "accessories", rating: 4.9, reviews: 523 },
-        { id: 8, title: "Зарядка 20W", price: 2500, img: "🔌", category: "accessories", rating: 4.3, reviews: 89 },
-        { id: 9, title: "iPhone 14", price: 90000, img: "📱", category: "phones", rating: 4.6, reviews: 445 },
-        { id: 10, title: "MacBook Pro", price: 200000, img: "💻", category: "laptops", rating: 4.9, reviews: 178 }
+        { id: 1, title: "iPhone 15 Pro", price: 120000, img: "📱", category: "phones", rating: 4.8, reviews: 124, brand: "Apple", variants: { colors: [{name:"Черный",code:"#1c1c1e",priceMod:0},{name:"Белый",code:"#f5f5f7",priceMod:0}], storage: [{name:"128GB",priceMod:0},{name:"256GB",priceMod:10000}] }, specs: { screen: "6.1\"", camera: "48MP", battery: "3274 mAh" }, recommendations: [4, 6] },
+        { id: 2, title: "Samsung S24", price: 115000, img: "📱", category: "phones", rating: 4.7, reviews: 98, brand: "Samsung", variants: { colors: [{name:"Черный",code:"#1c1c1e",priceMod:0}], storage: [{name:"256GB",priceMod:0}] }, specs: { screen: "6.2\"", camera: "50MP", battery: "4000 mAh" }, recommendations: [1, 4] },
+        { id: 3, title: "MacBook Air", price: 130000, img: "💻", category: "laptops", rating: 4.9, reviews: 256, brand: "Apple", variants: { colors: [{name:"Серый",code:"#8e8e93",priceMod:0}], storage: [{name:"256GB",priceMod:0}] }, specs: { screen: "13.6\"", processor: "M2", ram: "8GB" }, recommendations: [4, 6] },
+        { id: 4, title: "AirPods Pro", price: 25000, img: "🎧", category: "audio", rating: 4.6, reviews: 342, brand: "Apple", variants: { colors: [{name:"Белый",code:"#f5f5f7",priceMod:0}] }, specs: { type: "Внутриканальные", noiseCancel: "Да" }, recommendations: [1, 2] },
+        { id: 5, title: "iPad Air", price: 65000, img: "📟", category: "laptops", rating: 4.7, reviews: 189, brand: "Apple", variants: { colors: [{name:"Серый",code:"#8e8e93",priceMod:0}], storage: [{name:"64GB",priceMod:0}] }, specs: { screen: "10.9\"", processor: "M1" }, recommendations: [4, 6] },
+        { id: 6, title: "Apple Watch", price: 45000, img: "⌚", category: "accessories", rating: 4.5, reviews: 167, brand: "Apple", variants: { colors: [{name:"Черный",code:"#1c1c1e",priceMod:0}], size: [{name:"41mm",priceMod:0}] }, specs: { screen: "AMOLED", battery: "18ч" }, recommendations: [1, 4] }
     ];
-
-    // Отзывы (демо)
-    const reviewsDB = {
-        1: [
-            { author: "Алексей", date: "12.01.2025", text: "Отличный телефон! Камера супер, батарея держит весь день.", rating: 5 },
-            { author: "Мария", date: "10.01.2025", text: "Доставили быстро, всё работает идеально.", rating: 5 },
-            { author: "Дмитрий", date: "08.01.2025", text: "Цена кусается, но качество того стоит.", rating: 4 }
-        ],
-        3: [
-            { author: "Сергей", date: "11.01.2025", text: "Лучший ноутбук для работы. Лёгкий, мощный, красивый.", rating: 5 }
-        ]
-    };
 
     let cart = {};
     let favorites = JSON.parse(localStorage.getItem('rz_favorites')) || [];
     let orders = JSON.parse(localStorage.getItem('rz_orders')) || [];
+    let compareList = [];
+    let selectedVariants = {};
     let currentCategory = 'all';
     let userBalance = parseInt(localStorage.getItem('rz_balance')) || 0;
-    let referralEarnings = parseInt(localStorage.getItem('rz_referral')) || 0;
+    let currentUser = tg.initDataUnsafe?.user || { first_name: "Гость", id: 0 };
 
-    // === ИНИЦИАЛИЗАЦИЯ ===
+    // === INIT ===
     function init() {
         renderProducts(products);
-        updateBalance();
-        updateFavoritesBadge();
-        console.log('🟢 Mini App запущен');
+        updateProfileUI();
+        console.log('🟢 RZ SHOP запущен');
     }
 
-    // === РЕНДЕР ТОВАРОВ ===
+    // === NAVIGATION ===
+    function switchTab(tab) {
+        document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
+        event.currentTarget.classList.add('active');
+        
+        document.getElementById('products-container').parentElement.style.display = 'none';
+        document.querySelector('.hero-banner').style.display = 'none';
+        document.querySelector('.categories').style.display = 'none';
+        document.querySelector('.search-container').style.display = 'none';
+        document.getElementById('cart-bar').style.display = 'none';
+        
+        document.getElementById('favorites-view').style.display = 'none';
+        document.getElementById('cart-view').style.display = 'none';
+        document.getElementById('profile-view').style.display = 'none';
+
+        if (tab === 'home') {
+            document.getElementById('products-container').parentElement.style.display = 'block';
+            document.querySelector('.hero-banner').style.display = 'flex';
+            document.querySelector('.categories').style.display = 'flex';
+            document.querySelector('.search-container').style.display = 'flex';
+            if(Object.keys(cart).length > 0) document.getElementById('cart-bar').style.display = 'flex';
+        } else if (tab === 'favorites') {
+            document.getElementById('favorites-view').style.display = 'block';
+            renderFavoritesList();
+        } else if (tab === 'cart') {
+            document.getElementById('cart-view').style.display = 'block';
+            renderCartFull();
+        } else if (tab === 'profile') {
+            document.getElementById('profile-view').style.display = 'block';
+            updateProfileUI();
+        }
+        window.scrollTo(0,0);
+    }
+
+    // === PRODUCTS ===
     function renderProducts(items) {
         const container = document.getElementById('products-container');
         container.innerHTML = '';
-        
-        if (items.length === 0) {
-            container.innerHTML = '<div class="empty-state"><div class="empty-icon">🔍</div><p>Товары не найдены</p></div>';
-            return;
-        }
+        if (items.length === 0) { container.innerHTML = '<div class="empty-state"><div class="empty-icon">🔍</div><p>Товары не найдены</p></div>'; return; }
         
         items.forEach(p => {
-            const inCart = cart[p.id] || 0;
+            const inCart = cart[p.id]?.quantity || 0;
             const isFavorite = favorites.includes(p.id);
+            const isInCompare = compareList.includes(p.id);
             const stars = '★'.repeat(Math.floor(p.rating)) + '☆'.repeat(5 - Math.floor(p.rating));
+            const variant = selectedVariants[p.id] || { color: 0, storage: 0, size: 0 };
+            const finalPrice = calculatePrice(p, variant);
+            
+            let variantsHTML = '';
+            if (p.variants?.colors) {
+                variantsHTML += '<div class="variant-selector">';
+                p.variants.colors.forEach((c, i) => {
+                    variantsHTML += `<button class="variant-btn color-variant ${variant.color === i ? 'active' : ''}" style="background: ${c.code}" onclick="selectVariant(${p.id}, 'color', ${i}, event)"></button>`;
+                });
+                variantsHTML += '</div>';
+            }
+            if (p.variants?.storage) {
+                variantsHTML += '<div class="variant-selector">';
+                p.variants.storage.forEach((s, i) => {
+                    variantsHTML += `<button class="variant-btn ${variant.storage === i ? 'active' : ''}" onclick="selectVariant(${p.id}, 'storage', ${i}, event)">${s.name}</button>`;
+                });
+                variantsHTML += '</div>';
+            } else if (p.variants?.size) {
+                variantsHTML += '<div class="variant-selector">';
+                p.variants.size.forEach((s, i) => {
+                    variantsHTML += `<button class="variant-btn ${variant.size === i ? 'active' : ''}" onclick="selectVariant(${p.id}, 'size', ${i}, event)">${s.name}</button>`;
+                });
+                variantsHTML += '</div>';
+            }
             
             const card = document.createElement('div');
             card.className = 'product-card';
             card.innerHTML = `
-                <button class="favorite-btn ${isFavorite ? 'active' : ''}" onclick="toggleFavorite(${p.id}, event)">
-                    ${isFavorite ? '❤️' : '🤍'}
-                </button>
+                <input type="checkbox" class="compare-checkbox" ${isInCompare ? 'checked' : ''} onchange="toggleCompare(${p.id})">
+                <button class="favorite-btn ${isFavorite ? 'active' : ''}" onclick="toggleFavorite(${p.id}, event)">${isFavorite ? '❤️' : '🤍'}</button>
                 <div class="product-image">${p.img}</div>
                 <div class="product-title">${p.title}</div>
-                <div class="product-rating">
-                    <span class="stars">${stars}</span>
-                    <span class="rating-count">(${p.reviews})</span>
-                </div>
-                <div class="product-price">${p.price.toLocaleString()} ₽</div>
-                <button class="add-btn" onclick="addToCart(${p.id})">
-                    ${inCart > 0 ? `В корзине (${inCart})` : 'В корзину'}
-                </button>
+                <div class="product-rating"><span class="stars">${stars}</span><span class="rating-count">(${p.reviews})</span></div>
+                ${variantsHTML}
+                <div class="product-price">${finalPrice.toLocaleString()} ₽</div>
+                <button class="add-btn" onclick="addToCart(${p.id})">${inCart > 0 ? `В корзине (${inCart})` : 'В корзину'}</button>
             `;
             container.appendChild(card);
         });
     }
 
-    // === ИЗБРАННОЕ ===
-    function toggleFavorite(id, event) {
+    function calculatePrice(product, variant) {
+        let price = product.price;
+        if (product.variants?.colors?.[variant.color]?.priceMod) price += product.variants.colors[variant.color].priceMod;
+        if (product.variants?.storage?.[variant.storage]?.priceMod) price += product.variants.storage[variant.storage].priceMod;
+        if (product.variants?.size?.[variant.size]?.priceMod) price += product.variants.size[variant.size].priceMod;
+        return price;
+    }
+
+    function selectVariant(productId, type, index, event) {
         event.stopPropagation();
-        const index = favorites.indexOf(id);
-        if (index > -1) {
-            favorites.splice(index, 1);
-            showToast('Удалено из избранного');
-        } else {
-            favorites.push(id);
-            showToast('Добавлено в избранное ❤️');
-        }
-        localStorage.setItem('rz_favorites', JSON.stringify(favorites));
-        updateFavoritesBadge();
+        if (!selectedVariants[productId]) selectedVariants[productId] = { color: 0, storage: 0, size: 0 };
+        selectedVariants[productId][type] = index;
         renderProducts(currentCategory === 'all' ? products : products.filter(p => p.category === currentCategory));
     }
 
-    function openFavorites() {
-        const container = document.getElementById('favorites-items');
-        const favProducts = products.filter(p => favorites.includes(p.id));
-        
-        if (favProducts.length === 0) {
-            container.innerHTML = '<div class="empty-state"><div class="empty-icon">🤍</div><p>Избранное пусто</p></div>';
-        } else {
-            container.innerHTML = favProducts.map(p => `
-                <div class="order-card">
-                    <div style="display:flex;justify-content:space-between;align-items:center">
-                        <div>
-                            <div style="font-weight:600">${p.title}</div>
-                            <div style="color:var(--primary);font-weight:700">${p.price.toLocaleString()} ₽</div>
-                        </div>
-                        <button class="add-btn" style="width:auto;padding:10px 20px" onclick="addToCart(${p.id})">В корзину</button>
-                    </div>
-                </div>
-            `).join('');
-        }
-        
-        document.getElementById('favorites-modal').classList.add('open');
-    }
-
-    function closeFavorites() {
-        document.getElementById('favorites-modal').classList.remove('open');
-    }
-
-    function updateFavoritesBadge() {
-        const badge = document.getElementById('favorites-badge');
-        if (favorites.length > 0) {
-            badge.innerText = favorites.length;
-            badge.style.display = 'flex';
-        } else {
-            badge.style.display = 'none';
-        }
-    }
-
-    // === ОТЗЫВЫ ===
-    function openReviews(productId) {
-        const container = document.getElementById('reviews-list');
-        const reviews = reviewsDB[productId] || [];
-        
-        if (reviews.length === 0) {
-            container.innerHTML = '<div class="empty-state"><p>Пока нет отзывов</p></div>';
-        } else {
-            container.innerHTML = reviews.map(r => `
-                <div class="review-card">
-                    <div class="review-header">
-                        <span class="review-author">${r.author}</span>
-                        <span class="review-date">${r.date}</span>
-                    </div>
-                    <div class="product-rating" style="justify-content:flex-start;margin-bottom:8px">
-                        <span class="stars">${'★'.repeat(r.rating)}</span>
-                    </div>
-                    <div class="review-text">${r.text}</div>
-                </div>
-            `).join('');
-        }
-        
-        document.getElementById('reviews-modal').classList.add('open');
-    }
-
-    function closeReviews() {
-        document.getElementById('reviews-modal').classList.remove('open');
-    }
-
-    // === ФИЛЬТРЫ ===
-    function filterCategory(category) {
-        currentCategory = category;
-        document.querySelectorAll('.category-btn').forEach(btn => btn.classList.remove('active'));
+    // === FILTERS ===
+    function filterCategory(cat) {
+        currentCategory = cat;
+        document.querySelectorAll('.category-btn').forEach(b => b.classList.remove('active'));
         event.target.classList.add('active');
-        
-        if (category === 'all') {
-            renderProducts(products);
-        } else {
-            const filtered = products.filter(p => p.category === category);
-            renderProducts(filtered);
-        }
-        window.scrollTo({ top: 0, behavior: 'smooth' });
+        renderProducts(cat === 'all' ? products : products.filter(p => p.category === cat));
     }
-
+    function openFilterPanel() { document.getElementById('filter-panel').classList.add('open'); }
+    function closeFilterPanel() { document.getElementById('filter-panel').classList.remove('open'); }
+    function applyFilters() {
+        const min = parseInt(document.getElementById('price-min').value) || 0;
+        const max = parseInt(document.getElementById('price-max').value) || 999999;
+        const brands = Array.from(document.querySelectorAll('input[type="checkbox"]:checked')).map(cb => cb.value);
+        const rating = document.querySelector('input[name="rating"]:checked')?.value || 0;
+        let filtered = products.filter(p => p.price >= min && p.price <= max && (brands.length===0 || brands.includes(p.brand)) && p.rating >= rating && (currentCategory==='all' || p.category===currentCategory));
+        renderProducts(filtered);
+        closeFilterPanel();
+        showToast(`Найдено: ${filtered.length}`);
+    }
+    function resetFilters() {
+        document.getElementById('price-min').value = 0;
+        document.getElementById('price-max').value = 500000;
+        document.querySelectorAll('input[type="checkbox"], input[type="radio"]').forEach(i => i.checked = false);
+        applyFilters();
+    }
     function filterProducts() {
-        const query = document.getElementById('search-input').value.toLowerCase();
-        const filtered = products.filter(p => 
-            p.title.toLowerCase().includes(query) &&
-            (currentCategory === 'all' || p.category === currentCategory)
-        );
+        const q = document.getElementById('search-input').value.toLowerCase();
+        const filtered = products.filter(p => p.title.toLowerCase().includes(q) && (currentCategory==='all' || p.category===currentCategory));
         renderProducts(filtered);
     }
 
-    // === КОРЗИНА ===
+    // === CART ===
     function addToCart(id) {
-        if (!cart[id]) cart[id] = 0;
-        cart[id]++;
+        if (!cart[id]) cart[id] = { quantity: 0, variant: selectedVariants[id] || { color: 0, storage: 0, size: 0 } };
+        cart[id].quantity++;
         updateCartUI();
         tg.HapticFeedback.impactOccurred('light');
-        showToast('Товар добавлен в корзину');
+        showToast('Добавлено в корзину');
     }
-
     function removeFromCart(id) {
-        if (cart[id]) {
-            cart[id]--;
-            if (cart[id] === 0) delete cart[id];
-        }
+        if (cart[id]) { cart[id].quantity--; if (cart[id].quantity === 0) delete cart[id]; }
         updateCartUI();
-        renderCartItems();
-        tg.HapticFeedback.impactOccurred('light');
+        renderCartFull();
     }
-
     function updateCartUI() {
         let count = 0, total = 0;
-        for (const [id, qty] of Object.entries(cart)) {
-            const product = products.find(p => p.id == id);
-            if (product) { count += qty; total += product.price * qty; }
+        for (const [id, data] of Object.entries(cart)) {
+            const p = products.find(x => x.id == id);
+            if (p) { count += data.quantity; total += calculatePrice(p, data.variant) * data.quantity; }
         }
-        
-        document.getElementById('cart-count').innerText = count + ' товар' + (count === 1 ? '' : count < 5 ? 'а' : 'ов');
+        document.getElementById('cart-count').innerText = count + ' тов.';
         document.getElementById('cart-total').innerText = total.toLocaleString() + ' ₽';
-        document.getElementById('modal-total').innerText = total.toLocaleString() + ' ₽';
-        document.getElementById('order-total').innerText = total.toLocaleString() + ' ₽';
-        
-        const badge = document.getElementById('cart-badge');
-        if (count > 0) {
-            badge.innerText = count;
-            badge.style.display = 'flex';
-        } else {
-            badge.style.display = 'none';
-        }
-        
+        document.getElementById('cart-view-total').innerText = total.toLocaleString() + ' ₽';
+        document.getElementById('order-total-full').innerText = total.toLocaleString() + ' ₽';
+        const badge = document.getElementById('compare-badge'); // Reusing for demo or add cart badge
         const bar = document.getElementById('cart-bar');
-        if (count > 0) bar.classList.add('visible');
-        else bar.classList.remove('visible');
-        
-        renderProducts(currentCategory === 'all' ? products : products.filter(p => p.category === currentCategory));
+        if (count > 0) bar.classList.add('visible'); else bar.classList.remove('visible');
     }
-
-    // === МОДАЛЬНЫЕ ОКНА ===
-    function openCart() {
-        renderCartItems();
-        document.getElementById('cart-modal').classList.add('open');
-        document.getElementById('checkout-form').style.display = 'none';
-        document.getElementById('success-message').style.display = 'none';
-        document.getElementById('cart-items-view').style.display = 'block';
-        document.getElementById('cart-tabs').style.display = 'flex';
-    }
-
-    function closeCart() {
-        document.getElementById('cart-modal').classList.remove('open');
-    }
-
-    function renderCartItems() {
-        const list = document.getElementById('cart-items');
+    function renderCartFull() {
+        const list = document.getElementById('cart-items-full');
         list.innerHTML = '';
-        
-        if (Object.keys(cart).length === 0) {
-            list.innerHTML = '<div class="empty-state"><div class="empty-icon">🛒</div><p>Корзина пуста</p><p style="font-size:14px;margin-top:8px">Добавьте товары из каталога</p></div>';
-            return;
-        }
-        
-        for (const [id, qty] of Object.entries(cart)) {
-            const product = products.find(p => p.id == id);
-            if (product) {
-                const item = document.createElement('div');
-                item.className = 'cart-item';
-                item.innerHTML = `
-                    <div class="cart-item-info">
-                        <div class="cart-item-title">${product.title}</div>
-                        <div class="cart-item-price">${product.price.toLocaleString()} ₽</div>
-                    </div>
-                    <div class="quantity-controls">
-                        <button class="qty-btn" onclick="removeFromCart(${id})">−</button>
-                        <span class="qty-value">${qty}</span>
-                        <button class="qty-btn" onclick="addToCart(${id})">+</button>
-                    </div>
-                `;
-                list.appendChild(item);
+        if (Object.keys(cart).length === 0) { list.innerHTML = '<div class="empty-state"><div class="empty-icon">🛒</div><p>Корзина пуста</p></div>'; return; }
+        for (const [id, data] of Object.entries(cart)) {
+            const p = products.find(x => x.id == id);
+            if (p) {
+                const price = calculatePrice(p, data.variant);
+                list.innerHTML += `
+                    <div class="cart-item">
+                        <div class="cart-item-info">
+                            <div class="cart-item-title">${p.title}</div>
+                            <div class="cart-item-price">${price.toLocaleString()} ₽</div>
+                        </div>
+                        <div class="quantity-controls">
+                            <button class="qty-btn" onclick="removeFromCart(${id})">−</button>
+                            <span class="qty-value">${data.quantity}</span>
+                            <button class="qty-btn" onclick="addToCart(${id})">+</button>
+                        </div>
+                    </div>`;
             }
         }
     }
-
-    function showCartTab(tab) {
-        document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-        event.target.classList.add('active');
+    function showCheckoutFormFull() {
+        if (Object.keys(cart).length === 0) return showToast('Корзина пуста');
+        document.getElementById('cart-items-full').style.display = 'none';
+        document.getElementById('checkout-form-full').style.display = 'block';
+        let sum = '';
+        for (const [id, data] of Object.entries(cart)) {
+            const p = products.find(x => x.id == id);
+            sum += `<div class="summary-row"><span>${p.title} x${data.quantity}</span><span>${(calculatePrice(p,data.variant)*data.quantity).toLocaleString()} ₽</span></div>`;
+        }
+        document.getElementById('order-summary-full').innerHTML = sum;
+        if (tg.initDataUnsafe?.user) document.getElementById('cf-name').value = tg.initDataUnsafe.user.first_name;
+    }
+    function hideCheckoutFormFull() {
+        document.getElementById('cart-items-full').style.display = 'block';
+        document.getElementById('checkout-form-full').style.display = 'none';
+    }
+    function submitOrderFull() {
+        const name = document.getElementById('cf-name').value;
+        const phone = document.getElementById('cf-phone').value;
+        const address = document.getElementById('cf-address').value;
+        if (!name || !phone || !address) return showToast('Заполните поля');
         
-        if (tab === 'items') {
-            document.getElementById('cart-items-view').style.display = 'block';
-            document.getElementById('cart-history-view').style.display = 'none';
-            renderCartItems();
-        } else {
-            document.getElementById('cart-items-view').style.display = 'none';
-            document.getElementById('cart-history-view').style.display = 'block';
-            renderOrderHistory();
-        }
+        // Simulate order
+        setTimeout(() => {
+            document.getElementById('checkout-form-full').style.display = 'none';
+            document.getElementById('success-view-full').style.display = 'block';
+            cart = {}; updateCartUI();
+            const newOrder = { id: Date.now(), total: 0, status: 'Новый', date: new Date().toLocaleDateString() };
+            orders.unshift(newOrder);
+            localStorage.setItem('rz_orders', JSON.stringify(orders));
+            updateProfileUI();
+        }, 1000);
     }
 
-    // === ОФОРМЛЕНИЕ ЗАКАЗА ===
-    function showCheckoutForm() {
-        if (Object.keys(cart).length === 0) { 
-            showToast('Корзина пуста!'); 
-            return; 
-        }
-        document.getElementById('cart-items-view').style.display = 'none';
-        document.getElementById('cart-tabs').style.display = 'none';
-        document.getElementById('checkout-form').style.display = 'block';
+    // === FAVORITES ===
+    function toggleFavorite(id, e) {
+        e.stopPropagation();
+        const idx = favorites.indexOf(id);
+        if (idx > -1) { favorites.splice(idx, 1); showToast('Удалено'); } else { favorites.push(id); showToast('Добавлено ❤️'); }
+        localStorage.setItem('rz_favorites', JSON.stringify(favorites));
+        renderProducts(currentCategory === 'all' ? products : products.filter(p => p.category === currentCategory));
+        if(document.getElementById('favorites-view').style.display === 'block') renderFavoritesList();
+    }
+    function renderFavoritesList() {
+        const list = document.getElementById('favorites-list');
+        const favs = products.filter(p => favorites.includes(p.id));
+        if (favs.length === 0) { list.innerHTML = '<div class="empty-state">Пусто</div>'; return; }
+        list.innerHTML = favs.map(p => `<div class="order-card" style="display:flex;justify-content:space-between;align-items:center"><div><b>${p.title}</b><br>${p.price.toLocaleString()} ₽</div><button class="add-btn" style="width:auto;padding:10px" onclick="addToCart(${p.id})">В корзину</button></div>`).join('');
+    }
+
+    // === PROFILE ===
+    function updateProfileUI() {
+        document.getElementById('profile-name').innerText = currentUser.first_name || "Гость";
+        document.getElementById('profile-id').innerText = "ID: " + (currentUser.id || "???");
+        document.getElementById('stat-balance').innerText = userBalance.toLocaleString() + ' ₽';
+        document.getElementById('stat-orders').innerText = orders.length;
         
-        let summary = '';
-        for (const [id, qty] of Object.entries(cart)) {
-            const p = products.find(prod => prod.id == id);
-            summary += `
-                <div class="summary-row">
-                    <span>${p.title} x${qty}</span>
-                    <span>${(p.price * qty).toLocaleString()} ₽</span>
-                </div>
-            `;
-        }
-        document.getElementById('order-summary-items').innerHTML = summary;
-        
-        if (tg.initDataUnsafe && tg.initDataUnsafe.user) {
-            const user = tg.initDataUnsafe.user;
-            document.getElementById('customer-name').value = (user.first_name + ' ' + (user.last_name || '')).trim();
-        }
+        const link = `https://t.me/${BOT_USERNAME}?start=ref_${currentUser.id}`;
+        document.getElementById('referral-link').innerText = link;
     }
-
-    function hideCheckoutForm() {
-        document.getElementById('cart-items-view').style.display = 'block';
-        document.getElementById('cart-tabs').style.display = 'flex';
-        document.getElementById('checkout-form').style.display = 'none';
-    }
-
-    async function submitOrder() {
-        const name = document.getElementById('customer-name').value.trim();
-        const phone = document.getElementById('customer-phone').value.trim();
-        const address = document.getElementById('customer-address').value.trim();
-        const comment = document.getElementById('customer-comment').value.trim();
-
-        if (!name || !phone || !address) {
-            showToast('Заполните все обязательные поля!');
-            return;
-        }
-
-        let itemsList = [];
-        let total = 0;
-        for (const [id, qty] of Object.entries(cart)) {
-            const p = products.find(prod => prod.id == id);
-            itemsList.push({ id: p.id, title: p.title, price: p.price, quantity: qty });
-            total += p.price * qty;
-        }
-
-        const orderData = {
-            type: 'new_order',
-            items: itemsList,
-            total: total,
-            customer: { name: name, phone: phone, address: address, comment: comment },
-            user_id: tg.initDataUnsafe?.user?.id || 0,
-            username: tg.initDataUnsafe?.user?.username || ''
-        };
-
-        console.log('📤 Отправка заказа:', orderData);
-
-        const btn = document.getElementById('submit-btn');
-        btn.disabled = true;
-        btn.innerHTML = '<span class="loading"></span> Отправка...';
-
-        try {
-            const response = await fetch(API_URL, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(orderData)
-            });
-
-            const result = await response.json();
-            console.log('📩 Ответ сервера:', result);
-
-            if (result.success) {
-                saveOrder({
-                    id: result.order_id,
-                    items: itemsList,
-                    total: total,
-                    status: 'Новый',
-                    date: new Date().toLocaleDateString()
-                });
-                
-                document.getElementById('checkout-form').style.display = 'none';
-                document.getElementById('success-message').style.display = 'block';
-                tg.HapticFeedback.notificationOccurred('success');
-                
-                cart = {};
-                updateCartUI();
-            } else {
-                showToast('❌ Ошибка: ' + result.error);
-                btn.disabled = false;
-                btn.innerHTML = '✅ Оформить заказ';
-            }
-        } catch (e) {
-            console.error('❌ Ошибка:', e);
-            showToast('⚠️ Ожидание домена Bothost...');
-            
-            setTimeout(() => {
-                saveOrder({
-                    id: Math.floor(Math.random() * 1000),
-                    items: itemsList,
-                    total: total,
-                    status: 'Новый',
-                    date: new Date().toLocaleDateString()
-                });
-                document.getElementById('checkout-form').style.display = 'none';
-                document.getElementById('success-message').style.display = 'block';
-                tg.HapticFeedback.notificationOccurred('success');
-                cart = {};
-                updateCartUI();
-            }, 1000);
-        }
-    }
-
-    // === ИСТОРИЯ ЗАКАЗОВ ===
-    function saveOrder(order) {
-        orders.unshift(order);
-        localStorage.setItem('rz_orders', JSON.stringify(orders));
-    }
-
-    function renderOrderHistory() {
-        const container = document.getElementById('order-history');
-        
-        if (orders.length === 0) {
-            container.innerHTML = '<div class="empty-state"><div class="empty-icon">📦</div><p>История пуста</p></div>';
-            return;
-        }
-        
-        container.innerHTML = orders.map(o => `
-            <div class="order-card">
-                <div class="order-header">
-                    <span class="order-id">Заказ #${o.id}</span>
-                    <span class="order-status status-${o.status.toLowerCase()}">${o.status}</span>
-                </div>
-                <div style="font-size:14px;color:var(--text-secondary);margin-bottom:8px">
-                    ${o.items.map(i => `${i.title} x${i.quantity}`).join(', ')}
-                </div>
-                <div style="display:flex;justify-content:space-between;font-weight:700">
-                    <span>${o.date}</span>
-                    <span style="color:var(--primary)">${o.total.toLocaleString()} ₽</span>
-                </div>
-            </div>
-        `).join('');
-    }
-
-    // === БАЛАНС И РЕФЕРАЛКА ===
-    function updateBalance() {
-        document.getElementById('user-balance').innerText = userBalance.toLocaleString() + ' ₽';
-        document.getElementById('referral-earnings').innerText = referralEarnings.toLocaleString() + ' ₽';
-    }
-
-    function showReferral() {
-        const userId = tg.initDataUnsafe?.user?.id || 12345;
-        document.getElementById('referral-link').innerText = `https://t.me/${BOT_USERNAME}?start=ref_${userId}`;
-        document.getElementById('referral-modal').classList.add('open');
-    }
-
-    function closeReferral() {
-        document.getElementById('referral-modal').classList.remove('open');
-    }
-
     function copyReferral() {
-        const link = document.getElementById('referral-link').innerText;
-        navigator.clipboard.writeText(link);
+        const txt = document.getElementById('referral-link').innerText;
+        navigator.clipboard.writeText(txt);
         showToast('Ссылка скопирована!');
     }
-
     function shareReferral() {
-        const link = document.getElementById('referral-link').innerText;
-        tg.openTelegramLink(`https://t.me/share/url?url=${encodeURIComponent(link)}&text=Заходи в RZ SHOP и получи 100₽ бонусом!`);
+        const txt = document.getElementById('referral-link').innerText;
+        tg.openTelegramLink(`https://t.me/share/url?url=${encodeURIComponent(txt)}&text=Заходи в RZ SHOP!`);
+    }
+    function renderOrderHistoryInProfile() {
+        const list = document.getElementById('profile-orders-list');
+        list.style.display = 'block';
+        if (orders.length === 0) { list.innerHTML = '<div class="empty-state">Нет заказов</div>'; return; }
+        list.innerHTML = orders.map(o => `<div class="order-card"><div class="order-header"><span>Заказ #${o.id}</span><span class="order-status status-${o.status.toLowerCase()}">${o.status}</span></div><div style="font-size:13px;color:var(--text-secondary)">${o.date} • ${o.total.toLocaleString()} ₽</div></div>`).join('');
+    }
+    function openSupport() { tg.openTelegramLink('https://t.me/support_manager'); }
+    function toggleTheme() { showToast('Функция в разработке 🎨'); }
+
+    // === COMPARE ===
+    function toggleCompare(id) {
+        const idx = compareList.indexOf(id);
+        if (idx > -1) { compareList.splice(idx, 1); showToast('Удалено из сравнения'); }
+        else { if(compareList.length>=3) return showToast('Максимум 3 товара'); compareList.push(id); showToast('Добавлено'); }
+        renderProducts(currentCategory === 'all' ? products : products.filter(p => p.category === currentCategory));
+        if (compareList.length > 0) openCompare();
+    }
+    function openCompare() {
+        if (compareList.length === 0) return;
+        const prods = products.filter(p => compareList.includes(p.id));
+        const c = document.getElementById('compare-content');
+        let h = '<table class="compare-table"><tr><th>Характеристика</th>' + prods.map(p=>`<th>${p.title}</th>`).join('') + '</tr>';
+        h += `<tr><td>Цена</td>` + prods.map(p=>`<td>${p.price.toLocaleString()} ₽</td>`).join('') + '</tr>';
+        if (prods[0].specs) {
+            Object.keys(prods[0].specs).forEach(k => {
+                h += `<tr><td>${k}</td>` + prods.map(p=>`<td>${p.specs[k]||'-'}</td>`).join('') + '</tr>';
+            });
+        }
+        h += '</table>';
+        c.innerHTML = h;
+        document.getElementById('compare-modal').classList.add('open');
     }
 
-    // === ПОДДЕРЖКА ===
-    function openSupport() {
-        tg.openTelegramLink('https://t.me/support_manager');
+    // === UTILS ===
+    function showToast(msg) {
+        const t = document.getElementById('toast');
+        t.innerText = msg; t.classList.add('show');
+        setTimeout(() => t.classList.remove('show'), 3000);
     }
+    function scrollToProducts() { document.getElementById('products-container').scrollIntoView({behavior:'smooth'}); }
 
-    // === НАВИГАЦИЯ ===
-    function showHome() {
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-        showToast('Главная страница');
-    }
-
-    // === УВЕДОМЛЕНИЯ ===
-    function showToast(message) {
-        const toast = document.getElementById('toast');
-        toast.innerText = message;
-        toast.classList.add('show');
-        setTimeout(() => toast.classList.remove('show'), 3000);
-    }
-
-    // Запуск
     init();
 </script>
 </body>
