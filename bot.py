@@ -11,7 +11,7 @@ import aiosqlite
 # === НАСТРОЙКИ ===
 TOKEN = os.getenv("BOT_TOKEN")
 ADMIN_ID = 8043971654
-MINI_APP_URL = os.getenv("MINI_APP_URL", "https://your-username.github.io/your-repo/")
+MINI_APP_URL = os.getenv("MINI_APP_URL", "https://cekarinzahar44-del.github.io/gorbushka-Online/")
 
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 logger = logging.getLogger(__name__)
