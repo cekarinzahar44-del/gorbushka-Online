@@ -25,7 +25,7 @@
             font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif; 
             background-color: var(--bg-primary); 
             color: var(--text-primary); 
-            padding-bottom: 80px; /* Место для навбара */
+            padding-bottom: 100px; /* Отступ чтобы контент не перекрывался навбаром и корзиной */
             min-height: 100vh;
         }
 
@@ -78,7 +78,7 @@
         }
         .hero-shapes { position: absolute; right: 20px; top: 50%; transform: translateY(-50%); font-size: 80px; opacity: 0.3; }
 
-        /* === SEARCH & FILTER === */
+        /* === SEARCH & FILTER BUTTON === */
         .search-container {
             display: flex; gap: 10px; padding: 0 16px 16px; align-items: center;
         }
@@ -194,13 +194,15 @@
         }
         .add-btn:active { opacity: 0.8; }
 
-        /* === CART BAR === */
+        /* === CART BAR (Исправлено положение) === */
         .cart-bar { 
-            position: fixed; bottom: 80px; left: 16px; right: 16px; 
+            position: fixed; 
+            bottom: 90px; /* Поднят выше навбара (навбар ~70px + отступ) */
+            left: 16px; right: 16px; 
             background: linear-gradient(135deg, var(--primary), var(--primary-dark)); 
             color: #fff; padding: 16px 20px; border-radius: 14px; 
             display: flex; justify-content: space-between; align-items: center; 
-            box-shadow: 0 8px 32px rgba(0,122,255,0.3); cursor: pointer; z-index: 1000; 
+            box-shadow: 0 8px 32px rgba(0,122,255,0.3); cursor: pointer; z-index: 999; 
             transform: translateY(150%); transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); 
         }
         .cart-bar.visible { transform: translateY(0); }
@@ -288,7 +290,7 @@
             position: fixed; bottom: 0; left: 0; right: 0;
             background: var(--bg-primary); border-top: 1px solid var(--border);
             display: flex; justify-content: space-around; padding: 10px 0;
-            z-index: 100; padding-bottom: env(safe-area-inset-bottom);
+            z-index: 1000; padding-bottom: env(safe-area-inset-bottom);
         }
         .nav-item {
             display: flex; flex-direction: column; align-items: center;
@@ -422,8 +424,8 @@
 <!-- PRODUCTS -->
 <div class="products-grid" id="products-container"></div>
 
-<!-- CART BAR -->
-<div class="cart-bar" id="cart-bar" onclick="openCart()">
+<!-- CART BAR (Исправлено положение) -->
+<div class="cart-bar" id="cart-bar" onclick="openCartModal()">
     <div class="cart-info">
         <span class="cart-count" id="cart-count">0 товаров</span>
         <span class="cart-total" id="cart-total">0 ₽</span>
@@ -451,23 +453,23 @@
     </div>
 </div>
 
-<!-- MAIN CONTENT WRAPPER (Динамическая подмена контента) -->
+<!-- MAIN CONTENT WRAPPER -->
 <div id="main-content">
     <!-- Контент главной страницы уже отрисован выше (Products) -->
 </div>
 
-<!-- FAVORITES VIEW (Скрыт по умолчанию) -->
+<!-- FAVORITES VIEW -->
 <div id="favorites-view" style="display:none; padding: 20px;">
     <h2 style="margin-bottom: 20px;">Избранное ❤️</h2>
     <div id="favorites-list"></div>
 </div>
 
-<!-- CART VIEW (Modal-like but full screen for nav consistency) -->
-<div id="cart-view" style="display:none;">
-    <div class="modal-content" style="border-radius: 0; max-height: 100vh;">
+<!-- CART MODAL (Full Screen for better UX) -->
+<div class="modal" id="cart-modal">
+    <div class="modal-content">
         <div class="modal-header">
             <h2 class="modal-title">Корзина</h2>
-            <button class="close-btn" onclick="switchTab('home')">&times;</button>
+            <button class="close-btn" onclick="closeCartModal()">&times;</button>
         </div>
         <div id="cart-items-full"></div>
         <div style="margin-top: 24px; text-align: right;">
@@ -490,7 +492,7 @@
             <div class="success-icon">✅</div>
             <h3>Заказ оформлен!</h3>
             <p style="color:var(--text-secondary); margin: 20px 0;">Менеджер свяжется с вами.</p>
-            <button class="btn btn-primary" onclick="switchTab('home')">Вернуться в магазин</button>
+            <button class="btn btn-primary" onclick="closeCartModal(); switchTab('home');">Вернуться в магазин</button>
         </div>
     </div>
 </div>
@@ -539,7 +541,7 @@
     <div id="profile-orders-list" style="margin-top: 20px; display:none;"></div>
 </div>
 
-<!-- MODALS (Compare, Filter, etc.) -->
+<!-- COMPARE MODAL -->
 <div class="modal" id="compare-modal">
     <div class="modal-content">
         <div class="modal-header">
@@ -547,16 +549,6 @@
             <button class="close-btn" onclick="document.getElementById('compare-modal').classList.remove('open')">&times;</button>
         </div>
         <div id="compare-content"></div>
-    </div>
-</div>
-
-<div class="modal" id="favorites-modal">
-    <div class="modal-content">
-        <div class="modal-header">
-            <h2 class="modal-title">Избранное</h2>
-            <button class="close-btn" onclick="document.getElementById('favorites-modal').classList.remove('open')">&times;</button>
-        </div>
-        <div id="fav-modal-items"></div>
     </div>
 </div>
 
@@ -601,15 +593,16 @@
         document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
         event.currentTarget.classList.add('active');
         
+        // Скрываем все виды
         document.getElementById('products-container').parentElement.style.display = 'none';
         document.querySelector('.hero-banner').style.display = 'none';
         document.querySelector('.categories').style.display = 'none';
         document.querySelector('.search-container').style.display = 'none';
-        document.getElementById('cart-bar').style.display = 'none';
+        document.getElementById('cart-bar').style.display = 'none'; // Скрываем бар при переходе
         
         document.getElementById('favorites-view').style.display = 'none';
-        document.getElementById('cart-view').style.display = 'none';
         document.getElementById('profile-view').style.display = 'none';
+        // Корзину не скрываем, она открывается модалкой
 
         if (tab === 'home') {
             document.getElementById('products-container').parentElement.style.display = 'block';
@@ -621,8 +614,7 @@
             document.getElementById('favorites-view').style.display = 'block';
             renderFavoritesList();
         } else if (tab === 'cart') {
-            document.getElementById('cart-view').style.display = 'block';
-            renderCartFull();
+            openCartModal(); // Открываем модалку корзины
         } else if (tab === 'profile') {
             document.getElementById('profile-view').style.display = 'block';
             updateProfileUI();
@@ -751,9 +743,21 @@
         document.getElementById('cart-total').innerText = total.toLocaleString() + ' ₽';
         document.getElementById('cart-view-total').innerText = total.toLocaleString() + ' ₽';
         document.getElementById('order-total-full').innerText = total.toLocaleString() + ' ₽';
-        const badge = document.getElementById('compare-badge'); // Reusing for demo or add cart badge
+        
         const bar = document.getElementById('cart-bar');
         if (count > 0) bar.classList.add('visible'); else bar.classList.remove('visible');
+    }
+    
+    // Функции для модалки корзины
+    function openCartModal() {
+        renderCartFull();
+        document.getElementById('cart-modal').classList.add('open');
+        document.getElementById('checkout-form-full').style.display = 'none';
+        document.getElementById('success-view-full').style.display = 'none';
+        document.getElementById('cart-items-full').style.display = 'block';
+    }
+    function closeCartModal() {
+        document.getElementById('cart-modal').classList.remove('open');
     }
     function renderCartFull() {
         const list = document.getElementById('cart-items-full');
