@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>RZ SHOP</title>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+        
+        body { 
+            font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif; 
+            background-color: var(--tg-theme-bg-color, #1c1c1e); 
+            color: var(--tg-theme-text-color, #ffffff); 
+            padding-bottom: 100px; 
+        }
+        
+        header { 
+            padding: 20px; 
+            text-align: center; 
+            font-weight: 700; 
+            font-size: 24px; 
+            border-bottom: 1px solid rgba(255,255,255,0.1); 
+            position: sticky; 
+            top: 0; 
+            background-color: var(--tg-theme-bg-color, #1c1c1e); 
+            z-index: 100; 
+            backdrop-filter: blur(20px);
+        }
+        
+        .products-grid { 
+            display: grid; 
+            grid-template-columns: repeat(2, 1fr); 
+            gap: 16px; 
+            padding: 16px; 
+        }
+        
+        .product-card { 
+            background: linear-gradient(145deg, rgba(255,255,255,0.1), rgba(255,255,255,0.05)); 
+            border-radius: 16px; 
+            padding: 16px; 
+            display: flex; 
+            flex-direction: column; 
+            align-items: center; 
+            transition: transform 0.2s;
+        }
+        
+        .product-card:active { transform: scale(0.98); }
+        
+        .product-image { 
+            width: 100%; 
+            height: 120px; 
+            background: linear-gradient(135deg, rgba(100,100,100,0.2), rgba(50,50,50,0.1)); 
+            border-radius: 12px; 
+            margin-bottom: 12px; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            font-size: 60px; 
+        }
+        
+        .product-title { 
+            font-size: 15px; 
+            font-weight: 600; 
+            margin-bottom: 8px; 
+            text-align: center; 
+            line-height: 1.3;
+        }
+        
+        .product-price { 
+            font-size: 18px; 
+            font-weight: 700; 
+            color: #007aff; 
+            margin-bottom: 12px; 
+        }
+        
+        .add-btn { 
+            background: linear-gradient(135deg, #007aff, #0056cc); 
+            color: #ffffff; 
+            border: none; 
+            border-radius: 12px; 
+            padding: 12px 24px; 
+            width: 100%; 
+            font-size: 15px; 
+            font-weight: 600; 
+            cursor: pointer; 
+            transition: opacity 0.2s;
+        }
+        
+        .add-btn:active { opacity: 0.8; }
+        
+        .cart-bar { 
+            position: fixed; 
+            bottom: 20px; 
+            left: 20px; 
+            right: 20px; 
+            background: linear-gradient(135deg, #007aff, #0056cc); 
+            color: #ffffff; 
+            padding: 16px 24px; 
+            border-radius: 16px; 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            box-shadow: 0 8px 32px rgba(0,122,255,0.3); 
+            cursor: pointer; 
+            z-index: 1000; 
+            transform: translateY(150%); 
+            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); 
+        }
+        
+        .cart-bar.visible { transform: translateY(0); }
+        
+        .modal { 
+            display: none; 
+            position: fixed; 
+            top: 0; left: 0; right: 0; bottom: 0; 
+            background: rgba(0,0,0,0.8); 
+            z-index: 2000; 
+            align-items: flex-end; 
+        }
+        
+        .modal.open { display: flex; }
+        
+        .modal-content { 
+            background: var(--tg-theme-bg-color, #1c1c1e); 
+            width: 100%; 
+            border-radius: 24px 24px 0 0; 
+            padding: 24px; 
+            max-height: 85vh; 
+            overflow-y: auto; 
+        }
+        
+        .cart-item { 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            padding: 16px 0; 
+            border-bottom: 1px solid rgba(255,255,255,0.1); 
+        }
+        
+        .item-controls button { 
+            background: rgba(255,255,255,0.1); 
+            border: none; 
+            width: 36px; 
+            height: 36px; 
+            border-radius: 50%; 
+            font-size: 22px; 
+            color: #ffffff; 
+            cursor: pointer; 
+        }
+        
+        .close-modal { 
+            float: right; 
+            background: none; 
+            border: none; 
+            font-size: 32px; 
+            color: rgba(255,255,255,0.5); 
+            cursor: pointer; 
+        }
+        
+        .checkout-form { margin-top: 24px; display: none; }
+        .checkout-form.active { display: block; }
+        
+        .order-summary { 
+            background: rgba(255,255,255,0.05); 
+            padding: 20px; 
+            border-radius: 16px; 
+            margin-bottom: 24px; 
+        }
+        
+        .form-group { margin-bottom: 20px; }
+        .form-group label { 
+            display: block; 
+            margin-bottom: 8px; 
+            font-weight: 600; 
+            font-size: 14px; 
+            color: rgba(255,255,255,0.7);
+        }
+        .form-group input, .form-group textarea { 
+            width: 100%; 
+            padding: 16px; 
+            border: 1px solid rgba(255,255,255,0.1); 
+            border-radius: 14px; 
+            font-size: 16px; 
+            background-color: rgba(255,255,255,0.05); 
+            color: #ffffff; 
+        }
+        
+        .submit-btn { 
+            background: linear-gradient(135deg, #34c759, #248a3d); 
+            color: #ffffff; 
+            border: none; 
+            border-radius: 16px; 
+            padding: 18px; 
+            width: 100%; 
+            font-size: 17px; 
+            font-weight: 700; 
+            cursor: pointer; 
+            margin-top: 20px; 
+            transition: transform 0.2s;
+        }
+        
+        .submit-btn:active { transform: scale(0.98); }
+        .submit-btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+        
+        .back-btn { 
+            background: none; 
+            border: none; 
+            color: #007aff; 
+            font-size: 16px; 
+            cursor: pointer; 
+            margin-bottom: 20px; 
+            padding: 0; 
+            display: flex;
+            align-items: center;
+        }
+        
+        .success-message { text-align: center; padding: 60px 20px; }
+        .success-icon { font-size: 100px; margin-bottom: 30px; }
+        
+        .empty-msg { text-align: center; color: rgba(255,255,255,0.5); margin: 40px 0; font-size: 16px; }
+        
+        h2 { margin-bottom: 20px; font-size: 22px; font-weight: 700; }
+        h3 { margin: 0; font-size: 20px; font-weight: 700; color: #007aff; }
+        h4 { margin-top: 0; font-size: 16px; color: rgba(255,255,255,0.7); }
+    </style>
+</head>
+<body>
+<header>🛍 RZ SHOP</header>
+
+<div class="products-grid" id="products-container"></div>
+
+<div class="cart-bar" id="cart-bar" onclick="openCart()">
+    <div class="cart-info">
+        <span class="cart-count" id="cart-count">0 товаров</span>
+        <span class="cart-total" id="cart-total">0 ₽</span>
+    </div>
+    <button style="background: rgba(255,255,255,0.2); color: #fff; border: none; padding: 10px 20px; border-radius: 10px; font-weight: 600;">Корзина</button>
+</div>
+
+<div class="modal" id="cart-modal">
+    <div class="modal-content">
+        <button class="close-modal" onclick="closeCart()">&times;</button>
+        <h2>Корзина</h2>
+        <div id="cart-items"></div>
+        <div style="margin-top: 30px; text-align: right;">
+            <h3>Итого: <span id="modal-total">0 ₽</span></h3>
+            <button class="submit-btn" onclick="showCheckoutForm()">Оформить заказ</button>
+        </div>
+
+        <div class="checkout-form" id="checkout-form">
+            <button class="back-btn" onclick="hideCheckoutForm()">← Назад к корзине</button>
+            <div class="order-summary">
+                <h4>Ваш заказ:</h4>
+                <div id="order-summary-items" style="margin: 15px 0;"></div>
+                <hr style="border: none; border-top: 1px solid rgba(255,255,255,0.1); margin: 15px 0;">
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                    <span style="font-size: 14px; color: rgba(255,255,255,0.7);">Итого:</span>
+                    <strong style="font-size: 20px; color: #007aff;"><span id="order-total">0 ₽</span></strong>
+                </div>
+            </div>
+            <div class="form-group">
+                <label>Ваше имя *</label>
+                <input type="text" id="customer-name" placeholder="Иван Иванов">
+            </div>
+            <div class="form-group">
+                <label>Телефон *</label>
+                <input type="tel" id="customer-phone" placeholder="+7 999 123-45-67">
+            </div>
+            <div class="form-group">
+                <label>Адрес доставки *</label>
+                <textarea id="customer-address" placeholder="Город, улица, дом, квартира" rows="3"></textarea>
+            </div>
+            <button class="submit-btn" id="submit-btn" onclick="submitOrder()">✅ Оформить заказ</button>
+            <p style="text-align: center; margin-top: 15px; color: rgba(255,255,255,0.5); font-size: 13px;">
+                После оформления менеджер свяжется с вами
+            </p>
+        </div>
+
+        <div class="success-message" id="success-message" style="display: none;">
+            <div class="success-icon">✅</div>
+            <h2>Заказ оформлен!</h2>
+            <p style="color: rgba(255,255,255,0.7); margin: 20px 0;">Менеджер свяжется с вами в ближайшее время</p>
+            <button class="submit-btn" onclick="tg.close()">Закрыть</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    const tg = window.Telegram.WebApp;
+    tg.ready();
+    tg.expand();
+
+    console.log('🟢 Mini App запущен');
+    console.log('🟢 Telegram User:', tg.initDataUnsafe?.user);
+
+    const products = [
+        { id: 1, title: "iPhone 15 Pro", price: 120000, img: "📱" },
+        { id: 2, title: "Samsung S24", price: 115000, img: "📱" },
+        { id: 3, title: "MacBook Air", price: 130000, img: "💻" },
+        { id: 4, title: "AirPods Pro", price: 25000, img: "🎧" },
+        { id: 5, title: "iPad Air", price: 65000, img: "📟" },
+        { id: 6, title: "Apple Watch", price: 45000, img: "⌚" },
+        { id: 7, title: "Sony PS5", price: 55000, img: "🎮" },
+        { id: 8, title: "Зарядка 20W", price: 2500, img: "🔌" }
+    ];
+
+    let cart = {};
+
+    function renderProducts() {
+        const container = document.getElementById('products-container');
+        container.innerHTML = '';
+        
+        products.forEach(p => {
+            const card = document.createElement('div');
+            card.className = 'product-card';
+            card.innerHTML = `
+                <div class="product-image">${p.img}</div>
+                <div class="product-title">${p.title}</div>
+                <div class="product-price">${p.price.toLocaleString()} ₽</div>
+                <button class="add-btn" onclick="addToCart(${p.id})">В корзину</button>
+            `;
+            container.appendChild(card);
+        });
+        
+        console.log('✅ Товары загружены:', products.length);
+    }
+
+    function addToCart(id) {
+        if (!cart[id]) cart[id] = 0;
+        cart[id]++;
+        updateCartUI();
+        tg.HapticFeedback.impactOccurred('light');
+        console.log('🛒 Добавлено:', id, cart[id]);
+    }
+
+    function removeFromCart(id) {
+        if (cart[id]) {
+            cart[id]--;
+            if (cart[id] === 0) delete cart[id];
+        }
+        updateCartUI();
+        renderCartItems();
+        tg.HapticFeedback.impactOccurred('light');
+    }
+
+    function updateCartUI() {
+        let count = 0, total = 0;
+        for (const [id, qty] of Object.entries(cart)) {
+            const product = products.find(p => p.id == id);
+            if (product) { 
+                count += qty; 
+                total += product.price * qty; 
+            }
+        }
+        document.getElementById('cart-count').innerText = count + ' товар' + (count === 1 ? '' : count < 5 ? 'а' : 'ов');
+        document.getElementById('cart-total').innerText = total.toLocaleString() + ' ₽';
+        document.getElementById('modal-total').innerText = total.toLocaleString() + ' ₽';
+        document.getElementById('order-total').innerText = total.toLocaleString() + ' ₽';
+        
+        const bar = document.getElementById('cart-bar');
+        if (count > 0) bar.classList.add('visible');
+        else bar.classList.remove('visible');
+    }
+
+    function openCart() {
+        renderCartItems();
+        document.getElementById('cart-modal').classList.add('open');
+        document.getElementById('checkout-form').style.display = 'none';
+        document.getElementById('success-message').style.display = 'none';
+    }
+
+    function closeCart() {
+        document.getElementById('cart-modal').classList.remove('open');
+    }
+
+    function renderCartItems() {
+        const list = document.getElementById('cart-items');
+        list.innerHTML = '';
+        
+        if (Object.keys(cart).length === 0) {
+            list.innerHTML = '<div class="empty-msg">Корзина пуста 😔<br>Добавьте товары из каталога</div>';
+            return;
+        }
+        
+        for (const [id, qty] of Object.entries(cart)) {
+            const product = products.find(p => p.id == id);
+            if (product) {
+                const item = document.createElement('div');
+                item.className = 'cart-item';
+                item.innerHTML = `
+                    <div>
+                        <div style="font-weight: 600">${product.title}</div>
+                        <div style="color: rgba(255,255,255,0.5); font-size: 14px">${product.price.toLocaleString()} ₽</div>
+                    </div>
+                    <div class="item-controls">
+                        <button onclick="removeFromCart(${id})">−</button>
+                        <span style="margin: 0 12px; font-weight: bold; font-size: 16px">${qty}</span>
+                        <button onclick="addToCart(${id})">+</button>
+                    </div>
+                `;
+                list.appendChild(item);
+            }
+        }
+    }
+
+    function showCheckoutForm() {
+        if (Object.keys(cart).length === 0) { 
+            tg.showAlert('Корзина пуста!'); 
+            return; 
+        }
+        document.getElementById('cart-items').style.display = 'none';
+        document.getElementById('checkout-form').style.display = 'block';
+        
+        let summary = '';
+        for (const [id, qty] of Object.entries(cart)) {
+            const p = products.find(prod => prod.id == id);
+            summary += `<div style="display: flex; justify-content: space-between; margin-bottom: 10px;"><span>${p.title} x${qty}</span><span>${(p.price * qty).toLocaleString()} ₽</span></div>`;
+        }
+        document.getElementById('order-summary-items').innerHTML = summary;
+        
+        if (tg.initDataUnsafe && tg.initDataUnsafe.user) {
+            const user = tg.initDataUnsafe.user;
+            document.getElementById('customer-name').value = (user.first_name + ' ' + (user.last_name || '')).trim();
+        }
+    }
+
+    function hideCheckoutForm() {
+        document.getElementById('cart-items').style.display = 'block';
+        document.getElementById('checkout-form').style.display = 'none';
+    }
+
+    function submitOrder() {
+        const name = document.getElementById('customer-name').value.trim();
+        const phone = document.getElementById('customer-phone').value.trim();
+        const address = document.getElementById('customer-address').value.trim();
+
+        if (!name || !phone || !address) {
+            tg.showAlert('Заполните все обязательные поля!');
+            return;
+        }
+
+        let itemsList = [];
+        let total = 0;
+        for (const [id, qty] of Object.entries(cart)) {
+            const p = products.find(prod => prod.id == id);
+            itemsList.push({ id: p.id, title: p.title, price: p.price, quantity: qty });
+            total += p.price * qty;
+        }
+
+        const orderData = {
+            type: 'new_order',
+            items: itemsList,
+            total: total,
+            customer: { name: name, phone: phone, address: address },
+            user_id: tg.initDataUnsafe?.user?.id || 0,
+            username: tg.initDataUnsafe?.user?.username || ''
+        };
+
+        console.log('📤 ОТПРАВКА ЗАКАЗА:', orderData);
+        console.log('📤 JSON:', JSON.stringify(orderData));
+        
+        // ОТПРАВЛЯЕМ ДАННЫЕ БОТУ ЧЕРЕЗ tg.sendData()
+        tg.sendData(JSON.stringify(orderData));
+
+        document.getElementById('checkout-form').style.display = 'none';
+        document.getElementById('success-message').style.display = 'block';
+        tg.HapticFeedback.notificationOccurred('success');
+    }
+
+    // Запуск при загрузке
+    renderProducts();
+</script>
+</body>
+</html>
