@@ -72,7 +72,7 @@
             cursor: pointer;
         }
         
-        /* === HERO BANNER (Fixed Height) === */
+        /* === HERO BANNER === */
         .hero-banner {
             margin: 16px;
             border-radius: 20px;
@@ -143,7 +143,7 @@
             width: 50px;
         }
 
-        /* === CATEGORIES (Fixed Height) === */
+        /* === CATEGORIES === */
         .categories { 
             display: flex; 
             gap: 10px; 
@@ -174,7 +174,7 @@
             border-color: var(--primary);
         }
 
-        /* === PRODUCTS GRID (Fixed Layout) === */
+        /* === PRODUCTS GRID === */
         .products-grid { 
             display: grid; 
             grid-template-columns: repeat(2, 1fr); 
@@ -256,7 +256,7 @@
             flex-shrink: 0;
         }
 
-        /* === VARIANTS (Horizontal Scroll) === */
+        /* === VARIANTS === */
         .variant-selector { 
             display: flex; 
             gap: 6px; 
@@ -330,7 +330,7 @@
             cursor: pointer;
         }
 
-        /* === BOTTOM NAV (Fixed Position) === */
+        /* === BOTTOM NAV === */
         .bottom-nav {
             position: fixed; 
             bottom: 0; 
@@ -588,6 +588,21 @@
 
         .view-section { display: none; }
         .view-section.active { display: block; }
+        
+        /* Filter Panel */
+        .filter-panel {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.95);
+            z-index: 3000;
+            padding: 20px;
+            overflow-y: auto;
+        }
+        .filter-panel.open { display: block; }
     </style>
 </head>
 <body>
@@ -742,10 +757,10 @@
 </div>
 
 <!-- FILTER PANEL -->
-<div class="filter-panel" id="filter-panel" style="display:none; position:fixed; top:0; left:0; right:0; bottom:0; background:rgba(0,0,0,0.95); z-index:3000; padding:20px; overflow-y:auto;">
+<div class="filter-panel" id="filter-panel">
     <div style="display:flex; justify-content:space-between; margin-bottom:32px;">
         <h2 style="font-size:24px;">Фильтры</h2>
-        <button onclick="document.getElementById('filter-panel').style.display='none'" style="background:none; border:none; color:#fff; font-size:28px;">&times;</button>
+        <button onclick="closeFilterPanel()" style="background:none; border:none; color:#fff; font-size:28px;">&times;</button>
     </div>
     <div style="margin-bottom:24px;">
         <div style="font-weight:600; margin-bottom:12px;">Цена</div>
@@ -785,6 +800,8 @@
     tg.ready();
     tg.expand();
 
+    // ⚠️ ВСТАВЬ СЮДА СВОЙ BOTHOST URL
+    const API_URL = 'https://mybot.bothost.tech/';
     const BOT_USERNAME = 'RZ_SHOP_ONLINE_BOT';
 
     const products = [
@@ -939,6 +956,9 @@
         document.getElementById('cart-items-container').style.display = 'none';
         document.getElementById('cart-actions').style.display = 'none';
         document.getElementById('checkout-section').style.display = 'block';
+        if (tg.initDataUnsafe?.user) {
+            document.getElementById('cf-name').value = tg.initDataUnsafe.user.first_name || '';
+        }
     }
 
     function hideCheckout() {
@@ -947,17 +967,62 @@
         document.getElementById('checkout-section').style.display = 'none';
     }
 
-    function submitOrder() {
+    async function submitOrder() {
         const name = document.getElementById('cf-name').value;
         const phone = document.getElementById('cf-phone').value;
         const address = document.getElementById('cf-address').value;
-        if (!name || !phone || !address) return showToast('Заполните поля');
+        const comment = document.getElementById('cf-comment').value;
         
-        setTimeout(() => {
-            document.getElementById('checkout-section').style.display = 'none';
-            document.getElementById('success-message').style.display = 'block';
-            cart = {};
-        }, 1000);
+        if (!name || !phone || !address) return showToast('Заполните поля');
+
+        let itemsList = [];
+        let total = 0;
+        for (const [id, data] of Object.entries(cart)) {
+            const p = products.find(x => x.id == id);
+            if (p) {
+                itemsList.push({ title: p.title, quantity: data.quantity, price: p.price });
+                total += p.price * data.quantity;
+            }
+        }
+
+        const orderData = {
+            type: 'new_order',
+            items: itemsList,
+            total: total,
+            customer: { name, phone, address, comment },
+            user_id: tg.initDataUnsafe?.user?.id || 0,
+            username: tg.initDataUnsafe?.user?.username || 'unknown'
+        };
+
+        const btn = document.querySelector('#checkout-section .btn-primary');
+        btn.disabled = true;
+        btn.innerText = '⏳ Отправка...';
+
+        try {
+            const response = await fetch(API_URL, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(orderData)
+            });
+
+            const result = await response.json();
+
+            if (result.success) {
+                document.getElementById('checkout-section').style.display = 'none';
+                document.getElementById('success-message').style.display = 'block';
+                cart = {};
+                renderCart();
+            } else {
+                showToast('❌ Ошибка: ' + result.error);
+                btn.disabled = false;
+                btn.innerText = '✅ Подтвердить';
+            }
+        } catch (e) {
+            console.error('❌ Ошибка:', e);
+            showToast('⚠️ Ошибка сети');
+            btn.disabled = false;
+            btn.innerText = '✅ Подтвердить';
+        }
     }
 
     function toggleFavorite(id, e) {
@@ -1006,14 +1071,15 @@
         renderProducts(cat === 'all' ? products : products.filter(p => p.category === cat));
     }
 
-    function openFilterPanel() { document.getElementById('filter-panel').style.display = 'block'; }
+    function openFilterPanel() { document.getElementById('filter-panel').classList.add('open'); }
+    function closeFilterPanel() { document.getElementById('filter-panel').classList.remove('open'); }
     
     function applyFilters() {
         const min = parseInt(document.getElementById('price-min').value) || 0;
         const max = parseInt(document.getElementById('price-max').value) || 999999;
         const filtered = products.filter(p => p.price >= min && p.price <= max && (currentCategory==='all' || p.category===currentCategory));
         renderProducts(filtered);
-        document.getElementById('filter-panel').style.display = 'none';
+        closeFilterPanel();
     }
 
     function resetFilters() {
