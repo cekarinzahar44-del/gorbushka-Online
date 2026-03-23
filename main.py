@@ -13,7 +13,7 @@ from aiogram.utils.keyboard import InlineKeyboardBuilder
 # === НАСТРОЙКИ ===
 TOKEN = os.getenv("BOT_TOKEN")
 ADMIN_ID = int(os.getenv("ADMIN_ID", 8043971654))
-MINI_APP_URL = os.getenv("MINI_APP_URL", "https://твой-ник.github.io/твой-репо/")
+MINI_APP_URL = os.getenv("MINI_APP_URL", "https://cekarinzahar44-del.github.io/gorbushka-Online/")
 
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 logger = logging.getLogger(__name__)
@@ -55,7 +55,7 @@ def get_db_connection():
     conn.row_factory = sqlite3.Row
     return conn
 
-# === API ДЛЯ ПРИЁМА ЗАКАЗОВ ИЗ MINI APP ===
+# === API ДЛЯ ПРИЁМА ЗАКАЗОВ ===
 @app.route('/create_order', methods=['POST'])
 def create_order():
     try:
@@ -70,7 +70,6 @@ def create_order():
         
         items_text = ', '.join([f"{i.get('title', 'Товар')} x{i.get('quantity', 1)}" for i in items])
         
-        # Сохраняем заказ в БД
         conn = get_db_connection()
         c = conn.cursor()
         c.execute('''INSERT INTO orders 
@@ -93,14 +92,9 @@ def create_order():
             f"👤 {customer.get('name', '')}\n"
             f"📞 {customer.get('phone', '')}\n"
             f"📍 {customer.get('address', '')}\n\n"
-            f"Менеджер свяжется с вами в ближайшее время!"
+            f"Менеджер свяжется с вами!"
         )
-        
-        try:
-            asyncio.run(bot.send_message(user_id, user_msg, parse_mode="HTML"))
-            logger.info(f"✅ Уведомление пользователю {user_id} отправлено")
-        except Exception as e:
-            logger.error(f"❌ Не удалось отправить пользователю: {e}")
+        asyncio.run_coroutine_threadsafe(bot.send_message(user_id, user_msg, parse_mode="HTML"), bot.loop)
         
         # Уведомление админу
         admin_msg = (
@@ -111,15 +105,9 @@ def create_order():
             f"📞 <b>Телефон:</b> {customer.get('phone', '')}\n"
             f"📍 <b>Адрес:</b> {customer.get('address', '')}\n"
             f"💬 <b>Комментарий:</b> {customer.get('comment', 'Нет')}\n\n"
-            f"🔗 Telegram: @{username} (ID: {user_id})\n\n"
-            f"<i>Для управления: /start → 📊 Заказы</i>"
+            f"🔗 Telegram: @{username} (ID: {user_id})"
         )
-        
-        try:
-            asyncio.run(bot.send_message(ADMIN_ID, admin_msg, parse_mode="HTML"))
-            logger.info(f"✅ Уведомление админу отправлено")
-        except Exception as e:
-            logger.error(f"❌ Не удалось отправить админу: {e}")
+        asyncio.run_coroutine_threadsafe(bot.send_message(ADMIN_ID, admin_msg, parse_mode="HTML"), bot.loop)
         
         return jsonify({'success': True, 'order_id': order_id})
         
@@ -131,9 +119,9 @@ def create_order():
 
 @app.route('/health')
 def health():
-    return jsonify({'status': 'ok', 'service': 'RZ SHOP API', 'timestamp': asyncio.get_event_loop().time()})
+    return jsonify({'status': 'ok', 'service': 'RZ SHOP API'})
 
-# === БОТ (АДМИНКА) ===
+# === БОТ ===
 def get_admin_kb():
     return ReplyKeyboardMarkup(keyboard=[
         [KeyboardButton(text="📊 Заказы")],
@@ -152,14 +140,12 @@ def get_user_kb():
 async def cmd_start(message: Message):
     logger.info(f"👤 /start от {message.from_user.id} (@{message.from_user.username})")
     
-    # Сохраняем пользователя
     conn = get_db_connection()
     conn.execute('INSERT OR IGNORE INTO users (user_id, username) VALUES (?, ?)', 
                 (message.from_user.id, message.from_user.username))
     conn.commit()
     conn.close()
     
-    # Inline кнопка для Mini App
     inline_kb = InlineKeyboardMarkup(inline_keyboard=[
         [InlineKeyboardButton(text="🛍 ОТКРЫТЬ МАГАЗИН", web_app=WebAppInfo(url=MINI_APP_URL))]
     ])
@@ -212,7 +198,7 @@ async def my_orders(message: Message):
     conn.close()
     
     if not orders:
-        await message.answer("📭 У вас пока нет заказов\n\nЗакажите что-нибудь в магазине! 🛍")
+        await message.answer("📭 У вас пока нет заказов")
         return
     
     text = "📦 <b>Ваши заказы:</b>\n\n"
@@ -228,7 +214,7 @@ async def my_bonus(message: Message):
     res = conn.execute('SELECT balance FROM users WHERE user_id = ?', (message.from_user.id,)).fetchone()
     conn.close()
     bal = res[0] if res else 0
-    await message.answer(f"💰 <b>Ваш баланс:</b> {bal} ₽\n\nБонусы начисляются за доставку заказов!", parse_mode="HTML")
+    await message.answer(f"💰 <b>Ваш баланс:</b> {bal} ₽", parse_mode="HTML")
 
 @dp.message(F.text == "ℹ️ Поддержка")
 async def support(message: Message):
@@ -238,15 +224,13 @@ async def support(message: Message):
 async def admin_stats(message: Message):
     if message.from_user.id != ADMIN_ID:
         return
-    
     conn = get_db_connection()
     total_orders = conn.execute('SELECT COUNT(*) FROM orders').fetchone()[0]
     total_revenue = conn.execute('SELECT SUM(total_amount) FROM orders').fetchone()[0] or 0
     total_users = conn.execute('SELECT COUNT(*) FROM users').fetchone()[0]
     conn.close()
-    
     await message.answer(
-        f"📈 <b>Статистика магазина:</b>\n\n"
+        f"📈 <b>Статистика:</b>\n\n"
         f"📦 Заказов: {total_orders}\n"
         f"💰 Выручка: {total_revenue:,} ₽\n"
         f"👥 Пользователей: {total_users}",
@@ -258,27 +242,20 @@ async def back_menu(message: Message):
     kb = get_admin_kb() if message.from_user.id == ADMIN_ID else get_user_kb()
     await message.answer("📂 <b>Меню:</b>", reply_markup=kb, parse_mode="HTML")
 
-# === СМЕНА СТАТУСА ЗАКАЗА ===
+# === СМЕНА СТАТУСА ===
 @dp.callback_query(F.data.startswith("edit_"))
 async def edit_order(callback):
     oid = int(callback.data.split("_")[1])
-    
     conn = get_db_connection()
-    order = conn.execute('SELECT * FROM orders WHERE id = ?', (oid,)).fetchone()
+    row = conn.execute('SELECT * FROM orders WHERE id = ?', (oid,)).fetchone()
     conn.close()
     
-    if not order:
+    if not row:
         await callback.answer("❌ Заказ не найден", show_alert=True)
         return
     
     builder = InlineKeyboardBuilder()
-    statuses = {
-        "processing": "⏳ В обработке",
-        "packed": "📦 Собран",
-        "shipped": "🚚 Отправлен",
-        "delivered": "✅ Доставлен",
-        "cancelled": "❌ Отменен"
-    }
+    statuses = {"processing": "⏳ В обработке", "packed": "📦 Собран", "shipped": "🚚 Отправлен", "delivered": "✅ Доставлен", "cancelled": "❌ Отменен"}
     for key, val in statuses.items():
         builder.button(text=val, callback_data=f"status_{oid}_{key}")
     builder.button(text="🔙 Назад", callback_data="admin_back")
@@ -286,11 +263,10 @@ async def edit_order(callback):
     
     await callback.message.edit_text(
         f"📦 <b>Заказ #{oid}</b>\n\n"
-        f"Товары: {order['item_name']}\n"
+        f"Товары: {row['item_name']}\n"
         f"Сумма: {row['total_amount']:,} ₽\n"
         f"Клиент: {row['customer_name']}\n"
-        f"Телефон: {row['customer_phone']}\n"
-        f"Текущий статус: <b>{row['status']}</b>\n\n"
+        f"Статус: <b>{row['status']}</b>\n\n"
         f"Выберите новый статус:",
         reply_markup=builder.as_markup(),
         parse_mode="HTML"
@@ -299,44 +275,21 @@ async def edit_order(callback):
 @dp.callback_query(F.data.startswith("status_"))
 async def change_status(callback):
     parts = callback.data.split("_")
-    oid = int(parts[1])
-    new_status_key = parts[2]
-    
-    status_map = {
-        "processing": "В обработке",
-        "packed": "Собран",
-        "shipped": "Отправлен",
-        "delivered": "Доставлен",
-        "cancelled": "Отменен"
-    }
+    oid, new_status_key = int(parts[1]), parts[2]
+    status_map = {"processing": "В обработке", "packed": "Собран", "shipped": "Отправлен", "delivered": "Доставлен", "cancelled": "Отменен"}
     status_emoji = {"processing": "⏳", "packed": "📦", "shipped": "🚚", "delivered": "✅", "cancelled": "❌"}
     
     conn = get_db_connection()
     conn.execute('UPDATE orders SET status = ? WHERE id = ?', (status_map[new_status_key], oid))
-    row = conn.execute('SELECT user_id, customer_name FROM orders WHERE id = ?', (oid,)).fetchone()
+    row = conn.execute('SELECT user_id FROM orders WHERE id = ?', (oid,)).fetchone()
     conn.commit()
     conn.close()
     
-    await callback.answer(f"✅ Статус изменен на: {status_map[new_status_key]}")
+    await callback.answer(f"✅ Статус изменен")
     
-    # Уведомление клиенту
     if row and row['user_id']:
-        bonus_text = ""
-        if new_status_key == "delivered":
-            bonus_text = "\n\n🎁 Вам начислено 500 бонусов!"
-            conn = get_db_connection()
-            conn.execute('UPDATE users SET balance = balance + 500 WHERE user_id = ?', (row['user_id'],))
-            conn.commit()
-            conn.close()
-        
-        await bot.send_message(
-            row['user_id'],
-            f"{status_emoji.get(new_status_key, '📦')} <b>Статус заказа #{oid} изменен!</b>\n\n"
-            f"Новый статус: <b>{status_map[new_status_key]}</b>{bonus_text}",
-            parse_mode="HTML"
-        )
+        await bot.send_message(row['user_id'], f"📦 Заказ #{oid}\nНовый статус: <b>{status_map[new_status_key]}</b>", parse_mode="HTML")
     
-    # Возврат к списку заказов
     await asyncio.sleep(1.5)
     conn = get_db_connection()
     orders = conn.execute('SELECT id, item_name, status, total_amount FROM orders ORDER BY id DESC LIMIT 20').fetchall()
@@ -348,33 +301,33 @@ async def change_status(callback):
         builder.button(text=f"#{oid} | {status} | {total:,}₽", callback_data=f"edit_{oid}")
     builder.button(text="🔙 Назад", callback_data="admin_back")
     builder.adjust(1)
-    
     await callback.message.edit_text("📦 <b>Последние заказы:</b>", reply_markup=builder.as_markup(), parse_mode="HTML")
 
 @dp.callback_query(F.data == "admin_back")
 async def admin_back(callback):
     await callback.message.edit_text("👋 <b>Админ меню:</b>", reply_markup=get_admin_kb(), parse_mode="HTML")
 
-# === ЗАПУСК ===
-def run_bot():
-    logger.info("🤖 Запуск бота...")
-    asyncio.run(dp.start_polling(bot))
+# === ЗАПУСК (ИСПРАВЛЕННЫЙ) ===
+def run_flask():
+    """Запуск Flask в отдельном потоке"""
+    logger.info("🌐 Запуск веб-сервера на порту 8000...")
+    app.run(host='0.0.0.0', port=8000, debug=False, use_reloader=False)
 
-def main():
+async def main():
+    """Главная функция — запускает бота в главном потоке"""
     init_db()
     
-    # Запуск бота в отдельном потоке
-    bot_thread = threading.Thread(target=run_bot, daemon=True)
-    bot_thread.start()
-    logger.info("✅ Бот запущен в фоне")
+    # Запускаем Flask в фоновом потоке
+    flask_thread = threading.Thread(target=run_flask, daemon=True)
+    flask_thread.start()
     
-    # Запуск Flask веб-сервера
-    logger.info("🌐 Запуск веб-сервера на порту 8000...")
+    logger.info("✅ Flask запущен в фоне")
     logger.info("=" * 60)
     logger.info("🚀 RZ SHOP - Бот + API готовы к работе!")
     logger.info("=" * 60)
     
-    app.run(host='0.0.0.0', port=8000, debug=False)
+    # Запускаем бота в главном потоке (это важно!)
+    await dp.start_polling(bot)
 
 if __name__ == '__main__':
-    main()
+    asyncio.run(main())
