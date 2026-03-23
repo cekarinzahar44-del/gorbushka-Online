@@ -168,21 +168,66 @@
         .product-price { font-size: 16px; font-weight: 700; color: var(--primary); margin-bottom: 10px; text-align: center; }
 
         /* === VARIANTS === */
-        .variant-selector { display: flex; gap: 6px; margin-bottom: 10px; flex-wrap: wrap; justify-content: center; }
-        .variant-btn {
-            padding: 6px 12px; background: var(--bg-primary); border: 1px solid var(--border);
-            border-radius: 8px; font-size: 12px; cursor: pointer; transition: all 0.2s;
-        }
-        .variant-btn.active { background: var(--primary); border-color: var(--primary); }
-        .variant-btn.color-variant { width: 24px; height: 24px; border-radius: 50%; padding: 0; border: 2px solid var(--border); }
-        .variant-btn.color-variant.active { border: 2px solid #fff; box-shadow: 0 0 0 2px var(--primary); }
-        
-        .add-btn { 
-            background: linear-gradient(135deg, var(--primary), var(--primary-dark)); 
-            color: #ffffff; border: none; border-radius: 10px; padding: 10px; width: 100%; 
-            font-size: 14px; font-weight: 600; cursor: pointer; 
-        }
-        .add-btn:active { opacity: 0.8; }
+        /* === ИСПРАВЛЕННЫЕ VARIANT BUTTONS === */
+.variant-selector { 
+    display: flex; 
+    gap: 8px; 
+    margin-bottom: 12px; 
+    flex-wrap: wrap; 
+    justify-content: center; 
+}
+
+.variant-btn {
+    padding: 8px 16px; 
+    background: var(--bg-primary); 
+    border: 2px solid var(--border);
+    border-radius: 10px; 
+    font-size: 13px; 
+    font-weight: 600;
+    color: var(--text-primary);
+    cursor: pointer; 
+    transition: all 0.2s;
+    min-width: 60px;
+    text-align: center;
+}
+
+.variant-btn:active { 
+    transform: scale(0.95); 
+}
+
+/* Выбранная кнопка */
+.variant-btn.active { 
+    background: var(--primary); 
+    border-color: var(--primary);
+    color: #fff;
+    box-shadow: 0 4px 12px rgba(0,122,255,0.3);
+}
+
+/* Кнопки цветов (кружочки) */
+.variant-btn.color-variant { 
+    width: 32px; 
+    height: 32px; 
+    border-radius: 50%; 
+    padding: 0; 
+    border: 3px solid var(--border);
+    min-width: 32px;
+}
+
+.variant-btn.color-variant.active { 
+    border: 3px solid #fff; 
+    box-shadow: 0 0 0 2px var(--primary), 0 4px 12px rgba(0,0,0,0.3);
+    transform: scale(1.1);
+}
+
+/* Hover эффект (для десктопа) */
+@media (hover: hover) {
+    .variant-btn:hover {
+        border-color: var(--primary);
+    }
+    .variant-btn.active:hover {
+        opacity: 0.9;
+    }
+}
 
         /* === BOTTOM NAV (Исправлено) === */
         .bottom-nav {
