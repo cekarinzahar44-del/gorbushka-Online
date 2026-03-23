@@ -238,21 +238,43 @@
         .btn-buy-now:active, .btn-add-cart:active { opacity: 0.8; }
 
         /* === BOTTOM NAV === */
-        .bottom-nav {
-            position: fixed; bottom: 0; left: 0; right: 0;
-            background: var(--bg-primary); border-top: 1px solid var(--border);
-            display: flex; justify-content: space-around; padding: 10px 0;
-            z-index: 1000; padding-bottom: env(safe-area-inset-bottom);
-        }
-        .nav-item {
-            display: flex; flex-direction: column; align-items: center;
-            color: var(--text-secondary); font-size: 10px; gap: 4px;
-            cursor: pointer; transition: color 0.2s; width: 25%;
-            -webkit-tap-highlight-color: transparent;
-        }
-        .nav-item:active { transform: scale(0.95); }
-        .nav-item.active { color: var(--primary); }
-        .nav-icon { font-size: 22px; }
+        /* === BOTTOM NAV (Исправлено для iPhone) === */
+.bottom-nav {
+    position: fixed; 
+    bottom: 0; 
+    left: 0; 
+    right: 0;
+    background: var(--bg-primary); 
+    border-top: 1px solid var(--border);
+    display: flex; 
+    justify-content: space-around; 
+    padding: 12px 0; /* Увеличил верхний отступ */
+    z-index: 1000; 
+    
+    /* ГЛАВНОЕ ИСПРАВЛЕНИЕ: */
+    padding-bottom: calc(12px + env(safe-area-inset-bottom)); 
+    /* Добавляет отступ равный высоте полоски iPhone + 12px */
+    
+    box-shadow: 0 -4px 20px rgba(0,0,0,0.1); /* Тень сверху для красоты */
+}
+
+.nav-item {
+    display: flex; 
+    flex-direction: column; 
+    align-items: center;
+    color: var(--text-secondary); 
+    font-size: 11px; /* Чуть крупнее шрифт */
+    gap: 6px; /* Больше расстояние между иконкой и текстом */
+    cursor: pointer; 
+    transition: color 0.2s; 
+    width: 25%;
+    -webkit-tap-highlight-color: transparent;
+    padding-bottom: 4px; /* Небольшой отступ внутри кнопки */
+}
+
+.nav-item:active { transform: scale(0.95); }
+.nav-item.active { color: var(--primary); }
+.nav-icon { font-size: 24px; /* Иконки чуть крупнее */ }
 
         /* === MODAL (Full Screen) === */
         .modal { 
