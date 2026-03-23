@@ -61,504 +61,272 @@
         }
         .header-icons { display: flex; gap: 12px; align-items: center; flex-shrink: 0; }
         .header-icon { 
-            width: 40px;
-            height: 40px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 50%;
-            background: var(--bg-secondary);
-            font-size: 20px;
-            cursor: pointer;
+            width: 40px; height: 40px;
+            display: flex; align-items: center; justify-content: center;
+            border-radius: 50%; background: var(--bg-secondary);
+            font-size: 20px; cursor: pointer;
         }
         
         /* === HERO BANNER === */
         .hero-banner {
-            margin: 16px;
-            border-radius: 20px;
-            overflow: hidden;
-            position: relative;
-            height: 180px;
-            min-height: 180px;
+            margin: 16px; border-radius: 20px; overflow: hidden;
+            position: relative; height: 180px; min-height: 180px;
             background: linear-gradient(135deg, #1c1c1e 0%, #2c2c2e 100%);
-            display: flex;
-            align-items: center;
-            padding: 24px;
-            box-shadow: 0 12px 40px rgba(0,0,0,0.4);
-            flex-shrink: 0;
+            display: flex; align-items: center; padding: 24px;
+            box-shadow: 0 12px 40px rgba(0,0,0,0.4); flex-shrink: 0;
         }
         .hero-content { z-index: 2; max-width: 55%; }
-        .hero-title { 
-            font-size: 24px; 
-            font-weight: 700; 
-            margin-bottom: 8px; 
-            line-height: 1.2;
-        }
+        .hero-title { font-size: 24px; font-weight: 700; margin-bottom: 8px; line-height: 1.2; }
         .hero-subtitle { font-size: 14px; opacity: 0.8; margin-bottom: 16px; }
         .hero-btn {
-            background: var(--primary);
-            color: #fff;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 10px;
-            font-weight: 600;
-            cursor: pointer;
-            font-size: 14px;
+            background: var(--primary); color: #fff; border: none;
+            padding: 10px 20px; border-radius: 10px;
+            font-weight: 600; cursor: pointer; font-size: 14px;
         }
         .hero-shapes { 
-            position: absolute; 
-            right: 16px; 
-            top: 50%; 
-            transform: translateY(-50%); 
-            font-size: 80px; 
-            opacity: 0.15;
+            position: absolute; right: 16px; top: 50%; 
+            transform: translateY(-50%); font-size: 80px; opacity: 0.15;
         }
 
         /* === SEARCH & FILTER === */
-        .search-container { 
-            display: flex; 
-            gap: 10px; 
-            padding: 0 16px 16px; 
-            align-items: center; 
-        }
+        .search-container { display: flex; gap: 10px; padding: 0 16px 16px; align-items: center; }
         .search-input {
-            flex: 1; 
-            padding: 14px 18px;
-            background: var(--bg-secondary);
-            border: 1px solid var(--border);
-            border-radius: 14px;
-            color: var(--text-primary);
-            font-size: 15px;
-            min-width: 0;
+            flex: 1; padding: 14px 18px; background: var(--bg-secondary);
+            border: 1px solid var(--border); border-radius: 14px;
+            color: var(--text-primary); font-size: 15px; min-width: 0;
         }
         .filter-btn-icon {
-            background: var(--bg-secondary); 
-            border: 1px solid var(--border);
-            border-radius: 14px; 
-            padding: 14px 18px;
-            color: var(--text-primary); 
-            cursor: pointer; 
-            font-size: 18px;
-            flex-shrink: 0;
-            width: 50px;
+            background: var(--bg-secondary); border: 1px solid var(--border);
+            border-radius: 14px; padding: 14px 18px; color: var(--text-primary);
+            cursor: pointer; font-size: 18px; flex-shrink: 0; width: 50px;
         }
 
         /* === CATEGORIES === */
         .categories { 
-            display: flex; 
-            gap: 10px; 
-            padding: 0 16px 16px; 
-            overflow-x: auto; 
-            scrollbar-width: none;
-            flex-shrink: 0;
-            height: 44px;
-            align-items: center;
+            display: flex; gap: 10px; padding: 0 16px 16px; 
+            overflow-x: auto; scrollbar-width: none; flex-shrink: 0;
+            height: 44px; align-items: center;
         }
         .categories::-webkit-scrollbar { display: none; }
         .category-btn {
-            padding: 10px 20px;
-            background: var(--bg-secondary);
-            border: 1px solid var(--border);
-            border-radius: 20px;
-            color: var(--text-primary);
-            font-size: 14px;
-            font-weight: 500;
-            white-space: nowrap;
-            cursor: pointer;
-            height: 40px;
-            display: flex;
-            align-items: center;
+            padding: 10px 20px; background: var(--bg-secondary);
+            border: 1px solid var(--border); border-radius: 20px;
+            color: var(--text-primary); font-size: 14px; font-weight: 500;
+            white-space: nowrap; cursor: pointer; height: 40px;
+            display: flex; align-items: center;
         }
-        .category-btn.active { 
-            background: var(--primary); 
-            border-color: var(--primary);
-        }
+        .category-btn.active { background: var(--primary); border-color: var(--primary); }
 
         /* === PRODUCTS GRID === */
         .products-grid { 
-            display: grid; 
-            grid-template-columns: repeat(2, 1fr); 
-            gap: 14px; 
-            padding: 0 16px 20px;
+            display: grid; grid-template-columns: repeat(2, 1fr); 
+            gap: 14px; padding: 0 16px 20px;
         }
         
         .product-card { 
-            background: var(--bg-secondary); 
-            border-radius: 20px; 
-            padding: 14px; 
-            display: flex; 
-            flex-direction: column; 
-            position: relative;
-            border: 1px solid var(--border);
-            height: auto;
-            min-height: 340px;
+            background: var(--bg-secondary); border-radius: 20px; 
+            padding: 14px; display: flex; flex-direction: column; 
+            position: relative; border: 1px solid var(--border);
+            height: auto; min-height: 340px;
         }
         
         .favorite-btn {
-            position: absolute; 
-            top: 10px; 
-            right: 10px;
-            background: rgba(0,0,0,0.4); 
-            border: none; 
-            font-size: 20px; 
-            cursor: pointer;
-            width: 34px; 
-            height: 34px; 
-            border-radius: 50%;
-            display: flex; 
-            align-items: center; 
-            justify-content: center;
-            z-index: 10;
+            position: absolute; top: 10px; right: 10px;
+            background: rgba(0,0,0,0.4); border: none; font-size: 20px;
+            cursor: pointer; width: 34px; height: 34px; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center; z-index: 10;
         }
         .favorite-btn.active { color: var(--danger); }
         
         .product-image { 
-            width: 100%; 
-            height: 100px; 
+            width: 100%; height: 100px; 
             background: linear-gradient(135deg, var(--bg-card), var(--bg-secondary)); 
-            border-radius: 16px; 
-            margin-bottom: 12px; 
-            display: flex; 
-            align-items: center; 
-            justify-content: center; 
-            font-size: 50px;
-            flex-shrink: 0;
+            border-radius: 16px; margin-bottom: 12px; 
+            display: flex; align-items: center; justify-content: center; 
+            font-size: 50px; flex-shrink: 0;
         }
         .product-title { 
-            font-size: 14px; 
-            font-weight: 600; 
-            margin-bottom: 6px; 
-            text-align: center; 
-            line-height: 1.3;
-            min-height: 36px;
-            display: -webkit-box;
-            -webkit-line-clamp: 2;
-            -webkit-box-orient: vertical;
-            overflow: hidden;
+            font-size: 14px; font-weight: 600; margin-bottom: 6px; 
+            text-align: center; line-height: 1.3; min-height: 36px;
+            display: -webkit-box; -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical; overflow: hidden;
         }
         .product-rating { 
-            display: flex; 
-            align-items: center; 
-            justify-content: center; 
-            gap: 4px; 
-            margin-bottom: 8px; 
-            font-size: 12px;
-            flex-shrink: 0;
+            display: flex; align-items: center; justify-content: center; 
+            gap: 4px; margin-bottom: 8px; font-size: 12px; flex-shrink: 0;
         }
         .stars { color: var(--warning); }
         .rating-count { color: var(--text-secondary); font-size: 11px; }
         .product-price { 
-            font-size: 18px; 
-            font-weight: 700; 
-            color: var(--text-primary); 
-            margin-bottom: 12px; 
-            text-align: center;
-            flex-shrink: 0;
+            font-size: 18px; font-weight: 700; color: var(--text-primary); 
+            margin-bottom: 12px; text-align: center; flex-shrink: 0;
         }
 
         /* === VARIANTS === */
         .variant-selector { 
-            display: flex; 
-            gap: 6px; 
-            margin-bottom: 12px; 
-            flex-wrap: nowrap;
-            justify-content: center; 
-            overflow-x: auto;
-            padding-bottom: 2px;
-            flex-shrink: 0;
+            display: flex; gap: 6px; margin-bottom: 12px; 
+            flex-wrap: nowrap; justify-content: center; 
+            overflow-x: auto; padding-bottom: 2px; flex-shrink: 0;
         }
         .variant-selector::-webkit-scrollbar { display: none; }
-
         .variant-btn {
-            padding: 6px 12px; 
-            background: var(--bg-card); 
-            border: 1px solid var(--border);
-            border-radius: 8px; 
-            font-size: 12px; 
-            font-weight: 600;
-            color: var(--text-primary);
-            cursor: pointer; 
-            white-space: nowrap;
-            flex-shrink: 0;
+            padding: 6px 12px; background: var(--bg-card); 
+            border: 1px solid var(--border); border-radius: 8px;
+            font-size: 12px; font-weight: 600; color: var(--text-primary);
+            cursor: pointer; white-space: nowrap; flex-shrink: 0;
         }
-        .variant-btn.active { 
-            background: var(--primary); 
-            border-color: var(--primary);
-            color: #fff;
-        }
+        .variant-btn.active { background: var(--primary); border-color: var(--primary); color: #fff; }
         .variant-btn.color-variant { 
-            width: 28px; 
-            height: 28px; 
-            border-radius: 50%; 
-            padding: 0; 
-            border: 2px solid var(--border);
-            min-width: 28px;
+            width: 28px; height: 28px; border-radius: 50%; padding: 0; 
+            border: 2px solid var(--border); min-width: 28px;
         }
         .variant-btn.color-variant.active { 
-            border: 2px solid #fff; 
-            box-shadow: 0 0 0 2px var(--primary);
+            border: 2px solid #fff; box-shadow: 0 0 0 2px var(--primary);
         }
         
         /* === ACTION BUTTONS === */
         .product-actions {
-            margin-top: auto;
-            display: flex;
-            gap: 8px;
-            padding-top: 10px;
-            flex-shrink: 0;
+            margin-top: auto; display: flex; gap: 8px;
+            padding-top: 10px; flex-shrink: 0;
         }
         .btn-buy-now {
-            flex: 1.5;
-            background: linear-gradient(135deg, #ff9f0a, #ff9500);
-            color: #fff;
-            border: none;
-            border-radius: 10px;
-            padding: 10px;
-            font-size: 13px;
-            font-weight: 600;
-            cursor: pointer;
+            flex: 1.5; background: linear-gradient(135deg, #ff9f0a, #ff9500);
+            color: #fff; border: none; border-radius: 10px;
+            padding: 10px; font-size: 13px; font-weight: 600; cursor: pointer;
         }
         .btn-add-cart {
-            flex: 1;
-            background: var(--bg-card);
-            color: var(--primary);
-            border: 1px solid var(--border);
-            border-radius: 10px;
-            padding: 10px;
-            font-size: 13px;
-            font-weight: 600;
-            cursor: pointer;
+            flex: 1; background: var(--bg-card); color: var(--primary);
+            border: 1px solid var(--border); border-radius: 10px;
+            padding: 10px; font-size: 13px; font-weight: 600; cursor: pointer;
         }
 
         /* === BOTTOM NAV === */
         .bottom-nav {
-            position: fixed; 
-            bottom: 0; 
-            left: 0; 
-            right: 0;
-            background: var(--glass);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border-top: 1px solid var(--border);
-            display: flex; 
-            justify-content: space-around; 
-            padding: 10px 0;
+            position: fixed; bottom: 0; left: 0; right: 0;
+            background: var(--glass); backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px); border-top: 1px solid var(--border);
+            display: flex; justify-content: space-around; padding: 10px 0;
             padding-bottom: calc(10px + env(safe-area-inset-bottom));
-            z-index: 1000;
-            height: calc(60px + env(safe-area-inset-bottom));
+            z-index: 1000; height: calc(60px + env(safe-area-inset-bottom));
         }
         .nav-item {
-            display: flex; 
-            flex-direction: column; 
-            align-items: center;
-            color: var(--text-secondary); 
-            font-size: 10px; 
-            gap: 4px;
-            cursor: pointer; 
-            width: 25%;
-            padding: 6px 0;
+            display: flex; flex-direction: column; align-items: center;
+            color: var(--text-secondary); font-size: 10px; gap: 4px;
+            cursor: pointer; width: 25%; padding: 6px 0;
         }
         .nav-item.active { color: var(--primary); }
         .nav-icon { font-size: 22px; }
 
         /* === MODAL === */
         .modal { 
-            display: none; 
-            position: fixed; 
-            top: 0; 
-            left: 0; 
-            right: 0; 
-            bottom: 0; 
-            background: var(--bg-primary); 
-            z-index: 2000; 
-            overflow-y: auto;
+            display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; 
+            background: var(--bg-primary); z-index: 2000; overflow-y: auto;
         }
         .modal.open { display: block; }
-        
         .modal-header { 
-            display: flex; 
-            justify-content: space-between; 
-            align-items: center; 
-            padding: 20px; 
-            border-bottom: 1px solid var(--border);
-            position: sticky; 
-            top: 0; 
-            background: var(--glass);
-            backdrop-filter: blur(20px);
-            z-index: 10;
-            height: 70px;
+            display: flex; justify-content: space-between; align-items: center; 
+            padding: 20px; border-bottom: 1px solid var(--border);
+            position: sticky; top: 0; background: var(--glass);
+            backdrop-filter: blur(20px); z-index: 10; height: 70px;
         }
         .modal-title { font-size: 24px; font-weight: 700; }
         .close-btn { 
-            background: var(--bg-secondary);
-            border: none; 
-            font-size: 28px; 
-            color: var(--text-primary); 
-            cursor: pointer; 
-            padding: 0;
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            background: var(--bg-secondary); border: none; font-size: 28px; 
+            color: var(--text-primary); cursor: pointer; padding: 0;
+            width: 40px; height: 40px; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
         }
-        
-        .modal-content { 
-            padding: 20px; 
-            padding-bottom: 100px; 
-        }
+        .modal-content { padding: 20px; padding-bottom: 100px; }
 
         /* === PROFILE === */
         .profile-header { 
-            text-align: center; 
-            padding: 24px 0; 
-            border-bottom: 1px solid var(--border); 
-            margin-bottom: 24px; 
+            text-align: center; padding: 24px 0; 
+            border-bottom: 1px solid var(--border); margin-bottom: 24px; 
         }
         .profile-avatar {
-            width: 80px; 
-            height: 80px; 
-            border-radius: 50%; 
-            background: var(--primary);
-            display: flex; 
-            align-items: center; 
-            justify-content: center;
-            font-size: 36px; 
-            margin: 0 auto 12px; 
-            color: #fff;
+            width: 80px; height: 80px; border-radius: 50%; 
+            background: var(--primary); display: flex; 
+            align-items: center; justify-content: center;
+            font-size: 36px; margin: 0 auto 12px; color: #fff;
         }
         .profile-name { font-size: 20px; font-weight: 700; margin-bottom: 4px; }
         .profile-id { font-size: 14px; color: var(--text-secondary); }
         .profile-stats { 
-            display: grid; 
-            grid-template-columns: 1fr 1fr; 
-            gap: 12px; 
-            margin-bottom: 24px; 
+            display: grid; grid-template-columns: 1fr 1fr; 
+            gap: 12px; margin-bottom: 24px; 
         }
         .stat-card { 
-            background: var(--bg-secondary); 
-            padding: 20px; 
-            border-radius: 16px; 
-            text-align: center;
-            border: 1px solid var(--border);
+            background: var(--bg-secondary); padding: 20px; 
+            border-radius: 16px; text-align: center; border: 1px solid var(--border);
         }
         .stat-value { font-size: 28px; font-weight: 700; color: var(--primary); margin-bottom: 4px; }
         .stat-label { font-size: 13px; color: var(--text-secondary); }
         
         .referral-card {
             background: linear-gradient(135deg, #5856d6, #af52de);
-            border-radius: 20px; 
-            padding: 24px; 
-            margin-bottom: 24px; 
-            text-align: center;
+            border-radius: 20px; padding: 24px; margin-bottom: 24px; text-align: center;
         }
         .referral-title { font-size: 20px; font-weight: 700; margin-bottom: 8px; color: #fff; }
         .referral-text { font-size: 14px; opacity: 0.9; color: #fff; margin-bottom: 16px; }
         .referral-link-box {
-            background: rgba(255,255,255,0.15); 
-            padding: 14px; 
-            border-radius: 12px;
-            font-size: 13px; 
-            word-break: break-all; 
-            margin-bottom: 14px; 
-            cursor: pointer;
+            background: rgba(255,255,255,0.15); padding: 14px; border-radius: 12px;
+            font-size: 13px; word-break: break-all; margin-bottom: 14px; cursor: pointer;
         }
         .referral-btn {
-            background: #fff; 
-            color: #5856d6; 
-            border: none; 
-            padding: 14px 24px;
-            border-radius: 12px; 
-            font-weight: 700; 
-            cursor: pointer; 
-            font-size: 14px; 
-            width: 100%;
+            background: #fff; color: #5856d6; border: none; padding: 14px 24px;
+            border-radius: 12px; font-weight: 700; cursor: pointer; font-size: 14px; width: 100%;
         }
         
         .menu-list { display: flex; flex-direction: column; gap: 10px; }
         .menu-item {
-            background: var(--bg-secondary); 
-            padding: 18px; 
-            border-radius: 16px;
-            display: flex; 
-            justify-content: space-between; 
-            align-items: center;
-            cursor: pointer; 
-            border: 1px solid var(--border);
+            background: var(--bg-secondary); padding: 18px; border-radius: 16px;
+            display: flex; justify-content: space-between; align-items: center;
+            cursor: pointer; border: 1px solid var(--border);
         }
         .menu-item-left { display: flex; align-items: center; gap: 14px; }
         .menu-icon { 
-            font-size: 24px;
-            width: 40px;
-            height: 40px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: var(--bg-card);
-            border-radius: 10px;
+            font-size: 24px; width: 40px; height: 40px;
+            display: flex; align-items: center; justify-content: center;
+            background: var(--bg-card); border-radius: 10px;
         }
         .menu-text { font-weight: 600; font-size: 16px; }
         .menu-arrow { color: var(--text-secondary); }
 
         /* === CART === */
         .cart-item { 
-            display: flex; 
-            justify-content: space-between; 
-            align-items: center; 
-            padding: 18px 0; 
-            border-bottom: 1px solid var(--border);
+            display: flex; justify-content: space-between; align-items: center; 
+            padding: 18px 0; border-bottom: 1px solid var(--border);
         }
         .cart-item-info { flex: 1; }
         .cart-item-title { font-weight: 600; margin-bottom: 4px; font-size: 15px; }
         .cart-item-price { color: var(--text-secondary); font-size: 14px; }
         .quantity-controls { display: flex; align-items: center; gap: 10px; }
         .qty-btn { 
-            width: 32px; 
-            height: 32px; 
-            border-radius: 50%; 
-            border: none; 
-            background: var(--bg-card); 
-            color: var(--text-primary); 
-            font-size: 20px; 
-            cursor: pointer; 
-            display: flex; 
-            align-items: center; 
-            justify-content: center; 
+            width: 32px; height: 32px; border-radius: 50%; border: none; 
+            background: var(--bg-card); color: var(--text-primary); 
+            font-size: 20px; cursor: pointer; 
+            display: flex; align-items: center; justify-content: center; 
         }
         .qty-value { font-weight: 700; font-size: 16px; min-width: 24px; text-align: center; }
         
         .checkout-form { 
-            margin-top: 24px; 
-            background: var(--bg-secondary); 
-            padding: 24px; 
-            border-radius: 20px;
-            border: 1px solid var(--border);
+            margin-top: 24px; background: var(--bg-secondary); 
+            padding: 24px; border-radius: 20px; border: 1px solid var(--border);
         }
         .form-group { margin-bottom: 16px; }
         .form-label { display: block; margin-bottom: 8px; font-weight: 600; font-size: 14px; color: var(--text-secondary); }
         .form-input, .form-textarea { 
-            width: 100%; 
-            padding: 14px 18px; 
-            background: var(--bg-primary); 
-            border: 1px solid var(--border); 
-            border-radius: 14px; 
-            font-size: 15px; 
-            color: var(--text-primary);
+            width: 100%; padding: 14px 18px; background: var(--bg-primary); 
+            border: 1px solid var(--border); border-radius: 14px; 
+            font-size: 15px; color: var(--text-primary);
         }
         .form-textarea { resize: vertical; min-height: 80px; }
         .summary-row { display: flex; justify-content: space-between; padding: 14px 0; border-top: 1px solid var(--border); margin-top: 14px; }
         .summary-total { font-size: 24px; font-weight: 700; color: var(--primary); }
         
         .btn { 
-            border: none; 
-            border-radius: 14px; 
-            padding: 16px; 
-            width: 100%; 
-            font-size: 16px; 
-            font-weight: 700; 
-            cursor: pointer; 
-            margin-top: 16px;
+            border: none; border-radius: 14px; padding: 16px; width: 100%; 
+            font-size: 16px; font-weight: 700; cursor: pointer; margin-top: 16px;
         }
         .btn-primary { background: linear-gradient(135deg, var(--success), #248a3d); color: #fff; }
         .btn-secondary { background: var(--bg-primary); color: var(--text-primary); border: 1px solid var(--border); }
@@ -567,40 +335,31 @@
         .empty-state { text-align: center; padding: 60px 20px; color: var(--text-secondary); }
         .empty-icon { font-size: 60px; margin-bottom: 16px; }
         .toast { 
-            position: fixed; 
-            top: 20px; 
-            left: 50%; 
+            position: fixed; top: 20px; left: 50%; 
             transform: translateX(-50%) translateY(-100px); 
-            background: var(--bg-secondary); 
-            color: var(--text-primary); 
-            padding: 14px 24px; 
-            border-radius: 14px; 
+            background: var(--bg-secondary); color: var(--text-primary); 
+            padding: 14px 24px; border-radius: 14px; 
             box-shadow: 0 8px 32px rgba(0,0,0,0.4);
-            z-index: 3000; 
-            transition: transform 0.3s;
-            border: 1px solid var(--border);
+            z-index: 3000; transition: transform 0.3s; border: 1px solid var(--border);
         }
         .toast.show { transform: translateX(-50%) translateY(0); }
-        .order-card { background: var(--bg-secondary); border-radius: 16px; padding: 18px; margin-bottom: 14px; border: 1px solid var(--border); }
-        .order-header { display: flex; justify-content: space-between; margin-bottom: 12px; padding-bottom: 12px; border-bottom: 1px solid var(--border); }
+        .order-card { 
+            background: var(--bg-secondary); border-radius: 16px; 
+            padding: 18px; margin-bottom: 14px; border: 1px solid var(--border);
+        }
+        .order-header { 
+            display: flex; justify-content: space-between; 
+            margin-bottom: 12px; padding-bottom: 12px; 
+            border-bottom: 1px solid var(--border);
+        }
         .order-status { padding: 4px 12px; border-radius: 8px; font-size: 12px; font-weight: 600; }
-        .status-new { background: rgba(10,132,255,0.2); color: var(--primary); }
-
+        
         .view-section { display: none; }
         .view-section.active { display: block; }
         
-        /* Filter Panel */
         .filter-panel {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(0,0,0,0.95);
-            z-index: 3000;
-            padding: 20px;
-            overflow-y: auto;
+            display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.95); z-index: 3000; padding: 20px; overflow-y: auto;
         }
         .filter-panel.open { display: block; }
     </style>
@@ -690,16 +449,11 @@
                 <button class="btn btn-secondary" onclick="hideCheckout()">← Назад</button>
             </div>
         </div>
-
+        
+        <div id="success-message" style="display:none;"></div>
+        
         <div id="cart-actions" style="margin-top: 24px;">
             <button class="btn btn-primary" onclick="showCheckout()">Оформить заказ</button>
-        </div>
-        
-        <div id="success-message" style="display:none; text-align:center; padding: 40px 0;">
-            <div style="font-size: 60px; margin-bottom: 20px;">✅</div>
-            <h3>Заказ оформлен!</h3>
-            <p style="color:var(--text-secondary); margin: 20px 0;">Менеджер свяжется с вами.</p>
-            <button class="btn btn-primary" onclick="switchTab('home')">Вернуться</button>
         </div>
     </div>
 </div>
@@ -729,17 +483,17 @@
         </div>
 
         <div class="referral-card">
-            <div class="referral-title">🎁 Друга</div>
+            <div class="referral-title">🎁 Пригласи друга</div>
             <div class="referral-text">100₽ за каждого!</div>
             <div class="referral-link-box" id="referral-link" onclick="copyReferral()">Скопировать</div>
             <button class="referral-btn" onclick="shareReferral()">📤</button>
         </div>
 
         <div class="menu-list">
-            <div class="menu-item" onclick="renderOrderHistory()">
+            <div class="menu-item" onclick="renderUserOrders()">
                 <div class="menu-item-left">
                     <span class="menu-icon">📦</span>
-                    <span class="menu-text">Заказы</span>
+                    <span class="menu-text">Мои заказы</span>
                 </div>
                 <span class="menu-arrow">›</span>
             </div>
@@ -800,7 +554,7 @@
     tg.ready();
     tg.expand();
 
-    // ⚠️ ВСТАВЬ СЮДА СВОЙ BOTHOST URL
+    // ⚠️ ВСТАВЬ СЮДА СВОЙ ДОМЕН BOTHOST
     const API_URL = 'https://mybot.bothost.tech/create_order';
     const BOT_USERNAME = 'RZ_SHOP_ONLINE_BOT';
 
@@ -832,8 +586,9 @@
         document.querySelectorAll('.view-section').forEach(el => el.classList.remove('active'));
         document.querySelectorAll('.modal').forEach(el => el.classList.remove('open'));
 
-        if (tab === 'home') document.getElementById('view-home').classList.add('active');
-        else if (tab === 'favorites') {
+        if (tab === 'home') {
+            document.getElementById('view-home').classList.add('active');
+        } else if (tab === 'favorites') {
             document.getElementById('view-favorites').classList.add('active');
             renderFavoritesList();
         } else if (tab === 'cart') {
@@ -842,6 +597,7 @@
         } else if (tab === 'profile') {
             document.getElementById('view-profile').classList.add('open');
             updateProfileUI();
+            renderUserOrders(); // Загружаем заказы при открытии профиля
         }
     }
 
@@ -920,6 +676,9 @@
     function renderCart() {
         const container = document.getElementById('cart-items-container');
         const actions = document.getElementById('cart-actions');
+        const success = document.getElementById('success-message');
+        
+        success.style.display = 'none';
         
         if (Object.keys(cart).length === 0) {
             container.innerHTML = '<div class="empty-state"><div class="empty-icon">🛒</div><p>Пусто</p></div>';
@@ -967,6 +726,7 @@
         document.getElementById('checkout-section').style.display = 'none';
     }
 
+    // === ОФОРМЛЕНИЕ ЗАКАЗА С КРАСИВОЙ ОТБИВКОЙ ===
     async function submitOrder() {
         const name = document.getElementById('cf-name').value;
         const phone = document.getElementById('cf-phone').value;
@@ -1008,10 +768,46 @@
             const result = await response.json();
 
             if (result.success) {
+                // 🎉 КРАСИВАЯ ОТБИВКА
                 document.getElementById('checkout-section').style.display = 'none';
+                document.getElementById('cart-actions').style.display = 'none';
+                document.getElementById('success-message').innerHTML = `
+                    <div style="text-align:center; padding: 20px 0;">
+                        <div style="font-size: 70px; margin-bottom: 24px;">✅</div>
+                        <h3 style="font-size: 22px; font-weight: 700; margin-bottom: 16px;">Заказ оформлен!</h3>
+                        
+                        <div style="background: var(--bg-secondary); border-radius: 16px; padding: 20px; margin: 20px 0; text-align: left;">
+                            <div style="display: flex; justify-content: space-between; margin-bottom: 12px;">
+                                <span style="color: var(--text-secondary);">Номер заказа:</span>
+                                <span style="font-weight: 700;">#${result.order_id}</span>
+                            </div>
+                            <div style="display: flex; justify-content: space-between; margin-bottom: 12px;">
+                                <span style="color: var(--text-secondary);">Товары:</span>
+                                <span style="font-weight: 600; text-align: right; max-width: 60%;">${result.items}</span>
+                            </div>
+                            <div style="display: flex; justify-content: space-between; margin-bottom: 12px;">
+                                <span style="color: var(--text-secondary);">Сумма:</span>
+                                <span style="font-weight: 700; color: var(--primary);">${result.total.toLocaleString()} ₽</span>
+                            </div>
+                            <div style="display: flex; justify-content: space-between;">
+                                <span style="color: var(--text-secondary);">Статус:</span>
+                                <span style="background: rgba(10,132,255,0.2); color: var(--primary); padding: 4px 12px; border-radius: 8px; font-weight: 600;">🆕 Новый</span>
+                            </div>
+                        </div>
+                        
+                        <p style="color: var(--text-secondary); margin: 24px 0; line-height: 1.5;">
+                            🔍 Следите за статусом заказа в профиле приложения
+                        </p>
+                        
+                        <button class="btn btn-primary" onclick="switchTab('profile'); renderUserOrders();">👤 Перейти в профиль</button>
+                        <button class="btn btn-secondary" onclick="switchTab('home'); cart={}; renderCart(); renderProducts(products);">🏠 В каталог</button>
+                    </div>
+                `;
                 document.getElementById('success-message').style.display = 'block';
+                
                 cart = {};
                 renderCart();
+                renderProducts(products);
             } else {
                 showToast('❌ Ошибка: ' + result.error);
                 btn.disabled = false;
@@ -1022,6 +818,77 @@
             showToast('⚠️ Ошибка сети');
             btn.disabled = false;
             btn.innerText = '✅ Подтвердить';
+        }
+    }
+
+    // === ЗАГРУЗКА ЗАКАЗОВ ПОЛЬЗОВАТЕЛЯ ===
+    async function renderUserOrders() {
+        const list = document.getElementById('profile-orders-list');
+        const userId = tg.initDataUnsafe?.user?.id;
+        
+        if (!userId) {
+            list.innerHTML = '<div class="empty-state">Авторизуйтесь в Telegram</div>';
+            return;
+        }
+        
+        list.innerHTML = '<div style="text-align:center; padding: 20px;">⏳ Загрузка...</div>';
+        
+        try {
+            const getUrl = API_URL.replace('/create_order', '/get_orders');
+            const response = await fetch(`${getUrl}?user_id=${userId}`);
+            const result = await response.json();
+            
+            if (result.success && result.orders.length > 0) {
+                list.innerHTML = result.orders.map(o => {
+                    const statusEmoji = {
+                        'Новый': '🆕', 'В обработке': '⏳', 'Собран': '📦',
+                        'Отправлен': '🚚', 'Доставлен': '✅', 'Отменен': '❌'
+                    }[o.status] || '📋';
+                    
+                    const statusColor = {
+                        'Новый': 'rgba(10,132,255,0.2)', 'В обработке': 'rgba(255,149,0,0.2)',
+                        'Собран': 'rgba(52,199,89,0.2)', 'Отправлен': 'rgba(52,199,89,0.2)',
+                        'Доставлен': 'rgba(52,199,89,0.2)', 'Отменен': 'rgba(255,59,48,0.2)'
+                    }[o.status] || 'rgba(255,255,255,0.1)';
+                    
+                    const statusTextColor = {
+                        'Новый': 'var(--primary)', 'В обработке': 'var(--warning)',
+                        'Собран': 'var(--success)', 'Отправлен': 'var(--success)',
+                        'Доставлен': 'var(--success)', 'Отменен': 'var(--danger)'
+                    }[o.status] || 'var(--text-primary)';
+                    
+                    return `
+                        <div class="order-card">
+                            <div class="order-header">
+                                <span style="font-weight:700">Заказ #${o.id}</span>
+                                <span class="order-status" style="background:${statusColor}; color:${statusTextColor}">
+                                    ${statusEmoji} ${o.status}
+                                </span>
+                            </div>
+                            <div style="font-size:14px; color:var(--text-secondary); margin-bottom:10px; line-height:1.4;">
+                                ${o.items}
+                            </div>
+                            <div style="display:flex; justify-content:space-between; align-items:center;">
+                                <span style="font-size:13px; color:var(--text-secondary);">
+                                    ${new Date(o.date).toLocaleDateString('ru-RU')}
+                                </span>
+                                <span style="font-weight:700; color:var(--primary);">
+                                    ${o.total.toLocaleString()} ₽
+                                </span>
+                            </div>
+                            ${o.comment ? `<div style="margin-top:10px; padding-top:10px; border-top:1px solid var(--border); font-size:13px; color:var(--text-secondary);">💬 ${o.comment}</div>` : ''}
+                        </div>
+                    `;
+                }).join('');
+                
+                // Обновляем счётчик заказов в профиле
+                document.getElementById('stat-orders').innerText = result.orders.length;
+            } else {
+                list.innerHTML = '<div class="empty-state">📭 Нет заказов</div>';
+            }
+        } catch (e) {
+            console.error('❌ Ошибка загрузки заказов:', e);
+            list.innerHTML = '<div class="empty-state">⚠️ Не удалось загрузить</div>';
         }
     }
 
@@ -1043,7 +910,6 @@
     function updateProfileUI() {
         document.getElementById('profile-name').innerText = currentUser.first_name || "Гость";
         document.getElementById('profile-id').innerText = "ID: " + (currentUser.id || "???");
-        document.getElementById('stat-orders').innerText = orders.length;
         document.getElementById('referral-link').innerText = `https://t.me/${BOT_USERNAME}?start=ref_${currentUser.id}`;
     }
 
@@ -1054,12 +920,6 @@
 
     function shareReferral() {
         tg.openTelegramLink(`https://t.me/share/url?url=${encodeURIComponent(document.getElementById('referral-link').innerText)}`);
-    }
-
-    function renderOrderHistory() {
-        const list = document.getElementById('profile-orders-list');
-        if (orders.length === 0) { list.innerHTML = '<div class="empty-state">Нет заказов</div>'; return; }
-        list.innerHTML = orders.map(o => `<div class="order-card"><div class="order-header"><span>Заказ #${o.id}</span><span class="order-status status-${o.status.toLowerCase()}">${o.status}</span></div></div>`).join('');
     }
 
     function openSupport() { tg.openTelegramLink('https://t.me/support_manager'); }
@@ -1094,7 +954,6 @@
     }
 
     function scrollToProducts() { document.getElementById('products-container').scrollIntoView({behavior:'smooth'}); }
-    
     function openCompare() { showToast('Сравнение в разработке'); }
 
     function showToast(msg) {
