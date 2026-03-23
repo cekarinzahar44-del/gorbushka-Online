@@ -27,7 +27,6 @@
             color: var(--text-primary); 
             padding-bottom: 100px; 
             min-height: 100vh;
-            /* Убираем выделение при тапе */
             -webkit-touch-callout: none;
             -webkit-user-select: none;
             user-select: none;
@@ -49,15 +48,7 @@
         .logo { font-weight: 800; font-size: 22px; display: flex; align-items: center; gap: 8px; }
         .header-icons { display: flex; gap: 16px; align-items: center; }
         .header-icon { position: relative; cursor: pointer; font-size: 22px; }
-        .badge { 
-            position: absolute; top: -8px; right: -8px; 
-            background: var(--danger); color: #fff; 
-            font-size: 10px; font-weight: 700; 
-            min-width: 16px; height: 16px; 
-            border-radius: 8px; 
-            display: flex; align-items: center; justify-content: center;
-        }
-
+        
         /* === HERO BANNER === */
         .hero-banner {
             margin: 16px;
@@ -138,23 +129,29 @@
 
         /* === PRODUCTS GRID === */
         .products-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; padding: 0 16px 16px; }
+        
+        /* Исправленная карточка товара */
         .product-card { 
-            background: var(--bg-secondary); border-radius: 16px; padding: 14px; 
-            display: flex; flex-direction: column; transition: transform 0.2s; position: relative;
+            background: var(--bg-secondary); 
+            border-radius: 16px; 
+            padding: 12px; 
+            display: flex; 
+            flex-direction: column; 
+            transition: transform 0.2s; 
+            position: relative;
+            height: 100%; /* Одинаковая высота */
         }
         .product-card:active { transform: scale(0.98); }
+        
         .favorite-btn {
             position: absolute; top: 10px; right: 10px;
             background: rgba(0,0,0,0.3); border: none; font-size: 20px; cursor: pointer;
             width: 32px; height: 32px; border-radius: 50%;
             display: flex; align-items: center; justify-content: center;
+            z-index: 10;
         }
         .favorite-btn.active { color: var(--danger); background: rgba(255,59,48,0.2); }
-        .compare-checkbox {
-            position: absolute; top: 10px; left: 10px;
-            background: rgba(0,0,0,0.5); border: none; cursor: pointer;
-            width: 24px; height: 24px; border-radius: 6px; z-index: 10;
-        }
+        
         .product-image { 
             width: 100%; height: 100px; 
             background: linear-gradient(135deg, rgba(100,100,100,0.2), rgba(50,50,50,0.1)); 
@@ -167,69 +164,80 @@
         .rating-count { color: var(--text-secondary); }
         .product-price { font-size: 16px; font-weight: 700; color: var(--primary); margin-bottom: 10px; text-align: center; }
 
-        /* === VARIANTS === */
-        /* === ИСПРАВЛЕННЫЕ VARIANT BUTTONS === */
-.variant-selector { 
-    display: flex; 
-    gap: 8px; 
-    margin-bottom: 12px; 
-    flex-wrap: wrap; 
-    justify-content: center; 
-}
+        /* === ИСПРАВЛЕННЫЕ ВАРИАНТЫ (В СТРОЧКУ) === */
+        .variant-selector { 
+            display: flex; 
+            gap: 6px; 
+            margin-bottom: 12px; 
+            flex-wrap: nowrap; /* Не переносить */
+            justify-content: center; 
+            overflow-x: auto; /* Скролл если не влезают */
+            padding-bottom: 2px;
+        }
+        .variant-selector::-webkit-scrollbar { display: none; }
 
-.variant-btn {
-    padding: 8px 16px; 
-    background: var(--bg-primary); 
-    border: 2px solid var(--border);
-    border-radius: 10px; 
-    font-size: 13px; 
-    font-weight: 600;
-    color: var(--text-primary);
-    cursor: pointer; 
-    transition: all 0.2s;
-    min-width: 60px;
-    text-align: center;
-}
+        .variant-btn {
+            padding: 6px 12px; 
+            background: var(--bg-primary); 
+            border: 1px solid var(--border);
+            border-radius: 8px; 
+            font-size: 11px; 
+            font-weight: 600;
+            color: var(--text-primary);
+            cursor: pointer; 
+            transition: all 0.2s;
+            white-space: nowrap;
+            flex-shrink: 0;
+            min-width: 40px;
+        }
+        .variant-btn:active { transform: scale(0.95); }
+        .variant-btn.active { 
+            background: var(--primary); 
+            border-color: var(--primary);
+            color: #fff;
+            box-shadow: 0 2px 8px rgba(0,122,255,0.3);
+        }
+        .variant-btn.color-variant { 
+            width: 24px; height: 24px; border-radius: 50%; padding: 0; 
+            border: 2px solid var(--border); min-width: 24px;
+        }
+        .variant-btn.color-variant.active { 
+            border: 2px solid #fff; 
+            box-shadow: 0 0 0 2px var(--primary);
+        }
+        
+        /* === НОВЫЕ КНОПКИ ДЕЙСТВИЙ === */
+        .product-actions {
+            margin-top: auto; /* Прижать к низу */
+            display: flex;
+            gap: 8px;
+            padding-top: 8px;
+        }
+        .btn-buy-now {
+            flex: 1.5;
+            background: linear-gradient(135deg, #ff9500, #ff6b00);
+            color: #fff;
+            border: none;
+            border-radius: 10px;
+            padding: 10px;
+            font-size: 13px;
+            font-weight: 700;
+            cursor: pointer;
+        }
+        .btn-add-cart {
+            flex: 1;
+            background: linear-gradient(135deg, #bf5af2, #9f40e8);
+            color: #fff;
+            border: none;
+            border-radius: 10px;
+            padding: 10px;
+            font-size: 13px;
+            font-weight: 700;
+            cursor: pointer;
+        }
+        .btn-buy-now:active, .btn-add-cart:active { opacity: 0.8; }
 
-.variant-btn:active { 
-    transform: scale(0.95); 
-}
-
-/* Выбранная кнопка */
-.variant-btn.active { 
-    background: var(--primary); 
-    border-color: var(--primary);
-    color: #fff;
-    box-shadow: 0 4px 12px rgba(0,122,255,0.3);
-}
-
-/* Кнопки цветов (кружочки) */
-.variant-btn.color-variant { 
-    width: 32px; 
-    height: 32px; 
-    border-radius: 50%; 
-    padding: 0; 
-    border: 3px solid var(--border);
-    min-width: 32px;
-}
-
-.variant-btn.color-variant.active { 
-    border: 3px solid #fff; 
-    box-shadow: 0 0 0 2px var(--primary), 0 4px 12px rgba(0,0,0,0.3);
-    transform: scale(1.1);
-}
-
-/* Hover эффект (для десктопа) */
-@media (hover: hover) {
-    .variant-btn:hover {
-        border-color: var(--primary);
-    }
-    .variant-btn.active:hover {
-        opacity: 0.9;
-    }
-}
-
-        /* === BOTTOM NAV (Исправлено) === */
+        /* === BOTTOM NAV === */
         .bottom-nav {
             position: fixed; bottom: 0; left: 0; right: 0;
             background: var(--bg-primary); border-top: 1px solid var(--border);
@@ -240,14 +248,13 @@
             display: flex; flex-direction: column; align-items: center;
             color: var(--text-secondary); font-size: 10px; gap: 4px;
             cursor: pointer; transition: color 0.2s; width: 25%;
-            /* Убираем черный фон при нажатии */
             -webkit-tap-highlight-color: transparent;
         }
-        .nav-item:active { transform: scale(0.95); } /* Легкое уменьшение вместо фона */
+        .nav-item:active { transform: scale(0.95); }
         .nav-item.active { color: var(--primary); }
         .nav-icon { font-size: 22px; }
 
-        /* === MODAL (Full Screen for Cart/Profile) === */
+        /* === MODAL (Full Screen) === */
         .modal { 
             display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; 
             background: var(--bg-primary); z-index: 2000; overflow-y: auto;
@@ -351,7 +358,6 @@
         .order-status { padding: 4px 10px; border-radius: 8px; font-size: 12px; font-weight: 600; }
         .status-new { background: rgba(0,122,255,0.2); color: var(--primary); }
 
-        /* Скрываем элементы при переключении вкладок */
         .view-section { display: none; }
         .view-section.active { display: block; }
     </style>
@@ -411,7 +417,6 @@
     <div class="modal-content">
         <div id="cart-items-container"></div>
         
-        <!-- Форма оформления заказа (внутри корзины) -->
         <div id="checkout-section" style="display:none;">
             <div class="checkout-form">
                 <h3 style="margin-bottom: 20px;">Оформление заказа</h3>
@@ -443,7 +448,6 @@
             </div>
         </div>
 
-        <!-- Кнопка перехода к оформлению -->
         <div id="cart-actions" style="margin-top: 30px;">
             <button class="btn btn-primary" id="btn-to-checkout" onclick="showCheckout()">Оформить заказ</button>
         </div>
@@ -606,7 +610,7 @@
         } else if (tab === 'cart') {
             renderCart();
             document.getElementById('view-cart').classList.add('open');
-            hideCheckout(); // Сброс формы
+            hideCheckout();
         } else if (tab === 'profile') {
             document.getElementById('view-profile').classList.add('open');
             updateProfileUI();
@@ -630,7 +634,7 @@
             if (p.variants?.colors) {
                 variantsHTML += '<div class="variant-selector">';
                 p.variants.colors.forEach((c, i) => {
-                    variantsHTML += `<button class="variant-btn color-variant ${variant.color === i ? 'active' : ''}" style="background: ${c.code}" onclick="selectVariant(${p.id}, 'color', ${i}, event)"></button>`;
+                    variantsHTML += `<button class="variant-btn color-variant ${variant.color === i ? 'active' : ''}" style="background: ${c.code}" onclick="selectVariant(${p.id}, 'color', ${i}, event)" title="${c.name}"></button>`;
                 });
                 variantsHTML += '</div>';
             }
@@ -638,6 +642,12 @@
                 variantsHTML += '<div class="variant-selector">';
                 p.variants.storage.forEach((s, i) => {
                     variantsHTML += `<button class="variant-btn ${variant.storage === i ? 'active' : ''}" onclick="selectVariant(${p.id}, 'storage', ${i}, event)">${s.name}</button>`;
+                });
+                variantsHTML += '</div>';
+            } else if (p.variants?.size) {
+                variantsHTML += '<div class="variant-selector">';
+                p.variants.size.forEach((s, i) => {
+                    variantsHTML += `<button class="variant-btn ${variant.size === i ? 'active' : ''}" onclick="selectVariant(${p.id}, 'size', ${i}, event)">${s.name}</button>`;
                 });
                 variantsHTML += '</div>';
             }
@@ -651,7 +661,11 @@
                 <div class="product-rating"><span class="stars">${stars}</span><span class="rating-count">(${p.reviews})</span></div>
                 ${variantsHTML}
                 <div class="product-price">${finalPrice.toLocaleString()} ₽</div>
-                <button class="add-btn" onclick="addToCart(${p.id})">${inCart > 0 ? `В корзине (${inCart})` : 'В корзину'}</button>
+                
+                <div class="product-actions">
+                    <button class="btn-buy-now" onclick="buyNow(${p.id})">Купить сейчас</button>
+                    <button class="btn-add-cart" onclick="addToCart(${p.id})">В корзину</button>
+                </div>
             `;
             container.appendChild(card);
         });
@@ -678,6 +692,14 @@
         tg.HapticFeedback.impactOccurred('light');
         showToast('Добавлено в корзину');
         renderProducts(currentCategory === 'all' ? products : products.filter(p => p.category === currentCategory));
+    }
+
+    function buyNow(id) {
+        addToCart(id);
+        setTimeout(() => {
+            switchTab('cart');
+            showCheckout();
+        }, 300);
     }
 
     function removeFromCart(id) {
@@ -708,12 +730,12 @@
             if (p) {
                 const price = calculatePrice(p, data.variant);
                 total += price * data.quantity;
-                const vName = p.variants.storage ? p.variants.storage[data.variant.storage].name : '';
+                const vName = p.variants.storage ? p.variants.storage[data.variant.storage].name : (p.variants.size ? p.variants.size[data.variant.size].name : '');
                 html += `
                     <div class="cart-item">
                         <div class="cart-item-info">
                             <div class="cart-item-title">${p.title}</div>
-                            <div class="cart-item-price">${vName} • ${price.toLocaleString()} ₽</div>
+                            <div class="cart-item-price">${vName ? vName + ' • ' : ''}${price.toLocaleString()} ₽</div>
                         </div>
                         <div class="quantity-controls">
                             <button class="qty-btn" onclick="removeFromCart(${id})">−</button>
@@ -750,12 +772,10 @@
 
         if (!name || !phone || !address) return showToast('Заполните обязательные поля');
 
-        // Имитация отправки
         setTimeout(() => {
             document.getElementById('checkout-section').style.display = 'none';
             document.getElementById('success-message').style.display = 'block';
             
-            // Сохранение заказа
             const newOrder = { 
                 id: Date.now(), 
                 items: Object.keys(cart).length, 
@@ -784,7 +804,7 @@
         const list = document.getElementById('favorites-list');
         const favs = products.filter(p => favorites.includes(p.id));
         if (favs.length === 0) { list.innerHTML = '<div class="empty-state">Пусто</div>'; return; }
-        list.innerHTML = favs.map(p => `<div class="order-card" style="display:flex;justify-content:space-between;align-items:center"><div><b>${p.title}</b><br>${p.price.toLocaleString()} ₽</div><button class="btn btn-primary" style="width:auto;padding:10px" onclick="addToCart(${p.id})">В корзину</button></div>`).join('');
+        list.innerHTML = favs.map(p => `<div class="order-card" style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px"><div><b>${p.title}</b><br>${p.price.toLocaleString()} ₽</div><button class="btn btn-primary" style="width:auto;padding:10px" onclick="addToCart(${p.id})">В корзину</button></div>`).join('');
     }
 
     // === PROFILE ===
@@ -840,7 +860,6 @@
     
     function openCompare() {
         if(compareList.length === 0) return showToast('Выберите товары для сравнения (галочка слева сверху)');
-        // Упрощенная логика сравнения
         document.getElementById('compare-content').innerHTML = '<div class="empty-state">Функция сравнения в разработке</div>';
         document.getElementById('compare-modal').classList.add('open');
     }
