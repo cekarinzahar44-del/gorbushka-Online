@@ -128,14 +128,15 @@ def create_order():
         
         logger.info(f"✅ Заказ #{order_id} сохранён")
         
-        # Уведомление пользователю (только оповещение!)
-        user_msg = (
-            f"✅ <b>Заказ #{order_id} принят!</b>\n\n"
-            f"📦 {items_text}\n\n"
-            f"💰 <b>{total:,} ₽</b>\n\n"
-            f"📊 Статус: <b>Новый</b>\n\n"
-            f"🔍 Следите за статусом в профиле приложения 👆"
-        )
+        # Уведомление пользователю
+user_msg = (
+    f"✅ <b>Спасибо за заказ #{order_id}!</b>\n\n"
+    f"📦 {items_text}\n\n"
+    f"💰 <b>{total:,} ₽</b>\n\n"
+    f"📊 Статус: <b>Новый</b>\n\n"
+    f"🔍 <b>Следите за статусом заказа в вашем профиле</b>\n"
+    f"📱 Раздел: <b>Мои заказы</b> 👆"
+)
         try:
             if bot.loop and bot.loop.is_running():
                 asyncio.run_coroutine_threadsafe(
