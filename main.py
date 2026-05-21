@@ -166,10 +166,14 @@ async def cmd_start(message: Message, state: FSMContext):
 
     # ── Поддержка из магазина ──────────────────────────────────────────
     if param == 'support':
-        await message.answer(
+        # Удаляем сообщение со /start чтобы не показывать команду
+        try: await message.delete()
+        except: pass
+        await bot.send_message(
+            uid,
             "💬 <b>Поддержка RZ SHOP</b>\n\n"
-            "Напишите ваш вопрос, и мы ответим в ближайшее время.\n"
-            "Приложите фото или скриншот если нужно 👇",
+            "Напишите ваш вопрос — текст, фото или скриншот.\n"
+            "Мы ответим в ближайшее время 👇",
             parse_mode="HTML"
         )
         active_support[uid] = {'type': 'support'}
@@ -178,7 +182,11 @@ async def cmd_start(message: Message, state: FSMContext):
 
     # ── Отправить чек ──────────────────────────────────────────────────
     if param == 'receipt':
-        await message.answer(
+        # Удаляем сообщение со /start чтобы не показывать команду
+        try: await message.delete()
+        except: pass
+        await bot.send_message(
+            uid,
             "📸 <b>Отправка чека об оплате</b>\n\n"
             "Пришлите скриншот или фото чека оплаты.\n"
             "Администратор проверит и подтвердит заказ 👇",
@@ -478,6 +486,11 @@ def run_flask():
 
 async def run_bot():
     logger.info("🤖 Бот запускается...")
+    # Скрываем команды из меню (чтобы /start не светился)
+    from aiogram.types import BotCommand
+    await bot.set_my_commands([
+        BotCommand(command="start", description="Открыть магазин"),
+    ])
     await dp.start_polling(bot)
 
 def main():
