@@ -463,11 +463,12 @@ function render(list) {
     const stars = '★'.repeat(Math.floor(p.rating))+'☆'.repeat(5-Math.floor(p.rating));
     const curIdx = cardGalleryState[p.id] || 0;
 
-    // Слайды галереи
+    // Слайды галереи — background-image как надёжный фоллбэк
     const slides = p.photos.map((ph,i) => `
-      <div class="gallery-slide">
+      <div class="gallery-slide" style="background:#1c1c1e url(\'${ph}\') center/cover no-repeat;">
         <img src="${ph}" alt="${p.title}" loading="${i===0?'eager':'lazy'}"
-          onerror="this.parentNode.innerHTML='<div class=\\'no-img\\'>${p.fb}</div>'">
+          style="width:100%;height:100%;object-fit:cover;display:block"
+          onerror="this.style.display='none'">
       </div>`).join('');
 
     const dots = p.photos.length > 1 ? `<div class="gallery-dots">${
@@ -581,9 +582,10 @@ function buildDetailGallery(p) {
   const track = document.getElementById('d-track');
   const dots  = document.getElementById('d-dots');
   track.innerHTML = p.photos.map((ph,i)=>`
-    <div class="gallery-slide">
+    <div class="gallery-slide" style="background:#1c1c1e url('${ph}') center/cover no-repeat;height:300px;">
       <img src="${ph}" alt="${p.title}" loading="${i===0?'eager':'lazy'}"
-        onerror="this.parentNode.innerHTML='<div class=\\'no-img\\'>${p.fb}</div>'" style="height:300px;object-fit:cover">
+        style="width:100%;height:300px;object-fit:cover;display:block"
+        onerror="this.style.display='none'">
     </div>`).join('');
   dots.innerHTML = p.photos.length>1 ? p.photos.map((_,i)=>`<div class="g-dot ${i===0?'active':''}"></div>`).join('') : '';
   track.style.transform='translateX(0)';
@@ -727,7 +729,7 @@ async function submitOrder() {
             📸 После оплаты отправьте скриншот боту — нажмите кнопку ниже
           </p>
           <button class="btn btn-ok" onclick="sendReceiptToBot()">📤 Отправить чек в бот</button>
-          <button class="btn" style="background:linear-gradient(135deg,#0a84ff,#0056cc);color:#fff;margin-top:8px" onclick="navigator.clipboard.writeText('${PAY_PHONE}');showToast('Номер скопирован!')">📋 Скопировать номер</button>
+          <button class="btn" style="background:linear-gradient(135deg,#0a84ff,#0056cc);color:#fff;margin-top:8px" onclick="copyText('${PAY_PHONE}')">📋 Скопировать номер</button>
           <button class="btn btn-sec" onclick="goTab('profile');loadOrders()">📦 Мои заказы</button>
         </div>`;
       document.getElementById('ok-msg').style.display='block';
@@ -844,6 +846,34 @@ function showToast(msg) {
   const t=document.getElementById('toast');
   t.textContent=msg; t.classList.add('show');
   clearTimeout(t._t); t._t=setTimeout(()=>t.classList.remove('show'),2400);
+}
+
+// Копирование в буфер — работает в Telegram WebApp
+function copyText(text) {
+  try {
+    // Метод 1: navigator.clipboard
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(text).then(()=>showToast('✅ Номер скопирован!')).catch(()=>_fallbackCopy(text));
+    } else {
+      _fallbackCopy(text);
+    }
+  } catch(e) { _fallbackCopy(text); }
+}
+function _fallbackCopy(text) {
+  // Метод 2: textarea trick — работает везде
+  const el = document.createElement('textarea');
+  el.value = text;
+  el.style.cssText = 'position:fixed;top:-9999px;left:-9999px;opacity:0';
+  document.body.appendChild(el);
+  el.focus(); el.select();
+  try {
+    document.execCommand('copy');
+    showToast('✅ Номер скопирован!');
+  } catch(e) {
+    // Метод 3: показываем номер в alert чтобы скопировать вручную
+    prompt('Скопируйте номер:', text);
+  }
+  document.body.removeChild(el);
 }
 
 // Старт
