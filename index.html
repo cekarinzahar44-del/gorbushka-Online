@@ -13,7 +13,7 @@
             --text: #fff; --dim: rgba(255,255,255,0.55); --border: rgba(255,255,255,0.08);
             --glass: rgba(28,28,30,0.85);
         }
-        body { font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif; background: var(--bg); color: var(--text); padding-bottom: 80px; -webkit-user-select: none; user-select: none; overflow-x: hidden; }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif; background: var(--bg); color: var(--text); padding-bottom: 90px; -webkit-user-select: none; user-select: none; overflow-x: hidden; }
 
         /* HEADER */
         header { height: 56px; padding: 0 16px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; background: var(--glass); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); z-index: 100; border-bottom: 1px solid var(--border); }
@@ -44,19 +44,19 @@
         .grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; padding: 0 12px 16px; }
 
         /* CARD */
-        .card { background: var(--s1); border-radius: 16px; overflow: hidden; border: 1px solid var(--border); cursor: pointer; transition: transform 0.15s; position: relative; }
+        .card { background: var(--s1); border-radius: 16px; overflow: hidden; border: 1px solid var(--border); cursor: pointer; transition: transform 0.15s; position: relative; display: flex; flex-direction: column; }
         .card:active { transform: scale(0.97); }
 
-        /* ── ГАЛЕРЕЯ ФОТО СО СВАЙПОМ ── */
-        .card-gallery { position: relative; height: 150px; overflow: hidden; touch-action: pan-y; }
-        .gallery-track { display: flex; height: 100%; transition: transform 0.25s ease; }
-        .gallery-slide { min-width: 100%; height: 100%; flex-shrink: 0; }
-        .gallery-slide img { width: 100%; height: 100%; object-fit: cover; display: block; pointer-events: none; }
+        /* ── ИСПРАВЛЕННАЯ ГАЛЕРЕЯ ФОТО ── */
+        .card-gallery { position: relative; height: 150px; overflow: hidden; touch-action: pan-y; background: #121212; display: flex; align-items: center; justify-content: center; }
+        .gallery-track { display: flex; height: 100%; width: 100%; transition: transform 0.25s ease; }
+        .gallery-slide { min-width: 100%; height: 100%; flex-shrink: 0; display: flex; align-items: center; justify-content: center; background: #121212; overflow: hidden; }
+        .gallery-slide img { max-width: 100%; max-height: 100%; width: auto; height: auto; object-fit: contain; display: block; pointer-events: none; margin: auto; }
         .gallery-slide .no-img { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; font-size: 52px; background: linear-gradient(135deg, var(--s2), var(--s3)); }
-        .gallery-dots { position: absolute; bottom: 6px; left: 50%; transform: translateX(-50%); display: flex; gap: 4px; }
+        .gallery-dots { position: absolute; bottom: 6px; left: 50%; transform: translateX(-50%); display: flex; gap: 4px; z-index: 5; }
         .g-dot { width: 5px; height: 5px; border-radius: 50%; background: rgba(255,255,255,0.4); transition: all 0.2s; }
         .g-dot.active { background: #fff; width: 14px; border-radius: 3px; }
-        .gallery-prev, .gallery-next { position: absolute; top: 50%; transform: translateY(-50%); background: rgba(0,0,0,0.45); border: none; color: #fff; width: 26px; height: 26px; border-radius: 50%; font-size: 13px; cursor: pointer; display: flex; align-items: center; justify-content: center; opacity: 0; transition: opacity 0.2s; z-index: 5; backdrop-filter: blur(4px); }
+        .gallery-prev, .gallery-next { position: absolute; top: 50%; transform: translateY(-50%); background: rgba(0,0,0,0.55); border: none; color: #fff; width: 28px; height: 28px; border-radius: 50%; font-size: 14px; font-weight: bold; cursor: pointer; display: flex; align-items: center; justify-content: center; opacity: 0; transition: opacity 0.2s; z-index: 5; backdrop-filter: blur(4px); }
         .card-gallery:hover .gallery-prev, .card-gallery:hover .gallery-next { opacity: 1; }
         .gallery-prev { left: 6px; }
         .gallery-next { right: 6px; }
@@ -64,9 +64,9 @@
         .fav-btn { position: absolute; top: 8px; right: 8px; background: rgba(0,0,0,0.45); border: none; font-size: 17px; cursor: pointer; width: 30px; height: 30px; border-radius: 50%; display: flex; align-items: center; justify-content: center; z-index: 6; backdrop-filter: blur(4px); }
 
         /* CARD INFO */
-        .card-body { padding: 10px 10px 11px; }
+        .card-body { padding: 10px 10px 11px; flex-grow: 1; display: flex; flex-direction: column; }
         .card-brand { font-size: 9px; color: var(--dim); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 2px; }
-        .card-title { font-size: 13px; font-weight: 600; margin-bottom: 5px; line-height: 1.3; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+        .card-title { font-size: 13px; font-weight: 600; margin-bottom: 5px; line-height: 1.3; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; height: 34px; }
         .card-stars { font-size: 10px; color: var(--warning); margin-bottom: 7px; }
         .card-stars span { color: var(--dim); font-size: 9px; }
 
@@ -77,13 +77,13 @@
         .clr-chip { width: 18px; height: 18px; border-radius: 50%; border: 2px solid var(--border); cursor: pointer; flex-shrink: 0; }
         .clr-chip.on { border: 2px solid #fff; box-shadow: 0 0 0 2px var(--primary); }
 
-        .card-price { font-size: 16px; font-weight: 800; margin-bottom: 9px; }
+        .card-price { font-size: 16px; font-weight: 800; margin-bottom: 9px; margin-top: auto; }
         .card-acts { display: flex; gap: 6px; }
         .btn-buy { flex: 1.4; background: linear-gradient(135deg, #ff9f0a, #ff6b00); color: #fff; border: none; border-radius: 8px; padding: 8px 4px; font-size: 11px; font-weight: 700; cursor: pointer; }
         .btn-cart { flex: 1; background: rgba(10,132,255,0.14); color: var(--primary); border: 1px solid rgba(10,132,255,0.3); border-radius: 8px; padding: 8px 4px; font-size: 11px; font-weight: 600; cursor: pointer; }
 
-        /* NAV */
-        .nav { position: fixed; bottom: 0; left: 0; right: 0; background: var(--glass); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border-top: 1px solid var(--border); display: flex; justify-content: space-around; padding: 7px 0 calc(7px + env(safe-area-inset-bottom)); z-index: 1000; }
+        /* NAV — ТАББАР С ИСПРАВЛЕННЫМ ОТСТУПОМ iOS */
+        .nav { position: fixed; bottom: 0; left: 0; right: 0; background: #1c1c1e; border-top: 1px solid var(--border); display: flex; justify-content: space-around; padding: 8px 0 calc(8px + env(safe-area-inset-bottom, 12px)); z-index: 1000; box-shadow: 0 -4px 16px rgba(0,0,0,0.5); }
         .ni { display: flex; flex-direction: column; align-items: center; color: var(--dim); font-size: 10px; gap: 2px; cursor: pointer; padding: 3px 0; width: 25%; }
         .ni.on { color: var(--primary); }
         .ni-icon { font-size: 22px; position: relative; }
@@ -95,17 +95,18 @@
         .modal-hdr { height: 56px; display: flex; justify-content: space-between; align-items: center; padding: 0 16px; border-bottom: 1px solid var(--border); position: sticky; top: 0; background: var(--glass); backdrop-filter: blur(20px); z-index: 10; }
         .modal-title { font-size: 19px; font-weight: 700; }
         .close-x { background: var(--s1); border: none; color: var(--text); width: 34px; height: 34px; border-radius: 50%; font-size: 20px; display: flex; align-items: center; justify-content: center; cursor: pointer; }
-        .pad { padding: 16px; padding-bottom: 90px; }
+        .pad { padding: 16px; padding-bottom: 110px; }
 
-        /* DETAIL */
+        /* DETAIL — ИСПРАВЛЕННАЯ ГАЛЕРЕЯ ДЕТАЛКИ */
         .detail { display: none; position: fixed; inset: 0; background: var(--bg); z-index: 2500; overflow-y: auto; }
         .detail.open { display: block; }
-        .detail-gallery { position: relative; height: 300px; overflow: hidden; touch-action: pan-y; }
+        .detail-gallery { position: relative; height: 300px; overflow: hidden; touch-action: pan-y; background: #121212; display: flex; align-items: center; justify-content: center; }
         .detail-gallery .gallery-track { height: 100%; }
-        .detail-gallery .gallery-slide img { width: 100%; height: 300px; object-fit: cover; }
+        .detail-gallery .gallery-slide { display: flex; align-items: center; justify-content: center; background: #121212; }
+        .detail-gallery .gallery-slide img { max-width: 100%; max-height: 100%; width: auto; height: 300px; object-fit: contain; margin: auto; }
         .detail-gallery .no-img { height: 300px; font-size: 100px; }
         .detail-back { position: absolute; top: 14px; left: 14px; z-index: 10; background: rgba(0,0,0,0.5); border: none; color: #fff; width: 36px; height: 36px; border-radius: 50%; font-size: 19px; cursor: pointer; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(8px); }
-        .detail-body { padding: 18px 16px 100px; }
+        .detail-body { padding: 18px 16px 120px; }
         .d-brand { font-size: 12px; color: var(--dim); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 5px; }
         .d-title { font-size: 22px; font-weight: 700; margin-bottom: 12px; }
         .d-price { font-size: 28px; font-weight: 800; color: var(--primary); margin-bottom: 4px; }
@@ -116,7 +117,7 @@
         .d-specs.d-spec { background: var(--s1); padding: 10px; border-radius: 10px; border: 1px solid var(--border); }
         .d-spec-lbl { font-size: 10px; color: var(--dim); margin-bottom: 2px; }
         .d-spec-val { font-size: 13px; font-weight: 600; }
-        .d-acts { position: sticky; bottom: 0; background: var(--bg); padding: 14px 0; border-top: 1px solid var(--border); display: flex; gap: 10px; }
+        .d-acts { position: sticky; bottom: 0; background: var(--bg); padding: 14px 0 calc(14px + env(safe-area-inset-bottom, 0px)); border-top: 1px solid var(--border); display: flex; gap: 10px; z-index: 10; }
 
         /* PROFILE */
         .ph { text-align: center; padding: 20px 0; border-bottom: 1px solid var(--border); margin-bottom: 16px; }
@@ -137,7 +138,7 @@
 
         /* CART */
         .ci { display: flex; gap: 10px; align-items: center; padding: 12px 0; border-bottom: 1px solid var(--border); }
-        .ci-img { width: 60px; height: 60px; border-radius: 10px; object-fit: cover; flex-shrink: 0; }
+        .ci-img { width: 60px; height: 60px; border-radius: 10px; object-fit: contain; background: #121212; flex-shrink: 0; }
         .ci-info { flex: 1; min-width: 0; }
         .ci-name { font-weight: 600; font-size: 13px; margin-bottom: 2px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
         .ci-var { font-size: 11px; color: var(--dim); margin-bottom: 3px; }
@@ -166,7 +167,7 @@
         .view-sec.on { display: block; }
         .fp { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.97); z-index: 3000; padding: 20px; overflow-y: auto; }
         .fp.open { display: block; }
-        .toast { position: fixed; bottom: 85px; left: 50%; transform: translateX(-50%) translateY(16px); background: rgba(28,28,30,0.96); color: #fff; padding: 11px 20px; border-radius: 12px; box-shadow: 0 8px 32px rgba(0,0,0,0.4); z-index: 4000; transition: all 0.28s; opacity: 0; border: 1px solid var(--border); font-size: 13px; white-space: nowrap; }
+        .toast { position: fixed; bottom: 95px; left: 50%; transform: translateX(-50%) translateY(16px); background: rgba(28,28,30,0.96); color: #fff; padding: 11px 20px; border-radius: 12px; box-shadow: 0 8px 32px rgba(0,0,0,0.4); z-index: 4000; transition: all 0.28s; opacity: 0; border: 1px solid var(--border); font-size: 13px; white-space: nowrap; }
         .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
     </style>
 </head>
@@ -457,9 +458,8 @@ function render(list) {
     const curIdx = cardGalleryState[p.id] || 0;
 
     const slides = p.photos.map((ph,i) => `
-      <div class="gallery-slide" style="background:#1c1c1e url(\'${ph}\') center/cover no-repeat;">
+      <div class="gallery-slide">
         <img src="${ph}" alt="${p.title}" loading="${i===0?'eager':'lazy'}"
-          style="width:100%;height:100%;object-fit:cover;display:block"
           onerror="this.style.display='none'">
       </div>`).join('');
 
@@ -607,14 +607,14 @@ function buildDetailGallery(p) {
   const track = document.getElementById('d-track');
   const dots  = document.getElementById('d-dots');
   track.innerHTML = p.photos.map((ph,i)=>`
-    <div class="gallery-slide" style="background:#1c1c1e url('${ph}') center/cover no-repeat;height:300px;">
+    <div class="gallery-slide" style="height:300px;">
       <img src="${ph}" alt="${p.title}" loading="${i===0?'eager':'lazy'}"
-        style="width:100%;height:300px;object-fit:cover;display:block"
         onerror="this.style.display='none'">
     </div>`).join('');
   dots.innerHTML = p.photos.length>1 ? p.photos.map((_,i)=>`<div class="g-dot ${i===0?'active':''}"></div>`).join('') : '';
   track.style.transform='translateX(0)';
 }
+// (Остальные JS функции полностью сохранены...)
 function dGalleryPrev() {
   const p=products.find(x=>x.id===detId);
   dIdx=Math.max(dIdx-1,0); updateDetailGallery(p);
@@ -794,7 +794,6 @@ function toggleFav(id,e) {
   if(i>-1) favs.splice(i,1); else favs.push(id);
   localStorage.setItem('rz_f',JSON.stringify(favs));
   
-  // Перерисовываем иконку лайка без полного рендеринга
   const cardEl = document.getElementById(`card-${id}`);
   if(cardEl) {
     const favBtn = cardEl.querySelector('.fav-btn');
@@ -808,7 +807,7 @@ function renderFavs() {
   if(!list.length){ el.innerHTML='<div class="empty"><div class="empty-ico">❤️</div><p>Избранное пусто</p></div>'; return; }
   el.innerHTML=list.map(p=>`
     <div style="display:flex;align-items:center;gap:10px;padding:10px;background:var(--s1);border-radius:12px;margin-bottom:8px;border:1px solid var(--border)">
-      <img src="${p.photos[0]}" style="width:56px;height:56px;border-radius:9px;object-fit:cover" onerror="this.style.display='none'">
+      <img src="${p.photos[0]}" style="width:56px;height:56px;border-radius:9px;object-fit:contain;background:#121212" onerror="this.style.display='none'">
       <div style="flex:1;min-width:0">
         <div style="font-weight:600;font-size:13px;margin-bottom:2px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${p.title}</div>
         <div style="color:var(--primary);font-weight:700;font-size:13px">${price(p).toLocaleString()} ₽</div>
