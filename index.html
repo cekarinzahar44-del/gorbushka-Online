@@ -113,7 +113,7 @@
         .d-sec { font-size: 12px; font-weight: 700; color: var(--dim); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 8px; margin-top: 18px; }
         .d-desc { font-size: 15px; line-height: 1.6; color: rgba(255,255,255,0.8); }
         .d-specs { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
-        .d-spec { background: var(--s1); padding: 10px; border-radius: 10px; border: 1px solid var(--border); }
+        .d-specs.d-spec { background: var(--s1); padding: 10px; border-radius: 10px; border: 1px solid var(--border); }
         .d-spec-lbl { font-size: 10px; color: var(--dim); margin-bottom: 2px; }
         .d-spec-val { font-size: 13px; font-weight: 600; }
         .d-acts { position: sticky; bottom: 0; background: var(--bg); padding: 14px 0; border-top: 1px solid var(--border); display: flex; gap: 10px; }
@@ -172,7 +172,6 @@
 </head>
 <body>
 
-<!-- HOME -->
 <div id="view-home" class="view-sec on">
   <header>
     <div class="logo">🛍 RZ SHOP</div>
@@ -200,13 +199,11 @@
   <div class="grid" id="grid"></div>
 </div>
 
-<!-- FAVORITES -->
 <div id="view-fav" class="view-sec">
   <header><div class="logo">❤️ Избранное</div></header>
   <div class="pad" id="fav-list"></div>
 </div>
 
-<!-- CART -->
 <div id="view-cart" class="modal">
   <div class="modal-hdr"><div class="modal-title">Корзина</div><button class="close-x" onclick="goTab('home')">✕</button></div>
   <div class="pad">
@@ -230,7 +227,6 @@
   </div>
 </div>
 
-<!-- PROFILE -->
 <div id="view-profile" class="modal">
   <div class="modal-hdr"><div class="modal-title">Профиль</div><button class="close-x" onclick="goTab('home')">✕</button></div>
   <div class="pad">
@@ -261,7 +257,6 @@
   </div>
 </div>
 
-<!-- DETAIL -->
 <div class="detail" id="detail">
   <button class="detail-back" onclick="closeDetail()">←</button>
   <div class="detail-gallery" id="d-gallery">
@@ -291,7 +286,6 @@
   </div>
 </div>
 
-<!-- FILTER -->
 <div class="fp" id="fp">
   <div style="display:flex;justify-content:space-between;margin-bottom:24px"><h2 style="font-size:20px">Фильтры</h2><button onclick="document.getElementById('fp').classList.remove('open')" style="background:none;border:none;color:#fff;font-size:24px">✕</button></div>
   <div style="margin-bottom:18px">
@@ -305,7 +299,6 @@
   <button onclick="resetFilter()" style="width:100%;padding:14px;background:var(--s1);border:1px solid var(--border);border-radius:12px;color:#fff">Сбросить</button>
 </div>
 
-<!-- NAV -->
 <div class="nav">
   <div class="ni on" id="ni-home" onclick="goTab('home')"><div class="ni-icon">🏠</div><span>Главная</span></div>
   <div class="ni" id="ni-fav" onclick="goTab('fav')"><div class="ni-icon">❤️</div><span>Избранное</span></div>
@@ -463,7 +456,6 @@ function render(list) {
     const stars = '★'.repeat(Math.floor(p.rating))+'☆'.repeat(5-Math.floor(p.rating));
     const curIdx = cardGalleryState[p.id] || 0;
 
-    // Слайды галереи — background-image как надёжный фоллбэк
     const slides = p.photos.map((ph,i) => `
       <div class="gallery-slide" style="background:#1c1c1e url(\'${ph}\') center/cover no-repeat;">
         <img src="${ph}" alt="${p.title}" loading="${i===0?'eager':'lazy'}"
@@ -494,6 +486,7 @@ function render(list) {
 
     const card = document.createElement('div');
     card.className = 'card';
+    card.id = `card-${p.id}`;
     card.onclick = () => openDetail(p.id);
     card.innerHTML = `
       <div class="card-gallery" id="cg-${p.id}"
@@ -510,7 +503,8 @@ function render(list) {
         <div class="card-brand">${p.brand}</div>
         <div class="card-title" onclick="openDetail(${p.id})" style="cursor:pointer">${p.title}</div>
         <div class="card-stars">${stars} <span>(${p.rev})</span></div>
-        ${storChips}${clrChips}
+        <div class="storage-chips-wrapper">${storChips}</div>
+        <div class="color-chips-wrapper">${clrChips}</div>
         <div class="card-price">${price(p).toLocaleString()} ₽</div>
         <div class="card-acts">
           <button class="btn-buy" onclick="buyNow(${p.id})">Купить</button>
@@ -522,12 +516,12 @@ function render(list) {
 }
 
 // ── СВАЙП ГАЛЕРЕИ НА КАРТОЧКЕ ──────────────────────────────────────────
-const _ts = {}; // touch start x
+const _ts = {}; 
 function cgTouchStart(pid, e) { _ts[pid] = e.touches[0].clientX; }
 function cgTouchEnd(pid, e) {
   if(_ts[pid] === undefined) return;
   const dx = e.changedTouches[0].clientX - _ts[pid];
-  if(Math.abs(dx) < 30) return;
+  if(Math.abs(dx) < 40) return;
   const p = products.find(x=>x.id===pid);
   if(!p) return;
   const cur = cardGalleryState[pid]||0;
@@ -547,8 +541,39 @@ function updateCardGallery(pid) {
   if(container) container.querySelectorAll('.g-dot').forEach((d,i)=>d.classList.toggle('active',i===idx));
 }
 
-function setSi(pid,i,e) { e.stopPropagation(); getV(pid).si=i; rerender(); }
-function setCi(pid,i,e) { e.stopPropagation(); getV(pid).ci=i; rerender(); }
+// ── ТОЧЕЧНОЕ ОБНОВЛЕНИЕ КАРТОЧКИ (ФИКС БАГА С ДЁРГАНИЕМ) ────────────────
+function setSi(pid, i, e) { 
+  e.stopPropagation(); 
+  getV(pid).si = i; 
+  updateCardUI(pid); 
+}
+function setCi(pid, i, e) { 
+  e.stopPropagation(); 
+  getV(pid).ci = i; 
+  updateCardUI(pid); 
+}
+
+function updateCardUI(pid) {
+  const p = products.find(x=>x.id===pid);
+  const cardEl = document.getElementById(`card-${pid}`);
+  if (!p || !cardEl) return;
+  
+  const v = getV(pid);
+  
+  // Обновляем цену
+  const priceEl = cardEl.querySelector('.card-price');
+  if (priceEl) priceEl.textContent = price(p).toLocaleString() + ' ₽';
+  
+  // Обновляем активные классы у чипов памяти
+  cardEl.querySelectorAll('.storage-chips-wrapper .chip').forEach((chip, idx) => {
+    chip.classList.toggle('on', v.si === idx);
+  });
+  
+  // Обновляем активные классы у чипов цвета
+  cardEl.querySelectorAll('.color-chips-wrapper .clr-chip').forEach((chip, idx) => {
+    chip.classList.toggle('on', v.ci === idx);
+  });
+}
 
 // ── ДЕТАЛЬНАЯ КАРТОЧКА ─────────────────────────────────────────────────
 let dTouchX = null;
@@ -610,8 +635,8 @@ function buildDetailVariants(p) {
     `<div class="clr-chip ${v.ci===i?'on':''}" style="background:${c.c};width:28px;height:28px" onclick="dSetCi(${i})" title="${c.n}"></div>`).join('') : '';
   document.getElementById('d-color-name').textContent = p.colors[v.ci]?.n||'';
 }
-function dSetSi(i) { if(!detId) return; getV(detId).si=i; buildDetailVariants(products.find(x=>x.id===detId)); updateDetailPrice(); rerender(); }
-function dSetCi(i) { if(!detId) return; getV(detId).ci=i; buildDetailVariants(products.find(x=>x.id===detId)); rerender(); }
+function dSetSi(i) { if(!detId) return; getV(detId).si=i; buildDetailVariants(products.find(x=>x.id===detId)); updateDetailPrice(); updateCardUI(detId); }
+function dSetCi(i) { if(!detId) return; getV(detId).ci=i; buildDetailVariants(products.find(x=>x.id===detId)); updateCardUI(detId); }
 function updateDetailPrice() {
   if(!detId) return;
   const p=products.find(x=>x.id===detId);
@@ -622,7 +647,7 @@ function updateDetailPrice() {
 }
 function closeDetail() { document.getElementById('detail').classList.remove('open'); }
 function dBuy()  { addCart(detId); closeDetail(); setTimeout(()=>{ goTab('cart'); showForm(); },200); }
-function dCart() { addCart(detId); showToast('✅ Добавлено в корзину'); }
+function dCart() { addCart(detId); }
 
 // ── КОРЗИНА ────────────────────────────────────────────────────────────
 function addCart(id) {
@@ -633,7 +658,6 @@ function addCart(id) {
   cart[key].qty++;
   updateBadge();
   showToast('✅ Добавлено в корзину');
-  rerender();
 }
 function remCart(key) { if(cart[key]){cart[key].qty--;if(cart[key].qty<=0)delete cart[key];} updateBadge(); renderCart(); }
 function addCartKey(key) { if(cart[key])cart[key].qty++; updateBadge(); renderCart(); }
@@ -738,13 +762,12 @@ async function submitOrder() {
   } catch(e) { showToast('⚠️ Ошибка сети'); btn.disabled=false; btn.textContent='✅ Подтвердить заказ'; }
 }
 
-// ── ПОДДЕРЖКА — открываем чат с ботом напрямую ────────────────────────
+// ── ПОДДЕРЖКА ────────────────────────────────────────────────────────
 function openSupport() {
-  // Открываем чат с самим ботом — там пользователь пишет в поддержку
   tg.openTelegramLink(`https://t.me/${BOT}?start=support`);
 }
 
-// ── ОТПРАВИТЬ ЧЕК — переходим к боту с командой ─────────────────────
+// ── ОТПРАВИТЬ ЧЕК ───────────────────────────────────────────────────
 function sendReceiptToBot() {
   tg.openTelegramLink(`https://t.me/${BOT}?start=receipt`);
 }
@@ -770,7 +793,13 @@ function toggleFav(id,e) {
   const i=favs.indexOf(id);
   if(i>-1) favs.splice(i,1); else favs.push(id);
   localStorage.setItem('rz_f',JSON.stringify(favs));
-  rerender();
+  
+  // Перерисовываем иконку лайка без полного рендеринга
+  const cardEl = document.getElementById(`card-${id}`);
+  if(cardEl) {
+    const favBtn = cardEl.querySelector('.fav-btn');
+    if(favBtn) favBtn.textContent = i>-1 ? '🤍' : '❤️';
+  }
   showToast(i>-1?'Удалено из избранного':'❤️ В избранное');
 }
 function renderFavs() {
@@ -848,10 +877,9 @@ function showToast(msg) {
   clearTimeout(t._t); t._t=setTimeout(()=>t.classList.remove('show'),2400);
 }
 
-// Копирование в буфер — работает в Telegram WebApp
+// Копирование в буфер
 function copyText(text) {
   try {
-    // Метод 1: navigator.clipboard
     if (navigator.clipboard && navigator.clipboard.writeText) {
       navigator.clipboard.writeText(text).then(()=>showToast('✅ Номер скопирован!')).catch(()=>_fallbackCopy(text));
     } else {
@@ -860,7 +888,6 @@ function copyText(text) {
   } catch(e) { _fallbackCopy(text); }
 }
 function _fallbackCopy(text) {
-  // Метод 2: textarea trick — работает везде
   const el = document.createElement('textarea');
   el.value = text;
   el.style.cssText = 'position:fixed;top:-9999px;left:-9999px;opacity:0';
@@ -870,7 +897,6 @@ function _fallbackCopy(text) {
     document.execCommand('copy');
     showToast('✅ Номер скопирован!');
   } catch(e) {
-    // Метод 3: показываем номер в alert чтобы скопировать вручную
     prompt('Скопируйте номер:', text);
   }
   document.body.removeChild(el);
