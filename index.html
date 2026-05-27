@@ -48,11 +48,11 @@
         .card:active { transform: scale(0.97); }
 
         /* ── ИСПРАВЛЕННАЯ ГАЛЕРЕЯ ФОТО ── */
-        .card-gallery { position: relative; height: 150px; overflow: hidden; touch-action: pan-y; background: #121212; display: flex; align-items: center; justify-content: center; }
+        .card-gallery { position: relative; height: 220px; overflow: hidden; touch-action: pan-y; background: #121212; display: flex; align-items: center; justify-content: center; }
         .gallery-track { display: flex; height: 100%; width: 100%; transition: transform 0.25s ease; will-change: transform; }
         .gallery-slide { min-width: 100%; height: 100%; flex-shrink: 0; display: flex; align-items: center; justify-content: center; background: #121212; overflow: hidden; }
-        .gallery-slide img { max-width: 100%; max-height: 100%; width: auto; height: auto; object-fit: contain; display: block; pointer-events: none; margin: auto; }
-        .gallery-slide .no-img { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; font-size: 52px; background: linear-gradient(135deg, var(--s2), var(--s3)); }
+        .gallery-slide img { width: 100%; height: 100%; object-fit: cover; display: block; pointer-events: none; }
+        .gallery-slide .no-img { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; font-size: 64px; background: linear-gradient(135deg, var(--s2), var(--s3)); }
         .gallery-dots { position: absolute; bottom: 6px; left: 50%; transform: translateX(-50%); display: flex; gap: 4px; z-index: 5; }
         .g-dot { width: 5px; height: 5px; border-radius: 50%; background: rgba(255,255,255,0.4); transition: all 0.2s; }
         .g-dot.active { background: #fff; width: 14px; border-radius: 3px; }
@@ -100,11 +100,11 @@
         /* DETAIL — ИСПРАВЛЕННАЯ ГАЛЕРЕЯ ДЕТАЛКИ */
         .detail { display: none; position: fixed; inset: 0; background: var(--bg); z-index: 2500; overflow-y: auto; }
         .detail.open { display: block; }
-        .detail-gallery { position: relative; height: 300px; overflow: hidden; touch-action: pan-y; background: #121212; display: flex; align-items: center; justify-content: center; }
+        .detail-gallery { position: relative; height: 420px; overflow: hidden; touch-action: pan-y; background: #121212; display: flex; align-items: center; justify-content: center; }
         .detail-gallery .gallery-track { height: 100%; }
         .detail-gallery .gallery-slide { display: flex; align-items: center; justify-content: center; background: #121212; }
-        .detail-gallery .gallery-slide img { max-width: 100%; max-height: 100%; width: auto; height: 300px; object-fit: contain; margin: auto; }
-        .detail-gallery .no-img { height: 300px; font-size: 100px; }
+        .detail-gallery .gallery-slide img { width: 100%; height: 420px; object-fit: cover; }
+        .detail-gallery .no-img { height: 420px; font-size: 130px; }
         .detail-back { position: absolute; top: 14px; left: 14px; z-index: 10; background: rgba(0,0,0,0.5); border: none; color: #fff; width: 36px; height: 36px; border-radius: 50%; font-size: 19px; cursor: pointer; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(8px); }
         .detail-body { padding: 18px 16px 120px; }
         .d-brand { font-size: 12px; color: var(--dim); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 5px; }
@@ -137,8 +137,8 @@
         .mi-icon { font-size: 20px; width: 34px; height: 34px; display: flex; align-items: center; justify-content: center; background: var(--s2); border-radius: 8px; }
 
         /* CART */
-        .ci { display: flex; gap: 10px; align-items: center; padding: 12px 0; border-bottom: 1px solid var(--border); }
-        .ci-img { width: 60px; height: 60px; border-radius: 10px; object-fit: contain; background: #121212; flex-shrink: 0; }
+        .ci { display: flex; gap: 12px; align-items: center; padding: 14px 0; border-bottom: 1px solid var(--border); }
+        .ci-img { width: 90px; height: 90px; border-radius: 12px; object-fit: cover; background: #121212; flex-shrink: 0; }
         .ci-info { flex: 1; min-width: 0; }
         .ci-name { font-weight: 600; font-size: 13px; margin-bottom: 2px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
         .ci-var { font-size: 11px; color: var(--dim); margin-bottom: 3px; }
@@ -806,13 +806,13 @@ function renderFavs() {
   const list=products.filter(p=>favs.includes(p.id));
   if(!list.length){ el.innerHTML='<div class="empty"><div class="empty-ico">❤️</div><p>Избранное пусто</p></div>'; return; }
   el.innerHTML=list.map(p=>`
-    <div style="display:flex;align-items:center;gap:10px;padding:10px;background:var(--s1);border-radius:12px;margin-bottom:8px;border:1px solid var(--border)">
-      <img src="${p.photos[0]}" style="width:56px;height:56px;border-radius:9px;object-fit:contain;background:#121212" onerror="this.onerror=null;this.src='https://placehold.co/500x500/1c1c1e/ffffff?text=No+Image'">
+    <div style="display:flex;align-items:center;gap:12px;padding:12px;background:var(--s1);border-radius:14px;margin-bottom:10px;border:1px solid var(--border)">
+      <img src="${p.photos[0]}" style="width:90px;height:90px;border-radius:12px;object-fit:cover;background:#121212;flex-shrink:0" onerror="this.onerror=null;this.src='https://placehold.co/500x500/1c1c1e/ffffff?text=No+Image'">
       <div style="flex:1;min-width:0">
-        <div style="font-weight:600;font-size:13px;margin-bottom:2px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${p.title}</div>
-        <div style="color:var(--primary);font-weight:700;font-size:13px">${price(p).toLocaleString()} ₽</div>
+        <div style="font-weight:600;font-size:14px;margin-bottom:4px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${p.title}</div>
+        <div style="color:var(--primary);font-weight:700;font-size:15px">${price(p).toLocaleString()} ₽</div>
       </div>
-      <button class="btn-cart" style="padding:8px 12px;border-radius:8px;font-size:11px;white-space:nowrap" onclick="addCart(${p.id})">+ Корзина</button>
+      <button class="btn-cart" style="padding:9px 13px;border-radius:9px;font-size:11px;white-space:nowrap" onclick="addCart(${p.id})">+ Корзина</button>
     </div>`).join('');
 }
 
