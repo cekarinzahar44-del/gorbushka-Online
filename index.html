@@ -49,7 +49,7 @@
 
         /* ── ИСПРАВЛЕННАЯ ГАЛЕРЕЯ ФОТО ── */
         .card-gallery { position: relative; height: 150px; overflow: hidden; touch-action: pan-y; background: #121212; display: flex; align-items: center; justify-content: center; }
-        .gallery-track { display: flex; height: 100%; width: 100%; transition: transform 0.25s ease; }
+        .gallery-track { display: flex; height: 100%; width: 100%; transition: transform 0.25s ease; will-change: transform; }
         .gallery-slide { min-width: 100%; height: 100%; flex-shrink: 0; display: flex; align-items: center; justify-content: center; background: #121212; overflow: hidden; }
         .gallery-slide img { max-width: 100%; max-height: 100%; width: auto; height: auto; object-fit: contain; display: block; pointer-events: none; margin: auto; }
         .gallery-slide .no-img { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; font-size: 52px; background: linear-gradient(135deg, var(--s2), var(--s3)); }
@@ -114,7 +114,7 @@
         .d-sec { font-size: 12px; font-weight: 700; color: var(--dim); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 8px; margin-top: 18px; }
         .d-desc { font-size: 15px; line-height: 1.6; color: rgba(255,255,255,0.8); }
         .d-specs { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
-        .d-specs.d-spec { background: var(--s1); padding: 10px; border-radius: 10px; border: 1px solid var(--border); }
+        .d-spec { background: var(--s1); padding: 10px; border-radius: 10px; border: 1px solid var(--border); }
         .d-spec-lbl { font-size: 10px; color: var(--dim); margin-bottom: 2px; }
         .d-spec-val { font-size: 13px; font-weight: 600; }
         .d-acts { position: sticky; bottom: 0; background: var(--bg); padding: 14px 0 calc(14px + env(safe-area-inset-bottom, 0px)); border-top: 1px solid var(--border); display: flex; gap: 10px; z-index: 10; }
@@ -161,7 +161,7 @@
         .oh { display: flex; justify-content: space-between; margin-bottom: 8px; padding-bottom: 8px; border-bottom: 1px solid var(--border); }
         .os { padding: 3px 9px; border-radius: 6px; font-size: 11px; font-weight: 600; }
 
-        .empty { text-align: center; padding: 50px 20px; color: var(--dim); }
+        .empty { text-align: center; padding: 50px 20px; color: var(--dim); grid-column: 1 / -1; width: 100%; }
         .empty-ico { font-size: 52px; margin-bottom: 12px; }
         .view-sec { display: none; }
         .view-sec.on { display: block; }
@@ -460,7 +460,7 @@ function render(list) {
     const slides = p.photos.map((ph,i) => `
       <div class="gallery-slide">
         <img src="${ph}" alt="${p.title}" loading="${i===0?'eager':'lazy'}"
-          onerror="this.style.display='none'">
+          onerror="this.onerror=null;this.src='https://placehold.co/500x500/1c1c1e/ffffff?text=No+Image'">
       </div>`).join('');
 
     const dots = p.photos.length > 1 ? `<div class="gallery-dots">${
@@ -507,8 +507,8 @@ function render(list) {
         <div class="color-chips-wrapper">${clrChips}</div>
         <div class="card-price">${price(p).toLocaleString()} ₽</div>
         <div class="card-acts">
-          <button class="btn-buy" onclick="buyNow(${p.id})">Купить</button>
-          <button class="btn-cart" onclick="addCart(${p.id})">+ Корзина</button>
+          <button class="btn-buy" onclick="event.stopPropagation();buyNow(${p.id})">Купить</button>
+          <button class="btn-cart" onclick="event.stopPropagation();addCart(${p.id})">+ Корзина</button>
         </div>
       </div>`;
     g.appendChild(card);
@@ -609,7 +609,7 @@ function buildDetailGallery(p) {
   track.innerHTML = p.photos.map((ph,i)=>`
     <div class="gallery-slide" style="height:300px;">
       <img src="${ph}" alt="${p.title}" loading="${i===0?'eager':'lazy'}"
-        onerror="this.style.display='none'">
+        onerror="this.onerror=null;this.src='https://placehold.co/500x500/1c1c1e/ffffff?text=No+Image'">
     </div>`).join('');
   dots.innerHTML = p.photos.length>1 ? p.photos.map((_,i)=>`<div class="g-dot ${i===0?'active':''}"></div>`).join('') : '';
   track.style.transform='translateX(0)';
@@ -681,7 +681,7 @@ function renderCart() {
     total+=pr*d.qty;
     const varLabel=[st?.n,cl?.n].filter(Boolean).join(' · ');
     html+=`<div class="ci">
-      <img class="ci-img" src="${p.photos[0]}" alt="${p.title}" onerror="this.style.display='none'">
+      <img class="ci-img" src="${p.photos[0]}" alt="${p.title}" onerror="this.onerror=null;this.src='https://placehold.co/500x500/1c1c1e/ffffff?text=No+Image'">
       <div class="ci-info">
         <div class="ci-name">${p.title}</div>
         <div class="ci-var">${varLabel}</div>
@@ -807,7 +807,7 @@ function renderFavs() {
   if(!list.length){ el.innerHTML='<div class="empty"><div class="empty-ico">❤️</div><p>Избранное пусто</p></div>'; return; }
   el.innerHTML=list.map(p=>`
     <div style="display:flex;align-items:center;gap:10px;padding:10px;background:var(--s1);border-radius:12px;margin-bottom:8px;border:1px solid var(--border)">
-      <img src="${p.photos[0]}" style="width:56px;height:56px;border-radius:9px;object-fit:contain;background:#121212" onerror="this.style.display='none'">
+      <img src="${p.photos[0]}" style="width:56px;height:56px;border-radius:9px;object-fit:contain;background:#121212" onerror="this.onerror=null;this.src='https://placehold.co/500x500/1c1c1e/ffffff?text=No+Image'">
       <div style="flex:1;min-width:0">
         <div style="font-weight:600;font-size:13px;margin-bottom:2px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${p.title}</div>
         <div style="color:var(--primary);font-weight:700;font-size:13px">${price(p).toLocaleString()} ₽</div>
