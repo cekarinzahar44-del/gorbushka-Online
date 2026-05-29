@@ -57,7 +57,7 @@
         .card-gallery { position: relative; width: 100%; aspect-ratio: 1 / 1; overflow: hidden; touch-action: pan-y; background: #121212; display: flex; align-items: center; justify-content: center; }
         .gallery-track { display: flex; height: 100%; width: 100%; transition: transform 0.25s ease; will-change: transform; }
         .gallery-slide { min-width: 100%; height: 100%; flex-shrink: 0; display: flex; align-items: center; justify-content: center; background: #121212; overflow: hidden; }
-        .gallery-slide img { width: 100%; height: 100%; object-fit: cover; display: block; pointer-events: none; }
+        .gallery-slide img { width: 100%; height: 100%; object-fit: cover; object-position: center; display: block; pointer-events: none; }
         .gallery-slide .no-img { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; font-size: 64px; background: linear-gradient(135deg, var(--s2), var(--s3)); }
         .gallery-dots { position: absolute; bottom: 6px; left: 50%; transform: translateX(-50%); display: flex; gap: 4px; z-index: 5; }
         .g-dot { width: 5px; height: 5px; border-radius: 50%; background: rgba(255,255,255,0.4); transition: all 0.2s; }
@@ -111,7 +111,7 @@
         .detail-gallery { position: relative; width: 100%; aspect-ratio: 4 / 3; max-height: 70vh; overflow: hidden; touch-action: pan-y; background: #121212; display: flex; align-items: center; justify-content: center; }
         .detail-gallery .gallery-track { height: 100%; }
         .detail-gallery .gallery-slide { display: flex; align-items: center; justify-content: center; background: #121212; }
-        .detail-gallery .gallery-slide img { width: 100%; height: 100%; object-fit: cover; }
+        .detail-gallery .gallery-slide img { width: 100%; height: 100%; object-fit: cover; object-position: center; }
         .detail-gallery .no-img { width: 100%; height: 100%; font-size: 130px; }
         .detail-back { position: absolute; top: 14px; left: 14px; z-index: 10; background: rgba(0,0,0,0.5); border: none; color: #fff; width: 36px; height: 36px; border-radius: 50%; font-size: 19px; cursor: pointer; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(8px); }
         .detail-body { padding: 18px 16px 120px; }
@@ -339,9 +339,9 @@ const PAY_NAME  = 'Захар';
 const products = [
   { id:1, title:"iPhone 15 Pro", brand:"Apple", cat:"phones",
     photos:[
-      "https://images.unsplash.com/photo-1695048133142-1a20484d2569?w=500&q=85",
-      "https://images.unsplash.com/photo-1592286927505-1def25115558?w=500&q=85",
-      "https://images.unsplash.com/photo-1510557880182-3d4d3cba35a5?w=500&q=85"
+      "https://images.unsplash.com/photo-1695048133142-1a20484d2569?w=600&h=600&fit=crop&crop=center&q=85&v=2",
+      "https://images.unsplash.com/photo-1592286927505-1def25115558?w=600&h=600&fit=crop&crop=center&q=85&v=2",
+      "https://images.unsplash.com/photo-1510557880182-3d4d3cba35a5?w=600&h=600&fit=crop&crop=center&q=85&v=2"
     ],
     fb:"📱", rating:4.8, rev:1240, badge:"-10%",
     desc:"Titanium дизайн, чип A17 Pro, камера 48 МП с 5x оптическим зумом. Самый мощный iPhone в истории.",
@@ -352,9 +352,9 @@ const products = [
   },
   { id:2, title:"Samsung Galaxy S24 Ultra", brand:"Samsung", cat:"phones",
     photos:[
-      "https://images.unsplash.com/photo-1610945265064-0e34e5519bbf?w=500&q=85",
-      "https://images.unsplash.com/photo-1610945415295-d9bbf067e59c?w=500&q=85",
-      "https://images.unsplash.com/photo-1574944985070-8f3ebc6b79d2?w=500&q=85"
+      "https://images.unsplash.com/photo-1610945265064-0e34e5519bbf?w=600&h=600&fit=crop&crop=center&q=85&v=2",
+      "https://images.unsplash.com/photo-1610945415295-d9bbf067e59c?w=600&h=600&fit=crop&crop=center&q=85&v=2",
+      "https://images.unsplash.com/photo-1574944985070-8f3ebc6b79d2?w=600&h=600&fit=crop&crop=center&q=85&v=2"
     ],
     fb:"📱", rating:4.7, rev:876, badge:null,
     desc:"S Pen в комплекте, дисплей 6.8\" Dynamic AMOLED, камера 200 МП, зум 100x Space Zoom.",
@@ -365,9 +365,9 @@ const products = [
   },
   { id:3, title:"MacBook Air M3", brand:"Apple", cat:"laptops",
     photos:[
-      "https://images.unsplash.com/photo-1517336714731-489689fd1ca8?w=500&q=85",
-      "https://images.unsplash.com/photo-1496181133206-80ce9b88a853?w=500&q=85",
-      "https://images.unsplash.com/photo-1541807084-5c52b6b3adef?w=500&q=85"
+      "https://images.unsplash.com/photo-1517336714731-489689fd1ca8?w=600&h=600&fit=crop&crop=center&q=85&v=2",
+      "https://images.unsplash.com/photo-1496181133206-80ce9b88a853?w=600&h=600&fit=crop&crop=center&q=85&v=2",
+      "https://images.unsplash.com/photo-1541807084-5c52b6b3adef?w=600&h=600&fit=crop&crop=center&q=85&v=2"
     ],
     fb:"💻", rating:4.9, rev:2340, badge:"Хит",
     desc:"Чип M3, дисплей Liquid Retina 13.6\", до 18 часов автономной работы.",
@@ -378,9 +378,9 @@ const products = [
   },
   { id:4, title:"AirPods Pro 2", brand:"Apple", cat:"audio",
     photos:[
-      "https://images.unsplash.com/photo-1606841837239-c5a1a4a07af7?w=500&q=85",
-      "https://images.unsplash.com/photo-1572569511254-d8f925fe2cbb?w=500&q=85",
-      "https://images.unsplash.com/photo-1600294037681-c80b4cb5b434?w=500&q=85"
+      "https://images.unsplash.com/photo-1606841837239-c5a1a4a07af7?w=600&h=600&fit=crop&crop=center&q=85&v=2",
+      "https://images.unsplash.com/photo-1572569511254-d8f925fe2cbb?w=600&h=600&fit=crop&crop=center&q=85&v=2",
+      "https://images.unsplash.com/photo-1600294037681-c80b4cb5b434?w=600&h=600&fit=crop&crop=center&q=85&v=2"
     ],
     fb:"🎧", rating:4.6, rev:3421, badge:null,
     desc:"Адаптивное шумоподавление, Transparency Mode, Personalized Spatial Audio.",
@@ -391,9 +391,9 @@ const products = [
   },
   { id:5, title:"iPad Air M2", brand:"Apple", cat:"laptops",
     photos:[
-      "https://images.unsplash.com/photo-1544244015-0df4b3ffc6b0?w=500&q=85",
-      "https://images.unsplash.com/photo-1585790050230-5dd28404ccb9?w=500&q=85",
-      "https://images.unsplash.com/photo-1611532736597-de2d4265fba3?w=500&q=85"
+      "https://images.unsplash.com/photo-1544244015-0df4b3ffc6b0?w=600&h=600&fit=crop&crop=center&q=85&v=2",
+      "https://images.unsplash.com/photo-1585790050230-5dd28404ccb9?w=600&h=600&fit=crop&crop=center&q=85&v=2",
+      "https://images.unsplash.com/photo-1611532736597-de2d4265fba3?w=600&h=600&fit=crop&crop=center&q=85&v=2"
     ],
     fb:"📟", rating:4.7, rev:987, badge:null,
     desc:"Чип M2, дисплей Liquid Retina 11\", поддержка Apple Pencil Pro и Magic Keyboard.",
@@ -404,9 +404,9 @@ const products = [
   },
   { id:6, title:"Apple Watch S9", brand:"Apple", cat:"accessories",
     photos:[
-      "https://images.unsplash.com/photo-1551816230-ef5deaed4a26?w=500&q=85",
-      "https://images.unsplash.com/photo-1434493789847-2f02dc6ca35d?w=500&q=85",
-      "https://images.unsplash.com/photo-1579586337278-3befd40fd17a?w=500&q=85"
+      "https://images.unsplash.com/photo-1551816230-ef5deaed4a26?w=600&h=600&fit=crop&crop=center&q=85&v=2",
+      "https://images.unsplash.com/photo-1434493789847-2f02dc6ca35d?w=600&h=600&fit=crop&crop=center&q=85&v=2",
+      "https://images.unsplash.com/photo-1579586337278-3befd40fd17a?w=600&h=600&fit=crop&crop=center&q=85&v=2"
     ],
     fb:"⌚", rating:4.5, rev:654, badge:null,
     desc:"Always-On Retina дисплей, чип S9, Double Tap, ЭКГ и кислород в крови.",
@@ -417,9 +417,9 @@ const products = [
   },
   { id:7, title:"Sony WH-1000XM5", brand:"Sony", cat:"audio",
     photos:[
-      "https://images.unsplash.com/photo-1618366712010-f4ae9c647dcb?w=500&q=85",
-      "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=500&q=85",
-      "https://images.unsplash.com/photo-1484704849700-f032a568e944?w=500&q=85"
+      "https://images.unsplash.com/photo-1618366712010-f4ae9c647dcb?w=600&h=600&fit=crop&crop=center&q=85&v=2",
+      "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=600&h=600&fit=crop&crop=center&q=85&v=2",
+      "https://images.unsplash.com/photo-1484704849700-f032a568e944?w=600&h=600&fit=crop&crop=center&q=85&v=2"
     ],
     fb:"🎧", rating:4.8, rev:2187, badge:"Выбор",
     desc:"Лучшее шумоподавление в мире, 30 часов работы, быстрая зарядка.",
@@ -430,9 +430,9 @@ const products = [
   },
   { id:8, title:"Samsung Tab S9", brand:"Samsung", cat:"laptops",
     photos:[
-      "https://images.unsplash.com/photo-1601784551446-20c9e07cdbdb?w=500&q=85",
-      "https://images.unsplash.com/photo-1548036328-c9fa89d128fa?w=500&q=85",
-      "https://images.unsplash.com/photo-1561154464-82e9adf32764?w=500&q=85"
+      "https://images.unsplash.com/photo-1601784551446-20c9e07cdbdb?w=600&h=600&fit=crop&crop=center&q=85&v=2",
+      "https://images.unsplash.com/photo-1548036328-c9fa89d128fa?w=600&h=600&fit=crop&crop=center&q=85&v=2",
+      "https://images.unsplash.com/photo-1561154464-82e9adf32764?w=600&h=600&fit=crop&crop=center&q=85&v=2"
     ],
     fb:"📟", rating:4.6, rev:543, badge:null,
     desc:"Dynamic AMOLED 2X дисплей, S Pen в комплекте, Snapdragon 8 Gen 2, IP68.",
