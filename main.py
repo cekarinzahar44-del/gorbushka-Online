@@ -18,7 +18,7 @@ from aiogram.fsm.storage.memory import MemoryStorage
 # ── НАСТРОЙКИ ─────────────────────────────────────────────────────────
 TOKEN        = os.getenv("BOT_TOKEN")
 ADMIN_ID     = int(os.getenv("ADMIN_ID", 8043971654))
-MINI_APP_URL = os.getenv("MINI_APP_URL", "https://твой-ник.github.io/твой-репо/")
+MINI_APP_URL = os.getenv("MINI_APP_URL", "https://твой-ник.github.io/твой-репо/?v=3")
 
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 logger = logging.getLogger(__name__)
