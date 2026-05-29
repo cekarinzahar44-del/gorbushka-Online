@@ -53,12 +53,13 @@
         .card { background: var(--s1); border-radius: 16px; overflow: hidden; border: 1px solid var(--border); cursor: pointer; transition: transform 0.15s; position: relative; display: flex; flex-direction: column; }
         .card:active { transform: scale(0.97); }
 
-        /* ── АДАПТИВНАЯ ГАЛЕРЕЯ ФОТО (квадрат на любой ширине) ── */
-        .card-gallery { position: relative; width: 100%; aspect-ratio: 1 / 1; overflow: hidden; touch-action: pan-y; background: #121212; display: flex; align-items: center; justify-content: center; }
-        .gallery-track { display: flex; height: 100%; width: 100%; transition: transform 0.25s ease; will-change: transform; }
-        .gallery-slide { min-width: 100%; height: 100%; flex-shrink: 0; display: flex; align-items: center; justify-content: center; background: #121212; overflow: hidden; }
-        .gallery-slide img { width: 100%; height: 100%; object-fit: cover; object-position: center; display: block; pointer-events: none; }
-        .gallery-slide .no-img { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; font-size: 64px; background: linear-gradient(135deg, var(--s2), var(--s3)); }
+        /* ── АДАПТИВНАЯ ГАЛЕРЕЯ ФОТО (квадрат на любой ширине, iOS-safe) ── */
+        /* padding-bottom:100% даёт квадрат на ВСЕХ устройствах, включая старый iOS Safari */
+        .card-gallery { position: relative; width: 100%; height: 0; padding-bottom: 100%; overflow: hidden; touch-action: pan-y; background: #121212; }
+        .gallery-track { position: absolute; top: 0; left: 0; display: flex; height: 100%; width: 100%; transition: transform 0.25s ease; will-change: transform; }
+        .gallery-slide { min-width: 100%; width: 100%; height: 100%; flex-shrink: 0; position: relative; background: #121212; overflow: hidden; }
+        .gallery-slide img { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; object-position: center; display: block; pointer-events: none; }
+        .gallery-slide .no-img { position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; font-size: 64px; background: linear-gradient(135deg, var(--s2), var(--s3)); }
         .gallery-dots { position: absolute; bottom: 6px; left: 50%; transform: translateX(-50%); display: flex; gap: 4px; z-index: 5; }
         .g-dot { width: 5px; height: 5px; border-radius: 50%; background: rgba(255,255,255,0.4); transition: all 0.2s; }
         .g-dot.active { background: #fff; width: 14px; border-radius: 3px; }
@@ -108,11 +109,11 @@
         .detail { display: none; position: fixed; inset: 0; background: var(--bg); z-index: 2500; overflow-y: auto; }
         .detail.open { display: block; }
         .detail-inner { max-width: 760px; margin: 0 auto; }
-        .detail-gallery { position: relative; width: 100%; aspect-ratio: 4 / 3; max-height: 70vh; overflow: hidden; touch-action: pan-y; background: #121212; display: flex; align-items: center; justify-content: center; }
-        .detail-gallery .gallery-track { height: 100%; }
-        .detail-gallery .gallery-slide { display: flex; align-items: center; justify-content: center; background: #121212; }
-        .detail-gallery .gallery-slide img { width: 100%; height: 100%; object-fit: cover; object-position: center; }
-        .detail-gallery .no-img { width: 100%; height: 100%; font-size: 130px; }
+        .detail-gallery { position: relative; width: 100%; height: 0; padding-bottom: 100%; overflow: hidden; touch-action: pan-y; background: #121212; }
+        .detail-gallery .gallery-track { position: absolute; top: 0; left: 0; height: 100%; width: 100%; }
+        .detail-gallery .gallery-slide { width: 100%; height: 100%; position: relative; background: #121212; }
+        .detail-gallery .gallery-slide img { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; object-position: center; }
+        .detail-gallery .no-img { position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; font-size: 130px; }
         .detail-back { position: absolute; top: 14px; left: 14px; z-index: 10; background: rgba(0,0,0,0.5); border: none; color: #fff; width: 36px; height: 36px; border-radius: 50%; font-size: 19px; cursor: pointer; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(8px); }
         .detail-body { padding: 18px 16px 120px; }
         .d-brand { font-size: 12px; color: var(--dim); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 5px; }
